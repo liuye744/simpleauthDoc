@@ -88,6 +88,17 @@ public class MySignStrategic extends SignStrategic {
     }
 }
 ```
+或者可以使用预制的`DiffParameterSign`策略，来实现相同的效果
+```java
+@RestController
+public class MyController {
+    @GetMapping("say")
+    @IsLimit(signStrategic = DiffParameterSign.class)
+    public String say(String str){
+        return "Hello World";
+    }
+}
+```
 ### 用例4：自定义访问控制
 
 ```java

@@ -93,3 +93,37 @@ public class MySignStrategic extends SignStrategic {
     }
 }
 ```
+Alternatively, you can use the predefined DiffParameterSign strategy to achieve the same effect.
+```java
+@RestController
+public class MyController {
+    @GetMapping("say")
+    @IsLimit(signStrategic = DiffParameterSign.class)
+    public String say(String str){
+        return "Hello World";
+    }
+}
+```
+### Use Case 4: Custom Access Control
+
+```java
+// Global access control
+@Component
+public class MyInterceptor implements HandlerInterceptor {
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        final String addr = request.getRemoteAddr();
+        // Use the user's address as an identifier, allowing only 2 requests every 5 minutes (300s),
+        // and blocking access for 10 minutes if exceeded.
+        // The `addRecord` method returns true if access is allowed, and false if access is prohibited.
+        return LimitInfoUtil.addRecord("GLOBAL_ACCESS_CONTROL", addr, 2, 300, 600);
+    }
+}
+
+@Configuration
+public class InterceptorConfig implements WebMvcConfigurer {
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new MyInterceptor()).addPathPatterns("/*");
+    }
+}
