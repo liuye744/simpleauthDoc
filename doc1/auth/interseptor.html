@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 
-<html lang="zh-CN"  class=" language_zh ">
+<html lang="en"  class="">
 
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <meta name="keywords" content="my_site 博客">
+    <meta name="keywords" content="keyword1, keyword2">
     
     
-    <meta name="description" content="my_site 博客， 使用 teedoc 生成">
+    <meta name="description" content="这是一款基于SpringBoot的轻量化的权限校验和访问控制的框架。适用于轻量级以及渐进式的项目。">
     
     <meta name="generator" content="teedoc">
     <meta name="theme" content="teedoc-plugin-theme-default">
@@ -40,16 +40,14 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
         
         <link rel="stylesheet" href="/simpleauthDoc/static/css/search/style.css" type="text/css"/>
         
-        <meta name="blog-generator" content="teedoc-plugin-blog">
-        
         <link rel="stylesheet" href="/simpleauthDoc/static/css/custom.css" type="text/css"/>
         
     
     
-    <title>博客 - mysite</title>
+    <title>SimpleAuth拦截器 - SimpleAuth</title>
     
     <script type="text/javascript">js_vars = {}</script>
-    <script type="text/javascript">metadata = {"tags": [], "date": false, "update": [], "ts": 0, "author": "", "brief": "", "cover": "", "show_source": false}</script>
+    <script type="text/javascript">metadata = {"tags": [], "date": "2023-09-10", "update": [], "ts": 1694304000, "author": "", "brief": "", "cover": ""}</script>
 </head>
 
 
@@ -59,10 +57,8 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
         <div id="navbar_menu">
             <a class="site_title" href="/simpleauthDoc/">
                 
-                    <img class="site_logo" src="/simpleauthDoc/static/image/logo.png" alt="my_site logo">
                 
-                
-                    <h2>my_site</h2>
+                    <h2>SimpleAuth</h2>
                 
         </a>
             <a id="navbar_menu_btn"></a>
@@ -70,23 +66,22 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
         <div id="navbar_items">
             <div>
                 <ul id="nav_left">
-<li class=""><a  href="/simpleauthDoc/get_started/zh/">安装使用</a></li>
-<li class="active"><a  href="/simpleauthDoc/blog/">博客</a></li>
+<li class="active"><a  href="/simpleauthDoc/doc1">中文</a></li>
+<li class=""><a  href="/simpleauthDoc/doc2/">English</a></li>
 </ul>
 
             </div>
             <div>
                 <ul id="nav_right">
-<li class=""><a target="_blank" href="https://github.com/neutree/teedoc">github</a></li>
 </ul>
 
-                <ul class="nav_plugins"><li><a id="themes" class="light"></a></li></ul><ul class="nav_plugins"><li><a id="search"><span class="icon"></span><span class="placeholder">搜索</span>
+                <ul class="nav_plugins"><li><a id="themes" class="light"></a></li></ul><ul class="nav_plugins"><li><a id="search"><span class="icon"></span><span class="placeholder">Search</span>
                             <div id="search_hints">
-                                <span id="search_input_hint">输入关键词，多关键词空格隔开</span>
-                                <span id="search_loading_hint">正在加载，请稍候。。。</span>
-                                <span id="search_download_err_hint">下载文件失败，请刷新重试或检查网络</span>
-                                <span id="search_other_docs_result_hint">来自其它文档的结果</span>
-                                <span id="search_curr_doc_result_hint">当前文档搜索结果</span>
+                                <span id="search_input_hint">Keywords separated by space</span>
+                                <span id="search_loading_hint">Loading, wait please ...</span>
+                                <span id="search_download_err_hint">Download error, please check network and refresh again</span>
+                                <span id="search_other_docs_result_hint">Result from other docs</span>
+                                <span id="search_curr_doc_result_hint">Result from current doc</span>
                             </div></a></li></ul>
             </div>
         </div>
@@ -98,7 +93,20 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                 <div id="sidebar_title">
                     
                 </div>
-                <ul class="">
+                <ul class="show">
+<li class="not_active no_link sidebar_category"><span class="label">开始</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/index.html"><span class="label">简介</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/start/started.html"><span class="label">快速上手-权限校验</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/start/started-limit.html"><span class="label">快速上手-访问控制</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">权限校验模块</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/auth/annotation.html"><span class="label">注解</span><span class=""></span></a></li>
+<li class="active with_link"><a href="/simpleauthDoc/doc1/auth/interseptor.html"><span class="label">SimpleAuth拦截器</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/auth/dynamic.html"><span class="label">动态权限校验</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">访问控制模块</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/limit/annotation.html"><span class="label">注解</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/limit/dynamic.html"><span class="label">动态访问控制</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">日志与配置文件</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/logging/index.html"><span class="label">开启/自定义 日志</span><span class=""></span></a></li>
 </ul>
 
             </div>
@@ -113,7 +121,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     <div id="article_head">
                         <div id="article_title">
                             
-                            <h1>博客</h1>
+                            <h1>SimpleAuth拦截器</h1>
                             
                         </div>
                         <div id="article_tags">
@@ -126,6 +134,10 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                             <span class="article_author">
                                 
                             </span>
+                            
+                                <span class="article_date" title="Last modify date: 2023-09-10">
+                                    2023-09-10
+                                </span>
                             
                         </div>
                         <div id="article_info_right">
@@ -142,7 +154,20 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     </div>
                     <div id="article_content">
                         
-                            <span id="blog_start"></span><div id="blog_list"></div>
+                            <h2 id="%E9%85%8D%E7%BD%AESimpleAuth%E6%8B%A6%E6%88%AA%E5%99%A8">配置SimpleAuth拦截器</h2>
+
+<pre class="language-java"><code class="language-java">//继承SimpleAuthWebConfig，可以传入Class类或Bean名
+@Component
+public class MySimpleAuthConfig extends SimpleAuthWebConfig {
+    @Override
+    public void addAuthHandlers() {
+        addAuthHandler(MyHandler.class).addPathPatterns(&quot;/say&quot;);
+        addAuthHandlerChain(MyHandlerChain.class)
+                .addPathPatterns(&quot;/user/*&quot;)
+                .excludePathPatterns(&quot;/user/vip/*&quot;);
+    }
+}
+</code></pre>
 
                         
                     </div>
@@ -150,8 +175,18 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                 <div id="previous_next">
                     <div id="previous">
                         
+                        <a href="/simpleauthDoc/doc1/auth/annotation.html">
+                            <span class="icon"></span>
+                            <span class="label">注解</span>
+                        </a>
+                        
                     </div>
                     <div id="next">
+                        
+                        <a href="/simpleauthDoc/doc1/auth/dynamic.html">
+                            <span class="label">动态权限校验</span>
+                            <span class="icon"></span>
+                        </a>
                         
                     </div>
                 </div>
@@ -171,13 +206,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
         <div id="footer">
             <div id="footer_top">
                 <ul>
-<li><a>链接</a><ul><li><a target="_blank" href="https://teedoc.neucrack.com">使用 teedoc 构建</a></li>
-<li><a  href="/simpleauthDoc/sitemap.xml">网站地图</a></li>
-</ul>
-</li>
-<li><a>源码</a><ul><li><a target="_blank" href="https://github.com/neutree/teedoc">github</a></li>
-<li><a target="_blank" href="https://gitee.com/teedoc/teedoc">gitee</a></li>
-<li><a target="_blank" href="https://github.com/teedoc/teedoc.github.io">本网站源文件</a></li>
+<li><a></a><ul><li><a target="_blank" href="/simpleauthDoc/#"></a></li>
 </ul>
 </li>
 </ul>
@@ -185,8 +214,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
             </div>
             <div id="footer_bottom">
                 <ul>
-<li><a target="_blank" href="https://beian.miit.gov.cn">*ICP备********号</a></li>
-<li><a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=****************">*公网安备***********号</a></li>
+<li><a target="_blank" href="https://github.com/liuye744/SimpleAuth">SimpleAuth GitHub</a></li>
 </ul>
 
             </div>
@@ -206,8 +234,6 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
         <script src="/simpleauthDoc/static/css/theme_default/prism.min.js"></script>
     
         <script src="/simpleauthDoc/static/js/search/search_main.js"></script>
-    
-        <script src="/simpleauthDoc/static/js/plugin_blog/main.js"></script>
     
         <script src="/simpleauthDoc/static/js/custom.js"></script>
     

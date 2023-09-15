@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html lang="en"  class="">
+
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="keywords" content="keyword1, keyword2">
+    
+    
+    <meta name="description" content="这是一款基于SpringBoot的轻量化的权限校验和访问控制的框架。适用于轻量级以及渐进式的项目。">
+    
+    <meta name="generator" content="teedoc">
+    <meta name="theme" content="teedoc-plugin-theme-default">
+    
+        
+        <meta name="markdown-generator" content="teedoc-plugin-markdown-parser">
+        
+        <script>
+MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]]}, "svg": {"fontCache": "global"}};
+</script>
+        
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        
+        <script src="/simpleauthDoc/static/js/theme_default/pre_main.js"></script>
+        
+        <link rel="stylesheet" href="/simpleauthDoc/static/css/theme_default/prism.min.css" type="text/css"/>
+        
+        <link rel="stylesheet" href="/simpleauthDoc/static/css/theme_default/viewer.min.css" type="text/css"/>
+        
+        <link rel="stylesheet" href="/simpleauthDoc/static/css/theme_default/dark.css" type="text/css"/>
+        
+        <link rel="stylesheet" href="/simpleauthDoc/static/css/theme_default/light.css" type="text/css"/>
+        
+        <script src="/simpleauthDoc/static/js/theme_default/jquery.min.js"></script>
+        
+        <script src="/simpleauthDoc/static/js/theme_default/split.js"></script>
+        
+        <link rel="stylesheet" href="/simpleauthDoc/static/css/search/style.css" type="text/css"/>
+        
+        <link rel="stylesheet" href="/simpleauthDoc/static/css/custom.css" type="text/css"/>
+        
+    
+    
+    <title>日志 - SimpleAuth</title>
+    
+    <script type="text/javascript">js_vars = {}</script>
+    <script type="text/javascript">metadata = {"tags": [], "date": "2023-09-10", "update": [], "ts": 1694304000, "author": "", "brief": "", "cover": ""}</script>
+</head>
+
+
+<body class="type_doc">
+    
+    <div id="navbar">
+        <div id="navbar_menu">
+            <a class="site_title" href="/simpleauthDoc/">
+                
+                
+                    <h2>SimpleAuth</h2>
+                
+        </a>
+            <a id="navbar_menu_btn"></a>
+        </div>
+        <div id="navbar_items">
+            <div>
+                <ul id="nav_left">
+<li class="active"><a  href="/simpleauthDoc/doc1">中文</a></li>
+<li class=""><a  href="/simpleauthDoc/doc2/">English</a></li>
+</ul>
+
+            </div>
+            <div>
+                <ul id="nav_right">
+</ul>
+
+                <ul class="nav_plugins"><li><a id="themes" class="light"></a></li></ul><ul class="nav_plugins"><li><a id="search"><span class="icon"></span><span class="placeholder">Search</span>
+                            <div id="search_hints">
+                                <span id="search_input_hint">Keywords separated by space</span>
+                                <span id="search_loading_hint">Loading, wait please ...</span>
+                                <span id="search_download_err_hint">Download error, please check network and refresh again</span>
+                                <span id="search_other_docs_result_hint">Result from other docs</span>
+                                <span id="search_curr_doc_result_hint">Result from current doc</span>
+                            </div></a></li></ul>
+            </div>
+        </div>
+    </div>
+    
+    <div id="wrapper">
+        <div id="sidebar_wrapper">
+            <div id="sidebar">
+                <div id="sidebar_title">
+                    
+                </div>
+                <ul class="show">
+<li class="not_active no_link sidebar_category"><span class="label">开始</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/index.html"><span class="label">简介</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/start/started.html"><span class="label">快速上手-权限校验</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/start/started-limit.html"><span class="label">快速上手-访问控制</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">权限校验模块</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/auth/annotation.html"><span class="label">注解</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/auth/interseptor.html"><span class="label">SimpleAuth拦截器</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/auth/dynamic.html"><span class="label">动态权限校验</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">访问控制模块</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/limit/annotation.html"><span class="label">注解</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/limit/dynamic.html"><span class="label">动态访问控制</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">日志与配置文件</span></li>
+<li class="active with_link"><a href="/simpleauthDoc/doc1/logging/index.html"><span class="label">开启/自定义 日志</span><span class=""></span></a></li>
+</ul>
+
+            </div>
+        </div>
+        <div id="article">
+            <div id="menu_wrapper">
+                <div id="menu">
+                </div>
+            </div>
+            <div id="content_wrapper">
+                <div id="content_body">
+                    <div id="article_head">
+                        <div id="article_title">
+                            
+                            <h1>日志</h1>
+                            
+                        </div>
+                        <div id="article_tags">
+                            <ul>
+                            
+                            </ul>
+                        </div>
+                        <div id="article_info">
+                        <div id="article_info_left">
+                            <span class="article_author">
+                                
+                            </span>
+                            
+                                <span class="article_date" title="Last modify date: 2023-09-10">
+                                    2023-09-10
+                                </span>
+                            
+                        </div>
+                        <div id="article_info_right">
+                            
+                        </div>
+                        </div>
+                    </div>
+                    <div id="article_tools">
+                        <span></span>
+                        <span id="toc_btn"></span>
+                    </div>
+                    <div id="update_history">
+                        
+                    </div>
+                    <div id="article_content">
+                        
+                            <h2 id="%E5%BC%80%E5%90%AF%E9%89%B4%E6%9D%83%E6%A8%A1%E5%9D%97%E6%97%A5%E5%BF%97">开启鉴权模块日志</h2>
+
+<pre class="language-properties"><code class="language-properties">#StdOut：输出到控制台
+#jdk：java自带的注解
+simple-auth.log.log-impl=StdOut
+</code></pre>
+<p>配置完成项目启动后控制台将会输出：<br />
+<code>Auth Logging initialized using class com.codingcube.simpleauth.logging.stdout.StdOutImpl adapter.</code></p>
+<h2 id="%E9%89%B4%E6%9D%83%E6%A8%A1%E5%9D%97%E6%97%A5%E5%BF%97%E8%AF%A6%E8%A7%A3">鉴权模块日志详解</h2>
+
+<pre class="language-none"><code class="language-none">SimpleAuth auth =&gt; 
+    uri: /say
+    handlerName: com.example.simpleauthtest.handler.MyHandler
+    source: Dynamic Permission Configuration handlerChain com.example.simpleauthtest.handler.MyHandlerChain
+    Required permission: vip
+    Permissions to carry: [visitor]
+    Principal to carry: null
+    Pass or not: true
+SimpleAuth auth =&gt; 
+    uri: /say
+    handlerName: com.example.simpleauthtest.handler.MyHandler2
+    source: Dynamic Permission Configuration handlerChain com.example.simpleauthtest.handler.MyHandlerChain
+    Required permission: vip
+    Permissions to carry: [visitor]
+    Principal to carry: null
+    Pass or not: true
+</code></pre>
+<ul>
+<li><code>uri</code>：请求的URI</li>
+<li><code>handlerName</code>：处理的Handler的全限定名</li>
+<li><code>source</code>：Handler的配置方式，本例中是Dynamic Permission Configuration(通过Provider动态配置) 且本Handler在MyHandlerChain中</li>
+<li><code>Required permission</code>：需要的权限名</li>
+<li><code>Permissions to carry</code>：携带的权限名</li>
+<li><code>Principal to carry</code>：携带的实例对象</li>
+<li><code>Pass or not</code>：是否通过了</li>
+</ul>
+<h2 id="%E5%BC%80%E5%90%AF%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E6%A8%A1%E5%9D%97%E6%97%A5%E5%BF%97">开启访问控制模块日志</h2>
+
+<pre class="language-properties"><code class="language-properties">#StdOut：输出到控制台
+#jdk：java自带的注解
+simple-auth.log.limit-log-impl=StdOut
+#输出日志时是否带有用户的操作列表。默认为false
+simple-auth.log.show-opt-list=true
+</code></pre>
+<p>配置完成项目启动后控制台将会输出：<br />
+<code>Limit Logging initialized using class com.codingcube.simpleauth.logging.stdout.StdOutImpl adapter.</code></p>
+<h2 id="%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E6%A8%A1%E5%9D%97%E6%97%A5%E5%BF%97%E8%AF%A6%E8%A7%A3">访问控制模块日志详解</h2>
+
+<pre class="language-properties"><code class="language-properties">SimpleAuth limit =&gt; 
+    max-times: 2
+    time: 1
+    seconds: 60
+    ban: 0
+    item: /say
+    signStrategic: com.codingcube.simpleauth.auth.strategic.DefaultSignStrategic
+    sign: 0:0:0:0:0:0:0:1
+    source: dynamic limit
+    judgeAfterReturn: false
+    effectiveStrategic: com.codingcube.simpleauth.limit.strategic.DefaultEffectiveStrategic
+    effective: true
+    optionList: [Mon Sep 11 01:13:12 CST 2023]
+    Pass or not: true
+</code></pre>
+<ul>
+<li><code>max-times</code>：最大请求次数</li>
+<li><code>time</code>：记录的请求次数(包括本次)</li>
+<li><code>seconds</code>：记录的时间</li>
+<li><code>ban</code>：请求超过最大请求次数后被禁止的时间</li>
+<li><code>item</code>：进行访问控制的item名，若为注解配置默认为接口名</li>
+<li><code>sign</code>：用户标志。默认为用户IP，这里是本机访问所以显示为0:0:0:0:0:0:0:1</li>
+<li><code>source</code>：Limit的配置来源(这里是通过Provider动态配置)</li>
+<li><code>judgeAfterReturn</code>：是否是在返回后判断本次请求是否被记录。为true可以通过返回值进行判断本次请求是否被记录</li>
+<li><code>effectiveStrategic</code>：判断本次请求是否被记录的类</li>
+<li><code>effective</code>：是否被记录了</li>
+<li><code>optionList</code>：被记录的请求列表，需要在SpringBoot的配置文件中配置<code>simple-auth.log.show-opt-list=true</code>才会显示</li>
+<li><code>Pass or not</code>：本次请求是否通过了</li>
+</ul>
+<h2 id="%E8%87%AA%E5%AE%9A%E4%B9%89%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97">自定义日志模块</h2>
+<p>实现Log接口，并添加带有一个String参数的构造函数</p>
+
+<pre class="language-java"><code class="language-java">import com.codingcube.simpleauth.logging.Log;
+public class MyLog implements Log {
+    public MyLog(String clazz) {
+        //TODO
+    }
+
+    @Override
+    public void debug(String s) {
+        //TODO
+    }
+
+    @Override
+    public void error(String s, Throwable e) {
+        //TODO
+    }
+
+    @Override
+    public void warn(String s) {
+        //TODO
+    }
+    //...略
+}
+</code></pre>
+<p>配置自己的日志模块</p>
+
+<pre class="language-properties"><code class="language-properties">#参数为自定义Log的全限定名
+simple-auth.log.log-impl=com.example.simpleauthtest.domain.MyLog
+</code></pre>
+
+                        
+                    </div>
+                </div>
+                <div id="previous_next">
+                    <div id="previous">
+                        
+                        <a href="/simpleauthDoc/doc1/limit/dynamic.html">
+                            <span class="icon"></span>
+                            <span class="label">动态访问控制</span>
+                        </a>
+                        
+                    </div>
+                    <div id="next">
+                        
+                    </div>
+                </div>
+                <div id="comments-container"></div>
+            </div>
+            <div id="toc_wrapper">
+                <div id="toc">
+                    <div id="toc_content">
+                            
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a id="to_top" href="#"></a>
+    <div id="doc_footer">
+        <div id="footer">
+            <div id="footer_top">
+                <ul>
+<li><a></a><ul><li><a target="_blank" href="/simpleauthDoc/#"></a></li>
+</ul>
+</li>
+</ul>
+
+            </div>
+            <div id="footer_bottom">
+                <ul>
+<li><a target="_blank" href="https://github.com/liuye744/SimpleAuth">SimpleAuth GitHub</a></li>
+</ul>
+
+            </div>
+        </div>
+    </div>
+    
+        <script src="/simpleauthDoc/teedoc-plugin-markdown-parser/mermaid.min.js"></script>
+    
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    
+        <script src="/simpleauthDoc/static/js/theme_default/tocbot.min.js"></script>
+    
+        <script src="/simpleauthDoc/static/js/theme_default/main.js"></script>
+    
+        <script src="/simpleauthDoc/static/js/theme_default/viewer.min.js"></script>
+    
+        <script src="/simpleauthDoc/static/css/theme_default/prism.min.js"></script>
+    
+        <script src="/simpleauthDoc/static/js/search/search_main.js"></script>
+    
+        <script src="/simpleauthDoc/static/js/custom.js"></script>
+    
+</body>
+
+</html>

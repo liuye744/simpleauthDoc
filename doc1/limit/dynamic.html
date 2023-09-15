@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html lang="en"  class="">
+
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="keywords" content="keyword1, keyword2">
+    
+    
+    <meta name="description" content="这是一款基于SpringBoot的轻量化的权限校验和访问控制的框架。适用于轻量级以及渐进式的项目。">
+    
+    <meta name="generator" content="teedoc">
+    <meta name="theme" content="teedoc-plugin-theme-default">
+    
+        
+        <meta name="markdown-generator" content="teedoc-plugin-markdown-parser">
+        
+        <script>
+MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]]}, "svg": {"fontCache": "global"}};
+</script>
+        
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        
+        <script src="/simpleauthDoc/static/js/theme_default/pre_main.js"></script>
+        
+        <link rel="stylesheet" href="/simpleauthDoc/static/css/theme_default/prism.min.css" type="text/css"/>
+        
+        <link rel="stylesheet" href="/simpleauthDoc/static/css/theme_default/viewer.min.css" type="text/css"/>
+        
+        <link rel="stylesheet" href="/simpleauthDoc/static/css/theme_default/dark.css" type="text/css"/>
+        
+        <link rel="stylesheet" href="/simpleauthDoc/static/css/theme_default/light.css" type="text/css"/>
+        
+        <script src="/simpleauthDoc/static/js/theme_default/jquery.min.js"></script>
+        
+        <script src="/simpleauthDoc/static/js/theme_default/split.js"></script>
+        
+        <link rel="stylesheet" href="/simpleauthDoc/static/css/search/style.css" type="text/css"/>
+        
+        <link rel="stylesheet" href="/simpleauthDoc/static/css/custom.css" type="text/css"/>
+        
+    
+    
+    <title>动态访问控制 - SimpleAuth</title>
+    
+    <script type="text/javascript">js_vars = {}</script>
+    <script type="text/javascript">metadata = {"tags": [], "date": "2023-09-10", "update": [], "ts": 1694304000, "author": "", "brief": "", "cover": ""}</script>
+</head>
+
+
+<body class="type_doc">
+    
+    <div id="navbar">
+        <div id="navbar_menu">
+            <a class="site_title" href="/simpleauthDoc/">
+                
+                
+                    <h2>SimpleAuth</h2>
+                
+        </a>
+            <a id="navbar_menu_btn"></a>
+        </div>
+        <div id="navbar_items">
+            <div>
+                <ul id="nav_left">
+<li class="active"><a  href="/simpleauthDoc/doc1">中文</a></li>
+<li class=""><a  href="/simpleauthDoc/doc2/">English</a></li>
+</ul>
+
+            </div>
+            <div>
+                <ul id="nav_right">
+</ul>
+
+                <ul class="nav_plugins"><li><a id="themes" class="light"></a></li></ul><ul class="nav_plugins"><li><a id="search"><span class="icon"></span><span class="placeholder">Search</span>
+                            <div id="search_hints">
+                                <span id="search_input_hint">Keywords separated by space</span>
+                                <span id="search_loading_hint">Loading, wait please ...</span>
+                                <span id="search_download_err_hint">Download error, please check network and refresh again</span>
+                                <span id="search_other_docs_result_hint">Result from other docs</span>
+                                <span id="search_curr_doc_result_hint">Result from current doc</span>
+                            </div></a></li></ul>
+            </div>
+        </div>
+    </div>
+    
+    <div id="wrapper">
+        <div id="sidebar_wrapper">
+            <div id="sidebar">
+                <div id="sidebar_title">
+                    
+                </div>
+                <ul class="show">
+<li class="not_active no_link sidebar_category"><span class="label">开始</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/index.html"><span class="label">简介</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/start/started.html"><span class="label">快速上手-权限校验</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/start/started-limit.html"><span class="label">快速上手-访问控制</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">权限校验模块</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/auth/annotation.html"><span class="label">注解</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/auth/interseptor.html"><span class="label">SimpleAuth拦截器</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/auth/dynamic.html"><span class="label">动态权限校验</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">访问控制模块</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/limit/annotation.html"><span class="label">注解</span><span class=""></span></a></li>
+<li class="active with_link"><a href="/simpleauthDoc/doc1/limit/dynamic.html"><span class="label">动态访问控制</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">日志与配置文件</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/logging/index.html"><span class="label">开启/自定义 日志</span><span class=""></span></a></li>
+</ul>
+
+            </div>
+        </div>
+        <div id="article">
+            <div id="menu_wrapper">
+                <div id="menu">
+                </div>
+            </div>
+            <div id="content_wrapper">
+                <div id="content_body">
+                    <div id="article_head">
+                        <div id="article_title">
+                            
+                            <h1>动态访问控制</h1>
+                            
+                        </div>
+                        <div id="article_tags">
+                            <ul>
+                            
+                            </ul>
+                        </div>
+                        <div id="article_info">
+                        <div id="article_info_left">
+                            <span class="article_author">
+                                
+                            </span>
+                            
+                                <span class="article_date" title="Last modify date: 2023-09-10">
+                                    2023-09-10
+                                </span>
+                            
+                        </div>
+                        <div id="article_info_right">
+                            
+                        </div>
+                        </div>
+                    </div>
+                    <div id="article_tools">
+                        <span></span>
+                        <span id="toc_btn"></span>
+                    </div>
+                    <div id="update_history">
+                        
+                    </div>
+                    <div id="article_content">
+                        
+                            <h2 id="%E5%BC%80%E5%90%AF%E5%8A%A8%E6%80%81%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6">开启动态访问控制</h2>
+<p>使用<code>@EnableDynamicLimit</code>注解开启动态访问控制</p>
+
+<pre class="language-java"><code class="language-java">@SpringBootApplication
+@EnableDynamicLimit
+public class SimpleAuthApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(SimpleAuthApplication.class, args);
+    }
+}
+</code></pre>
+<p>或使用<code>simple-auth.func.dynamic-limit=true</code>配置开启</p>
+<h2 id="%E5%88%9B%E5%BB%BAProvider">创建Provider</h2>
+
+<pre class="language-java"><code class="language-java">@Component
+public class MyLimitItemProvider implements RequestLimitItemProvider {
+    @Override
+    public List&lt;RequestLimitItem&gt; getRequestLimitItem() {
+        List&lt;RequestLimitItem&gt; list = new ArrayList&lt;&gt;();
+        //匹配路径`/say`, 60秒只能访问2次，超过则被禁止10s
+        list.add(new RequestLimitItem(&quot;/say&quot;,2,60,10));
+        return list;
+    }
+}
+</code></pre>
+<p>RequestLimitItem 的参数如下<br />
+<code>List&lt;String&gt; path</code>:：匹配的路径<br />
+<code>Integer times</code>：最大请求次数<br />
+<code>Integer seconds</code>：记录时间<br />
+<code>Integer ban</code>：禁止时间<br />
+<code>Class&lt;? extends SignStrategic&gt; itemStrategic</code>：Item的生成策略<br />
+<code>Class&lt;? extends SignStrategic&gt; signStrategic</code>：用户标识的生成策略<br />
+<code>Class&lt;? extends EffectiveStrategic&gt; effectiveStrategic</code>：判断请求是否被记录的策略</p>
+
+                        
+                    </div>
+                </div>
+                <div id="previous_next">
+                    <div id="previous">
+                        
+                        <a href="/simpleauthDoc/doc1/limit/annotation.html">
+                            <span class="icon"></span>
+                            <span class="label">注解</span>
+                        </a>
+                        
+                    </div>
+                    <div id="next">
+                        
+                        <a href="/simpleauthDoc/doc1/logging/index.html">
+                            <span class="label">开启/自定义 日志</span>
+                            <span class="icon"></span>
+                        </a>
+                        
+                    </div>
+                </div>
+                <div id="comments-container"></div>
+            </div>
+            <div id="toc_wrapper">
+                <div id="toc">
+                    <div id="toc_content">
+                            
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a id="to_top" href="#"></a>
+    <div id="doc_footer">
+        <div id="footer">
+            <div id="footer_top">
+                <ul>
+<li><a></a><ul><li><a target="_blank" href="/simpleauthDoc/#"></a></li>
+</ul>
+</li>
+</ul>
+
+            </div>
+            <div id="footer_bottom">
+                <ul>
+<li><a target="_blank" href="https://github.com/liuye744/SimpleAuth">SimpleAuth GitHub</a></li>
+</ul>
+
+            </div>
+        </div>
+    </div>
+    
+        <script src="/simpleauthDoc/teedoc-plugin-markdown-parser/mermaid.min.js"></script>
+    
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    
+        <script src="/simpleauthDoc/static/js/theme_default/tocbot.min.js"></script>
+    
+        <script src="/simpleauthDoc/static/js/theme_default/main.js"></script>
+    
+        <script src="/simpleauthDoc/static/js/theme_default/viewer.min.js"></script>
+    
+        <script src="/simpleauthDoc/static/css/theme_default/prism.min.js"></script>
+    
+        <script src="/simpleauthDoc/static/js/search/search_main.js"></script>
+    
+        <script src="/simpleauthDoc/static/js/custom.js"></script>
+    
+</body>
+
+</html>
