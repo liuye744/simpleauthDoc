@@ -1,30 +1,19 @@
 ---
-title: Auth-en
+title: Introduction
 keywords: keyword1, keyword2
-desc: 这是一款基于SpringBoot的轻量化的权限校验和访问控制的框架。适用于轻量级以及渐进式的项目。
+desc: This is a lightweight framework for permission validation and access control based on SpringBoot. It is suitable for lightweight and progressive projects.
 date: 2023-09-10
 ---
+## Features
+This is a lightweight and progressive framework for permission validation and access control based on SpringBoot. It is suitable for quickly building small to medium-sized projects. It's easy to get started with.
 
+[GitHub Repository](https://github.com/liuye744/SimpleAuth)
 
-## Add article
+## Use Cases
+* Low project complexity with simple permission validation
+* Flexible authentication requirements subject to change
+* Quick setup for RBAC (Role-Based Access Control)
 
-* Create markdown file with file name end with `.md` in the directory of this file, e.g. `first.md`
-* Add link in `sidebar.yaml`
-
-```markdown
-items:
--   label: Brief
-    file: README.md
--   label: First
-    file: first.md
-```
-
-## More example
-
-More visit: [teedoc.neucrack.com](https://teedoc.neucrack.com/) or [teedoc.github.io](https://teedoc.github.io/)
-
-And more example see: [github.com/teedoc/teedoc.github.io](https://github.com/teedoc/teedoc.github.io) and [https://github.com/teedoc/template](https://github.com/teedoc/template) , and [sipeed wiki](https://github.com/sipeed/sipeed_wiki)
-
--------
-
-
+* Limiting user access counts
+* Fine-grained access control
+* Simple security measures
