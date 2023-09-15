@@ -1,3 +1,26 @@
 items:
--   label: Brief
+-   label: Getting Started
+-   label: Introduction
     file: README.md
+-   label: Quick Start - Permission Validation
+    file: start/started.md
+-   label: Quick Start - Access Control
+    file: start/started-limit.md
+
+-   label: Permission Validation Module
+-   label: Annotations
+    file: auth/annotation.md
+-   label: SimpleAuth Interceptor
+    file: auth/interceptor.md
+-   label: Dynamic Permission Validation
+    file: auth/dynamic.md
+
+-   label: Access Control Module
+-   label: Annotations
+    file: limit/annotation.md
+-   label: Dynamic Access Control
+    file: limit/dynamic.md
+
+-   label: Logging and Configuration Files
+-   label: Enable/Customize Logging
+    file: logging/README.md

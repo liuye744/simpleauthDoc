@@ -10,7 +10,7 @@
     <meta name="keywords" content="keyword1, keyword2">
     
     
-    <meta name="description" content="This is a lightweight framework for permission validation and access control based on SpringBoot. It is suitable for lightweight and progressive projects.">
+    <meta name="description" content="This is a lightweight framework for permission validation and access control based on Spring Boot. Suitable for lightweight and progressive projects.">
     
     <meta name="generator" content="teedoc">
     <meta name="theme" content="teedoc-plugin-theme-default">
@@ -44,7 +44,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
         
     
     
-    <title>Introduction - SimpleAuth</title>
+    <title>Quick Start - Permission Validation - SimpleAuth</title>
     
     <script type="text/javascript">js_vars = {}</script>
     <script type="text/javascript">metadata = {"tags": [], "date": "2023-09-10", "update": [], "ts": 1694304000, "author": "", "brief": "", "cover": ""}</script>
@@ -95,8 +95,8 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                 </div>
                 <ul class="show">
 <li class="not_active no_link sidebar_category"><span class="label">Getting Started</span></li>
-<li class="active with_link"><a href="/simpleauthDoc/doc2/index.html"><span class="label">Introduction</span><span class=""></span></a></li>
-<li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started.html"><span class="label">Quick Start - Permission Validation</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/index.html"><span class="label">Introduction</span><span class=""></span></a></li>
+<li class="active with_link"><a href="/simpleauthDoc/doc2/start/started.html"><span class="label">Quick Start - Permission Validation</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started-limit.html"><span class="label">Quick Start - Access Control</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Permission Validation Module</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
@@ -121,7 +121,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     <div id="article_head">
                         <div id="article_title">
                             
-                            <h1>Introduction</h1>
+                            <h1>Quick Start - Permission Validation</h1>
                             
                         </div>
                         <div id="article_tags">
@@ -154,24 +154,131 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     </div>
                     <div id="article_content">
                         
-                            <h2 id="Features">Features</h2>
-<p>This is a lightweight and progressive framework for permission validation and access control based on SpringBoot. It is suitable for quickly building small to medium-sized projects. It's easy to get started with.</p>
-<p><a href="https://github.com/liuye744/SimpleAuth"  target="_blank">GitHub Repository</a></p>
-<h2 id="Use-Cases">Use Cases</h2>
-<ul>
-<li><p>Low project complexity with simple permission validation</p>
-</li>
-<li><p>Flexible authentication requirements subject to change</p>
-</li>
-<li><p>Quick setup for RBAC (Role-Based Access Control)</p>
-</li>
-<li><p>Limiting user access counts</p>
-</li>
-<li><p>Fine-grained access control</p>
-</li>
-<li><p>Simple security measures</p>
-</li>
-</ul>
+                            <p>In this section, we will learn how to perform permission validation using annotations.</p>
+<h2 id="Step-1%3A-Add-Maven-Dependency">Step 1: Add Maven Dependency</h2>
+
+<pre class="language-xml"><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;io.github.liuye744&lt;/groupId&gt;
+    &lt;artifactId&gt;simpleAuth-spring-boot-starter&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h2 id="Step-2%3A-Add-Annotations">Step 2: Add Annotations</h2>
+<h3 id="Use-Case-1%3A-Validating-Parameters-through-Request">Use Case 1: Validating Parameters through Request</h3>
+<p>Create a class that extends <code>AutoAuthHandler</code> and override the <code>isAuthor</code> method.</p>
+
+<pre class="language-java"><code class="language-java">public class KeyAutoAuthHandler extends AutoAuthHandler {
+   @Override
+   public boolean isAuthor(HttpServletRequest request, String permission) {
+        // Verify if the request parameters contain a key parameter with the value &quot;114514&quot;.
+        // You can perform more complex operations as needed.
+       final String key = request.getParameter(&quot;key&quot;);
+       // Return true if the validation is successful, or false to throw a PermissionsException for validation failure.
+       if (&quot;114514&quot;.equals(key)){
+           return true;
+       }
+       return false;
+   }
+}
+</code></pre>
+<p>Then, add the @IsAuthor annotation to the Controller class or its methods.</p>
+
+<pre class="language-java"><code class="language-java">@Controller
+@IsAuthor(handler = KeyAutoAuthHandler.class)
+public class MyController {
+}
+</code></pre>
+<p>Note: If you have multiple AutoAuthHandler instances, you can use the annotation as follows:</p>
+
+<pre class="language-none"><code class="language-none">@IsAuth(handler = { KeyAutoAuthHandler1.class, KeyAutoAuthHandler2.class })
+</code></pre>
+<p>The handler parameter can also specify the bean names of the handlers. These classes will execute permission checks in the specified order. Alternatively, you can create a class that extends AutoAuthHandlerChain and add all handlers to that class.</p>
+
+<pre class="language-java"><code class="language-java">public class MyHandlerChain extends AutoAuthHandlerChain {
+   @Override
+   public void addChain() {
+       this.addLast(KeyAutoAuthHandler1.class)
+        .addLast(KeyAutoAuthHandler2.class);
+   }
+}
+// When adding the annotation, use @IsAuthor(handlerChain = MyHandlerChain.class)
+</code></pre>
+<h3 id="Use-Case-2%3A-Role-Based-Permission-Validation">Use Case 2: Role-Based Permission Validation</h3>
+
+<pre class="language-java"><code class="language-java">@RestController
+// Add the annotation to the class
+@IsAuthor(authentication = AddPermissionKeyHandler.class)
+public class MyController {
+   @IsAuthor(&quot;visitor&quot;)
+   @GetMapping(&quot;say&quot;)
+   public String say(){
+       return &quot;Hello World&quot;;
+   }
+
+   @IsAuthor(&quot;vip&quot;)
+   @GetMapping(&quot;eat&quot;)
+   public String eat(){
+       return &quot;eat&quot;;
+   }
+}
+
+public class AddPermissionKeyHandler extends AutoAuthHandler {
+   @Override
+   public boolean isAuthor(HttpServletRequest request, String permission) {
+       ArrayList&lt;String&gt; permissions = new ArrayList&lt;&gt;();
+       // Alternatively, you can query a database to add the role key for the current request.
+       permissions.add(&quot;visitor&quot;);
+       this.setPermissions(request, permissions);
+       // Verification successful, allow access.
+       return true;
+   }
+}
+</code></pre>
+<p>When a request is made to /say, the AddPermissionKeyHandler class is executed first due to the @IsAuthor annotation added to the MyController class. In this method, the string &quot;visitor&quot; is added to the user's permissions, allowing the request to pass and access the endpoint.</p>
+<p>When a request is made to /eat, the request fails because the permission list does not contain &quot;vip,&quot; resulting in a PermissionsException exception. You can handle permission validation through global exception handling.</p>
+<h3 id="Use-Case-3%3A-Passing-Instance-Objects">Use Case 3: Passing Instance Objects</h3>
+
+<pre class="language-java"><code class="language-java">// Class for the instance used
+public class User {
+    String name;
+    public User(String name) {this.name = name;}
+    public String getName() {return name;}
+}
+
+// Controller
+@RestController
+public class MyController {
+    @IsAuthor(handler = {MyFirstHandler.class, MySecondHandler.class})
+    @GetMapping(&quot;/say&quot;)
+    public String say(){
+        return &quot;Hello World&quot;;
+    }
+}
+
+// First Handler
+public class MyFirstHandler extends AutoAuthHandler {
+    @Override
+    public boolean isAuthor(HttpServletRequest request, String permission) {
+        final String name = request.getParameter(&quot;name&quot;);
+        final User user = new User(name);
+        // Pass the instance object
+        setPrincipal(user);
+        // Allow access
+        return true;
+    }
+}
+
+// Second Handler
+public class MySecondHandler extends AutoAuthHandler {
+    @Override
+    public boolean isAuthor(HttpServletRequest request, String permission) {
+        // Retrieve the instance object and verify if the name is &quot;CodingCube&quot;
+        final User user = getPrincipal();
+        return &quot;CodingCube&quot;.equals(user.getName());
+    }
+}
+</code></pre>
+<p>When accessing <a href="http://localhost:8080/say?name=CodingCube"  target="_blank">http://localhost:8080/say?name=CodingCube</a>, the request is allowed to pass. If the name parameter is set to something other than &quot;CodingCube,&quot; a PermissionsException exception is thrown.</p>
 
                         
                     </div>
@@ -179,11 +286,16 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                 <div id="previous_next">
                     <div id="previous">
                         
+                        <a href="/simpleauthDoc/doc2/index.html">
+                            <span class="icon"></span>
+                            <span class="label">Introduction</span>
+                        </a>
+                        
                     </div>
                     <div id="next">
                         
-                        <a href="/simpleauthDoc/doc2/start/started.html">
-                            <span class="label">Quick Start - Permission Validation</span>
+                        <a href="/simpleauthDoc/doc2/start/started-limit.html">
+                            <span class="label">Quick Start - Access Control</span>
                             <span class="icon"></span>
                         </a>
                         

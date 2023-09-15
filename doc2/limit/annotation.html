@@ -10,7 +10,7 @@
     <meta name="keywords" content="keyword1, keyword2">
     
     
-    <meta name="description" content="This is a lightweight framework for permission validation and access control based on SpringBoot. It is suitable for lightweight and progressive projects.">
+    <meta name="description" content="This is a lightweight framework for permission validation and access control based on Spring Boot. Suitable for lightweight and progressive projects.">
     
     <meta name="generator" content="teedoc">
     <meta name="theme" content="teedoc-plugin-theme-default">
@@ -44,7 +44,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
         
     
     
-    <title>Introduction - SimpleAuth</title>
+    <title>Annotations - SimpleAuth</title>
     
     <script type="text/javascript">js_vars = {}</script>
     <script type="text/javascript">metadata = {"tags": [], "date": "2023-09-10", "update": [], "ts": 1694304000, "author": "", "brief": "", "cover": ""}</script>
@@ -95,7 +95,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                 </div>
                 <ul class="show">
 <li class="not_active no_link sidebar_category"><span class="label">Getting Started</span></li>
-<li class="active with_link"><a href="/simpleauthDoc/doc2/index.html"><span class="label">Introduction</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/index.html"><span class="label">Introduction</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started.html"><span class="label">Quick Start - Permission Validation</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started-limit.html"><span class="label">Quick Start - Access Control</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Permission Validation Module</span></li>
@@ -103,7 +103,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/no_translate.html?ref=auth/interceptor.html&from=/doc2/auth/interceptor.html"><span class="label">SimpleAuth Interceptor</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/dynamic.html"><span class="label">Dynamic Permission Validation</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Access Control Module</span></li>
-<li class="not_active with_link"><a href="/simpleauthDoc/doc2/limit/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
+<li class="active with_link"><a href="/simpleauthDoc/doc2/limit/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/limit/dynamic.html"><span class="label">Dynamic Access Control</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Logging and Configuration Files</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/logging/index.html"><span class="label">Enable/Customize Logging</span><span class=""></span></a></li>
@@ -121,7 +121,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     <div id="article_head">
                         <div id="article_title">
                             
-                            <h1>Introduction</h1>
+                            <h1>Annotations</h1>
                             
                         </div>
                         <div id="article_tags">
@@ -154,24 +154,53 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     </div>
                     <div id="article_content">
                         
-                            <h2 id="Features">Features</h2>
-<p>This is a lightweight and progressive framework for permission validation and access control based on SpringBoot. It is suitable for quickly building small to medium-sized projects. It's easy to get started with.</p>
-<p><a href="https://github.com/liuye744/SimpleAuth"  target="_blank">GitHub Repository</a></p>
-<h2 id="Use-Cases">Use Cases</h2>
-<ul>
-<li><p>Low project complexity with simple permission validation</p>
-</li>
-<li><p>Flexible authentication requirements subject to change</p>
-</li>
-<li><p>Quick setup for RBAC (Role-Based Access Control)</p>
-</li>
-<li><p>Limiting user access counts</p>
-</li>
-<li><p>Fine-grained access control</p>
-</li>
-<li><p>Simple security measures</p>
-</li>
-</ul>
+                            <h2 id="Annotation-Parameters">Annotation Parameters</h2>
+
+<pre class="language-java"><code class="language-java">public @interface IsLimit {
+    // Maximum number of requests
+    int value() default 100;
+    // Record the time of the request
+    int seconds() default 300;
+    // Time period during which access is denied after exceeding the limit
+    int ban() default 0;
+    // User identifier generation strategy
+    Class&lt;? extends SignStrategic&gt; signStrategic() default DefaultSignStrategic.class;
+    // Interface identifier, each interface corresponds to multiple user request records
+    String item() default &quot;&quot;;
+    // Strategy to verify whether this request is recorded
+    Class&lt;? extends EffectiveStrategic&gt; effectiveStrategic() default DefaultEffectiveStrategic.class;
+    // Whether to check if the request is recorded after the request returns
+    boolean judgeAfterReturn() default true;
+}
+
+</code></pre>
+<h2 id="User-Identifier-Generation-Strategy">User Identifier Generation Strategy</h2>
+
+<pre class="language-java"><code class="language-java">@Component
+public class MySignStrategic extends SignStrategic {
+    @Override
+    public String sign(HttpServletRequest request, SimpleJoinPoint joinPoint) {
+        return &quot;Sign&quot;; // Return the user identifier
+    }
+}
+
+</code></pre>
+<p>Create your own class that extends SignStrategic and return the user identifier. If necessary, you can register this class as a Bean.</p>
+<h2 id="Request-Record-Verification-Strategy">Request Record Verification Strategy</h2>
+
+<pre class="language-java"><code class="language-java">@Component
+public class MyEffectiveStrategic extends EffectiveStrategic {
+    @Override
+    public Boolean effective(HttpServletRequest request, SimpleJoinPoint joinPoint, Object result) {
+        return true;
+    }
+}
+</code></pre>
+<p>When the judgeAfterReturn parameter is set to true, this method will run after the interface call. You can determine whether the request is recorded based on the result.</p>
+<p>If judgeAfterReturn is set to false, it will run before the interface call, and result will be null.</p>
+<h2 id="Explanation-of-%27ban%27">Explanation of 'ban'</h2>
+<p>When ban is equal to 0, it will record all operations within the specified time, and expired records will be deleted when the next operation occurs.</p>
+<p>When ban is not equal to 0, requests exceeding the maximum number will be recorded in the ban list. The ban will be lifted after a certain period, and all request records will be deleted.</p>
 
                         
                     </div>
@@ -179,11 +208,16 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                 <div id="previous_next">
                     <div id="previous">
                         
+                        <a href="/simpleauthDoc/doc2/auth/dynamic.html">
+                            <span class="icon"></span>
+                            <span class="label">Dynamic Permission Validation</span>
+                        </a>
+                        
                     </div>
                     <div id="next">
                         
-                        <a href="/simpleauthDoc/doc2/start/started.html">
-                            <span class="label">Quick Start - Permission Validation</span>
+                        <a href="/simpleauthDoc/doc2/limit/dynamic.html">
+                            <span class="label">Dynamic Access Control</span>
                             <span class="icon"></span>
                         </a>
                         

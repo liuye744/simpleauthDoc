@@ -10,7 +10,7 @@
     <meta name="keywords" content="keyword1, keyword2">
     
     
-    <meta name="description" content="This is a lightweight framework for permission validation and access control based on SpringBoot. It is suitable for lightweight and progressive projects.">
+    <meta name="description" content="This is a lightweight framework for permission validation and access control based on Spring Boot. Suitable for lightweight and progressive projects.">
     
     <meta name="generator" content="teedoc">
     <meta name="theme" content="teedoc-plugin-theme-default">
@@ -44,7 +44,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
         
     
     
-    <title>Introduction - SimpleAuth</title>
+    <title>Logging - SimpleAuth</title>
     
     <script type="text/javascript">js_vars = {}</script>
     <script type="text/javascript">metadata = {"tags": [], "date": "2023-09-10", "update": [], "ts": 1694304000, "author": "", "brief": "", "cover": ""}</script>
@@ -95,7 +95,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                 </div>
                 <ul class="show">
 <li class="not_active no_link sidebar_category"><span class="label">Getting Started</span></li>
-<li class="active with_link"><a href="/simpleauthDoc/doc2/index.html"><span class="label">Introduction</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/index.html"><span class="label">Introduction</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started.html"><span class="label">Quick Start - Permission Validation</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started-limit.html"><span class="label">Quick Start - Access Control</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Permission Validation Module</span></li>
@@ -106,7 +106,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/limit/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/limit/dynamic.html"><span class="label">Dynamic Access Control</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Logging and Configuration Files</span></li>
-<li class="not_active with_link"><a href="/simpleauthDoc/doc2/logging/index.html"><span class="label">Enable/Customize Logging</span><span class=""></span></a></li>
+<li class="active with_link"><a href="/simpleauthDoc/doc2/logging/index.html"><span class="label">Enable/Customize Logging</span><span class=""></span></a></li>
 </ul>
 
             </div>
@@ -121,7 +121,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     <div id="article_head">
                         <div id="article_title">
                             
-                            <h1>Introduction</h1>
+                            <h1>Logging</h1>
                             
                         </div>
                         <div id="article_tags">
@@ -154,24 +154,111 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     </div>
                     <div id="article_content">
                         
-                            <h2 id="Features">Features</h2>
-<p>This is a lightweight and progressive framework for permission validation and access control based on SpringBoot. It is suitable for quickly building small to medium-sized projects. It's easy to get started with.</p>
-<p><a href="https://github.com/liuye744/SimpleAuth"  target="_blank">GitHub Repository</a></p>
-<h2 id="Use-Cases">Use Cases</h2>
-<ul>
-<li><p>Low project complexity with simple permission validation</p>
-</li>
-<li><p>Flexible authentication requirements subject to change</p>
-</li>
-<li><p>Quick setup for RBAC (Role-Based Access Control)</p>
-</li>
-<li><p>Limiting user access counts</p>
-</li>
-<li><p>Fine-grained access control</p>
-</li>
-<li><p>Simple security measures</p>
-</li>
-</ul>
+                            <h2 id="Enabling-Authentication-Module-Logging">Enabling Authentication Module Logging</h2>
+
+<pre class="language-properties"><code class="language-properties"># StdOut: Output to the console
+# jdk: Java's built-in logging
+simple-auth.log.log-impl=StdOut
+</code></pre>
+<p>Once configured, upon project startup, the console will output:<br />
+<code>Auth Logging initialized using class com.codingcube.simpleauth.logging.stdout.StdOutImpl adapter.</code></p>
+<h2 id="Authentication-Module-Logging-Explanation">Authentication Module Logging Explanation</h2>
+
+<pre class="language-none"><code class="language-none">SimpleAuth auth =&gt; 
+    uri: /say
+    handlerName: com.example.simpleauthtest.handler.MyHandler
+    source: Dynamic Permission Configuration handlerChain com.example.simpleauthtest.handler.MyHandlerChain
+    Required permission: vip
+    Permissions to carry: [visitor]
+    Principal to carry: null
+    Pass or not: true
+SimpleAuth auth =&gt; 
+    uri: /say
+    handlerName: com.example.simpleauthtest.handler.MyHandler2
+    source: Dynamic Permission Configuration handlerChain com.example.simpleauthtest.handler.MyHandlerChain
+    Required permission: vip
+    Permissions to carry: [visitor]
+    Principal to carry: null
+    Pass or not: true
+</code></pre>
+<p><code>uri</code>: The request's URI.<br />
+<code>handlerName</code>: The fully qualified name of the handling Handler.<br />
+<code>source</code>: Handler configuration method. In this example, it's &quot;Dynamic Permission Configuration&quot; (configured dynamically via a Provider) and this Handler is within the &quot;MyHandlerChain.&quot;<br />
+<code>Required permission</code>: The required permission name.<br />
+<code>Permissions to carry</code>: The carried permission names.<br />
+<code>Principal to carry</code>: The carried instance object.<br />
+<code>Pass or not</code>: Whether the request passed.</p>
+<h2 id="Enabling-Access-Control-Module-Logging">Enabling Access Control Module Logging</h2>
+
+<pre class="language-properties"><code class="language-properties"># StdOut: Output to the console
+# jdk: Java's built-in logging
+simple-auth.log.limit-log-impl=StdOut
+# Whether to include the user's operation list when logging. Default is false.
+simple-auth.log.show-opt-list=true
+</code></pre>
+<p>Once configured, upon project startup, the console will output:<br />
+<code>Limit Logging initialized using class com.codingcube.simpleauth.logging.stdout.StdOutImpl adapter.</code></p>
+<h2 id="Access-Control-Module-Logging-Explanation">Access Control Module Logging Explanation</h2>
+
+<pre class="language-none"><code class="language-none">SimpleAuth limit =&gt; 
+    max-times: 2
+    time: 1
+    seconds: 60
+    ban: 0
+    item: /say
+    signStrategic: com.codingcube.simpleauth.auth.strategic.DefaultSignStrategic
+    sign: 0:0:0:0:0:0:0:1
+    source: dynamic limit
+    judgeAfterReturn: false
+    effectiveStrategic: com.codingcube.simpleauth.limit.strategic.DefaultEffectiveStrategic
+    effective: true
+    optionList: [Mon Sep 11 01:13:12 CST 2023]
+    Pass or not: true
+</code></pre>
+<p><code>max-times</code>: Maximum number of requests.</p>
+<p><code>time</code>: Number of recorded requests (including the current one).</p>
+<p><code>seconds</code>: Recording time.</p>
+<p><code>ban</code>: Time for which the request is banned after exceeding the maximum number of requests.</p>
+<p><code>item</code>: Name of the item for access control. Defaults to the interface name if configured via annotation.</p>
+<p><code>sign</code>: User identifier. Defaults to the user's IP address. In this case, it's showing as 0:0:0:0:0:0:0:1, indicating localhost.</p>
+<p><code>source</code>: Configuration source for Limit (configured dynamically via a Provider).</p>
+<p><code>judgeAfterReturn</code>: Whether to determine if the current request is recorded after it returns. If true, you can use the return value to determine if the request is recorded.</p>
+<p><code>effectiveStrategic</code>: Class used to determine if the current request is recorded.</p>
+<p><code>effective</code>: Whether the request is recorded.</p>
+<p><code>optionList</code>: List of recorded requests. Requires simple-auth.log.show-opt-list=true to be configured in the Spring Boot configuration file.</p>
+<p><code>Pass or not</code>: Whether the current request passed.</p>
+<h2 id="Custom-Logging-Module">Custom Logging Module</h2>
+<p>Implement the Log interface and add a constructor with a String parameter.</p>
+
+<pre class="language-java"><code class="language-java">import com.codingcube.simpleauth.logging.Log;
+
+public class MyLog implements Log {
+    public MyLog(String clazz) {
+        // TODO: Implement your custom logging logic here.
+    }
+
+    @Override
+    public void debug(String s) {
+        // TODO: Implement debug log logic.
+    }
+
+    @Override
+    public void error(String s, Throwable e) {
+        // TODO: Implement error log logic.
+    }
+
+    @Override
+    public void warn(String s) {
+        // TODO: Implement warning log logic.
+    }
+    // ... and so on for other log levels.
+}
+</code></pre>
+<p>Configure your custom logging module.</p>
+
+<pre class="language-java"><code class="language-java"># Provide the fully qualified name of your custom Log implementation.
+simple-auth.log.log-impl=com.example.simpleauthtest.domain.MyLog
+</code></pre>
 
                         
                     </div>
@@ -179,13 +266,13 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                 <div id="previous_next">
                     <div id="previous">
                         
+                        <a href="/simpleauthDoc/doc2/limit/dynamic.html">
+                            <span class="icon"></span>
+                            <span class="label">Dynamic Access Control</span>
+                        </a>
+                        
                     </div>
                     <div id="next">
-                        
-                        <a href="/simpleauthDoc/doc2/start/started.html">
-                            <span class="label">Quick Start - Permission Validation</span>
-                            <span class="icon"></span>
-                        </a>
                         
                     </div>
                 </div>

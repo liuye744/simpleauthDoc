@@ -10,7 +10,7 @@
     <meta name="keywords" content="keyword1, keyword2">
     
     
-    <meta name="description" content="This is a lightweight framework for permission validation and access control based on SpringBoot. It is suitable for lightweight and progressive projects.">
+    <meta name="description" content="This is a lightweight framework for permission validation and access control based on Spring Boot. Suitable for lightweight and progressive projects.">
     
     <meta name="generator" content="teedoc">
     <meta name="theme" content="teedoc-plugin-theme-default">
@@ -44,7 +44,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
         
     
     
-    <title>Introduction - SimpleAuth</title>
+    <title>Quick Start - Access Control - SimpleAuth</title>
     
     <script type="text/javascript">js_vars = {}</script>
     <script type="text/javascript">metadata = {"tags": [], "date": "2023-09-10", "update": [], "ts": 1694304000, "author": "", "brief": "", "cover": ""}</script>
@@ -95,9 +95,9 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                 </div>
                 <ul class="show">
 <li class="not_active no_link sidebar_category"><span class="label">Getting Started</span></li>
-<li class="active with_link"><a href="/simpleauthDoc/doc2/index.html"><span class="label">Introduction</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/index.html"><span class="label">Introduction</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started.html"><span class="label">Quick Start - Permission Validation</span><span class=""></span></a></li>
-<li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started-limit.html"><span class="label">Quick Start - Access Control</span><span class=""></span></a></li>
+<li class="active with_link"><a href="/simpleauthDoc/doc2/start/started-limit.html"><span class="label">Quick Start - Access Control</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Permission Validation Module</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/no_translate.html?ref=auth/interceptor.html&from=/doc2/auth/interceptor.html"><span class="label">SimpleAuth Interceptor</span><span class=""></span></a></li>
@@ -121,7 +121,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     <div id="article_head">
                         <div id="article_title">
                             
-                            <h1>Introduction</h1>
+                            <h1>Quick Start - Access Control</h1>
                             
                         </div>
                         <div id="article_tags">
@@ -154,24 +154,84 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     </div>
                     <div id="article_content">
                         
-                            <h2 id="Features">Features</h2>
-<p>This is a lightweight and progressive framework for permission validation and access control based on SpringBoot. It is suitable for quickly building small to medium-sized projects. It's easy to get started with.</p>
-<p><a href="https://github.com/liuye744/SimpleAuth"  target="_blank">GitHub Repository</a></p>
-<h2 id="Use-Cases">Use Cases</h2>
-<ul>
-<li><p>Low project complexity with simple permission validation</p>
-</li>
-<li><p>Flexible authentication requirements subject to change</p>
-</li>
-<li><p>Quick setup for RBAC (Role-Based Access Control)</p>
-</li>
-<li><p>Limiting user access counts</p>
-</li>
-<li><p>Fine-grained access control</p>
-</li>
-<li><p>Simple security measures</p>
-</li>
-</ul>
+                            <p>In this section, we will learn how to restrict access to endpoints using annotations.</p>
+<h2 id="Step-1%3A-Add-Maven-Dependency">Step 1: Add Maven Dependency</h2>
+
+<pre class="language-xml"><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;io.github.liuye744&lt;/groupId&gt;
+    &lt;artifactId&gt;simpleAuth-spring-boot-starter&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h2 id="Step-2%3A-Add-Annotations-to-Controller">Step 2: Add Annotations to Controller</h2>
+<p>You can add annotations to the entire Controller or to individual methods within the Controller. If access exceeds the limit, an AccessIsRestrictedException will be thrown.</p>
+<h3 id="Use-Case-1%3A-Limiting-Access-Count-Within-a-Specified-Time-Period">Use Case 1: Limiting Access Count Within a Specified Time Period</h3>
+
+<pre class="language-java"><code class="language-java">@RestController
+public class MyController {
+    @GetMapping(&quot;say&quot;)
+    // Allow only 5 accesses within 10 minutes, and restrict access for 10 minutes if exceeded
+    @IsLimit(value = 5, seconds = 600, ban = 600)
+    public String say(){
+        return &quot;Hello World&quot;;
+    }
+}
+</code></pre>
+<h3 id="Use-Case-2%3A-Determining-Whether-to-Record-the-Operation-Based-on-the-Return-Value">Use Case 2: Determining Whether to Record the Operation Based on the Return Value</h3>
+<p>In this example, we want to record the operation only when the endpoint returns &quot;success.&quot; If it returns anything else, we don't want to record the operation, and there are no access restrictions.</p>
+
+<pre class="language-java"><code class="language-java">@RestController
+public class MyController {
+    @GetMapping(&quot;say&quot;)
+    @IsLimit(effectiveStrategic = MyEffectiveStrategic.class)
+    public String say(String str){
+        if (str.length() &gt; 3 &amp;&amp; str.length() &lt; 12){
+            return &quot;success&quot;;
+        } else {
+            return &quot;fail&quot;;
+        }
+    }
+}
+
+public class MyEffectiveStrategic extends EffectiveStrategic {
+    @Override
+    public Boolean effective(HttpServletRequest request, ProceedingJoinPoint joinPoint, Object result) {
+        String myResult = (String)result;
+        // Return true to record the operation, or false to skip recording
+        return &quot;success&quot;.equals(myResult);
+    }
+}
+</code></pre>
+<h3 id="Use-Case-3%3A-Recording-Operations-with-Different-Access-Limits-Based-on-Different-Parameters">Use Case 3: Recording Operations with Different Access Limits Based on Different Parameters</h3>
+<p>In this example, we want to apply different access limits to the same endpoint based on different parameters. For instance, we want to limit the number of &quot;likes&quot; for each resource within a specified time frame.</p>
+
+<pre class="language-java"><code class="language-java">@RestController
+public class MyController {
+    @GetMapping(&quot;say&quot;)
+    @IsLimit(signStrategic = MySignStrategic.class)
+    public String say(String str){
+        return &quot;Hello World&quot;;
+    }
+}
+
+public class MySignStrategic extends SignStrategic {
+    @Override
+    public String sign(HttpServletRequest request, ProceedingJoinPoint joinPoint) {
+        final Object[] args = joinPoint.getArgs();
+        final Signature signature = joinPoint.getSignature();
+
+        // Concatenate the parameters into the user's sign to ensure a unique sign for different parameter values
+        StringBuilder sb = new StringBuilder();
+        sb.append(signature);
+        for (Object arg : args) {
+            sb.append(arg.toString());
+        }
+
+        System.out.println(sb);
+        return sb.toString();
+    }
+}
+</code></pre>
 
                         
                     </div>
@@ -179,11 +239,16 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                 <div id="previous_next">
                     <div id="previous">
                         
+                        <a href="/simpleauthDoc/doc2/start/started.html">
+                            <span class="icon"></span>
+                            <span class="label">Quick Start - Permission Validation</span>
+                        </a>
+                        
                     </div>
                     <div id="next">
                         
-                        <a href="/simpleauthDoc/doc2/start/started.html">
-                            <span class="label">Quick Start - Permission Validation</span>
+                        <a href="/simpleauthDoc/doc2/auth/annotation.html">
+                            <span class="label">Annotations</span>
                             <span class="icon"></span>
                         </a>
                         
