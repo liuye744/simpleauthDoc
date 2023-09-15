@@ -1,6 +1,6 @@
 
 ---
-title: my_site
+title: start
 keywords: my_site
 desc: my_site, generated with teedoc, a static site generator
 id: home_page
