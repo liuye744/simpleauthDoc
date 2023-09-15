@@ -1,0 +1,44 @@
+{
+    "locale": "en",
+    "navbar": {
+        "title": "SimpleAuth",
+        "logo": {
+            "alt": "my_site logo",
+            "url": ""
+        },
+        "home_url": "/",
+        "items": [
+            {
+                "url": "/doc1",
+                "label": "中文",
+                "position": "left"
+            },
+            {
+                "url": "/doc2/",
+                "label": "English",
+                "position": "left"
+            }
+        ]
+    },
+    "footer":{
+        "top":[
+            {
+                "label": "",
+                "items": [
+                    {
+                        "label": "",
+                        "url": "#",
+                        "target": "_blank"
+                    }
+                ]
+            }
+        ],
+        "bottom": [
+            {
+                "label": "SimpleAuth GitHub",
+                "url": "https://github.com/liuye744/SimpleAuth",
+                "target": "_blank"
+            }
+        ]
+    }
+}
