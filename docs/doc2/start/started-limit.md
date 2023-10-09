@@ -13,7 +13,7 @@ In this section, we will learn how to restrict access to endpoints using annotat
 <dependency>
     <groupId>io.github.liuye744</groupId>
     <artifactId>simpleAuth-spring-boot-starter</artifactId>
-    <version>1.1.0.RELEASE</version>
+    <version>1.3.2.RELEASE</version>
 </dependency>
 ```
 ## Step 2: Add Annotations to Controller
@@ -26,7 +26,7 @@ You can add annotations to the entire Controller or to individual methods within
 public class MyController {
     @GetMapping("say")
     // Allow only 5 accesses within 10 minutes, and restrict access for 10 minutes if exceeded
-    @IsLimit(value = 5, seconds = 600, ban = 600)
+    @SimpleLimit(value = 5, seconds = 600, ban = 600)
     public String say(){
         return "Hello World";
     }
@@ -41,7 +41,7 @@ In this example, we want to record the operation only when the endpoint returns 
 @RestController
 public class MyController {
     @GetMapping("say")
-    @IsLimit(effectiveStrategic = MyEffectiveStrategic.class)
+    @SimpleLimit(effectiveStrategic = MyEffectiveStrategic.class)
     public String say(String str){
         if (str.length() > 3 && str.length() < 12){
             return "success";
@@ -69,7 +69,7 @@ In this example, we want to apply different access limits to the same endpoint b
 @RestController
 public class MyController {
     @GetMapping("say")
-    @IsLimit(signStrategic = MySignStrategic.class)
+    @SimpleLimit(signStrategic = MySignStrategic.class)
     public String say(String str){
         return "Hello World";
     }
@@ -98,7 +98,7 @@ Alternatively, you can use the predefined DiffParameterSign strategy to achieve 
 @RestController
 public class MyController {
     @GetMapping("say")
-    @IsLimit(signStrategic = DiffParameterSign.class)
+    @SimpleLimit(signStrategic = DiffParameterSign.class)
     public String say(String str){
         return "Hello World";
     }

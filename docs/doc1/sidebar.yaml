@@ -24,6 +24,12 @@ items:
 -   label: 日志与配置文件
 -   label: 开启/自定义 日志
     file: logging/README.md
-# -   label: 配置文件
-#     file: logging/properties.md
+-   label: 配置参数
+    file: logging/properties.md
+
+-   label: 配置文件
+-   label: XML配置
+    file: config/xml.md
+-   label: JSON配置
+    file: config/json.md
 

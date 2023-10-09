@@ -38,7 +38,8 @@ RequestLimitItem 的参数如下
 `Integer times`：最大请求次数
 `Integer seconds`：记录时间
 `Integer ban`：禁止时间
-`Class<? extends SignStrategic> itemStrategic`：Item的生成策略
-`Class<? extends SignStrategic> signStrategic`：用户标识的生成策略
-`Class<? extends EffectiveStrategic> effectiveStrategic`：判断请求是否被记录的策略
+`Class<? extends SignStrategic> itemStrategic`：Item的生成策略，默认为uri
+`Class<? extends SignStrategic> signStrategic`：用户标识的生成策略，默认为用户IP
+`Class<? extends EffectiveStrategic> effectiveStrategic`：判断请求是否被记录的策略，默认为true
+`Class<? extends TokenLimit> tokenLimit`：限流算法，默认为CompleteLimit，即所有的请求都准确记录
 

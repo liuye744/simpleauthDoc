@@ -8,7 +8,7 @@ date: 2023-09-10
 
 ## Annotation Parameters
 ```java
-public @interface IsLimit {
+public @interface SimpleLimit {
     // Maximum number of requests
     int value() default 100;
     // Record the time of the request

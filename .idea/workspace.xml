@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a2e25318-d1fc-4215-b2d6-32b3e29efafb" name="默认的" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2VQDu6VZbvFrNz3JxBZBXUkwqzX" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/项目源码/前端/boot-vue02" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\tools\teedoc\simpleauthDoc\docs\doc2\start" />
+      <recent name="D:\tools\teedoc\simpleauthDoc\docs\doc2\logging" />
+      <recent name="D:\tools\teedoc\simpleauthDoc\docs\doc2\limit" />
+      <recent name="D:\tools\teedoc\simpleauthDoc\docs\doc2\auth" />
+      <recent name="D:\tools\teedoc\simpleauthDoc" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\dhc\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a2e25318-d1fc-4215-b2d6-32b3e29efafb" name="默认的" comment="" />
+      <created>1694759629869</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1694759629869</updated>
+      <workItem from="1694759631038" duration="455000" />
+      <workItem from="1694760110816" duration="493000" />
+      <workItem from="1694760777354" duration="6759000" />
+      <workItem from="1694776687796" duration="1812000" />
+      <workItem from="1694783546084" duration="1550000" />
+      <workItem from="1695089273427" duration="58000" />
+    </task>
+    <task id="LOCAL-00001" summary="doc">
+      <created>1694759827305</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1694759827305</updated>
+    </task>
+    <task id="LOCAL-00002" summary="英文文档">
+      <created>1694764388037</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1694764388037</updated>
+    </task>
+    <task id="LOCAL-00003" summary="英文配置文件">
+      <created>1694765932599</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1694765932599</updated>
+    </task>
+    <task id="LOCAL-00004" summary="版本号">
+      <created>1694767696470</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1694767696470</updated>
+    </task>
+    <task id="LOCAL-00005" summary="补充预制策略">
+      <created>1694778587397</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1694778587397</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="doc" />
+    <MESSAGE value="英文文档" />
+    <MESSAGE value="英文配置文件" />
+    <MESSAGE value="版本号" />
+    <MESSAGE value="补充预制策略" />
+    <option name="LAST_COMMIT_MESSAGE" value="补充预制策略" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="223" y="63" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1694765788078">
+      <screen x="0" y="0" width="1536" height="816" />
+    </state>
+    <state x="223" y="63" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.816/1920.0.1536.816@0.0.1536.816" timestamp="1694765788078" />
+    <state x="549" y="163" key="FileChooserDialogImpl" timestamp="1695089339197">
+      <screen x="0" y="0" width="1536" height="816" />
+    </state>
+    <state x="549" y="163" key="FileChooserDialogImpl/0.0.1536.816/1920.0.1536.816@0.0.1536.816" timestamp="1695089339197" />
+    <state x="270" y="52" key="SettingsEditor" timestamp="1694760606672">
+      <screen x="0" y="0" width="1536" height="816" />
+    </state>
+    <state x="270" y="52" key="SettingsEditor/0.0.1536.816/1920.0.1536.816@0.0.1536.816" timestamp="1694760606672" />
+    <state x="330" y="178" key="Vcs.Push.Dialog.v2" timestamp="1694778592641">
+      <screen x="0" y="0" width="1536" height="816" />
+    </state>
+    <state x="330" y="178" key="Vcs.Push.Dialog.v2/0.0.1536.816/1920.0.1536.816@0.0.1536.816" timestamp="1694778592641" />
+    <state x="464" y="86" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1694777295418">
+      <screen x="0" y="0" width="1536" height="816" />
+    </state>
+    <state x="464" y="86" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.816/1920.0.1536.816@0.0.1536.816" timestamp="1694777295418" />
+    <state x="467" y="140" width="601" height="594" key="find.popup" timestamp="1694767600903">
+      <screen x="0" y="0" width="1536" height="816" />
+    </state>
+    <state x="467" y="140" width="601" height="594" key="find.popup/0.0.1536.816/1920.0.1536.816@0.0.1536.816" timestamp="1694767600903" />
+    <state x="431" y="137" width="672" height="678" key="search.everywhere.popup" timestamp="1694777620987">
+      <screen x="0" y="0" width="1536" height="816" />
+    </state>
+    <state x="431" y="137" width="672" height="678" key="search.everywhere.popup/0.0.1536.816/1920.0.1536.816@0.0.1536.816" timestamp="1694777620987" />
+  </component>
+</project>

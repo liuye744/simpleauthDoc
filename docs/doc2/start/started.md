@@ -12,19 +12,19 @@ In this section, we will learn how to perform permission validation using annota
 <dependency>
     <groupId>io.github.liuye744</groupId>
     <artifactId>simpleAuth-spring-boot-starter</artifactId>
-    <version>1.1.0.RELEASE</version>
+    <version>1.3.2.RELEASE</version>
 </dependency>
 ```
 ## Step 2: Add Annotations
 
 ### Use Case 1: Validating Parameters through Request
 
-Create a class that extends `AutoAuthHandler` and override the `isAuthor` method.
+Create a class that extends `AutoAuthHandler` and override the `SimpleAuthor` method.
 
 ```java
 public class KeyAutoAuthHandler extends AutoAuthHandler {
    @Override
-   public boolean isAuthor(HttpServletRequest request, String permission) {
+   public boolean SimpleAuthor(HttpServletRequest request, String permission) {
         // Verify if the request parameters contain a key parameter with the value "114514".
         // You can perform more complex operations as needed.
        final String key = request.getParameter("key");
@@ -36,16 +36,16 @@ public class KeyAutoAuthHandler extends AutoAuthHandler {
    }
 }
 ```
-Then, add the @IsAuthor annotation to the Controller class or its methods.
+Then, add the @SimpleAuthor annotation to the Controller class or its methods.
 ```java
 @Controller
-@IsAuthor(handler = KeyAutoAuthHandler.class)
+@SimpleAuthor(handler = KeyAutoAuthHandler.class)
 public class MyController {
 }
 ```
 Note: If you have multiple AutoAuthHandler instances, you can use the annotation as follows:
 ```
-@IsAuth(handler = { KeyAutoAuthHandler1.class, KeyAutoAuthHandler2.class })
+@SimpleAuth(handler = { KeyAutoAuthHandler1.class, KeyAutoAuthHandler2.class })
 ```
 The handler parameter can also specify the bean names of the handlers. These classes will execute permission checks in the specified order. Alternatively, you can create a class that extends AutoAuthHandlerChain and add all handlers to that class.
 ```java
@@ -56,22 +56,22 @@ public class MyHandlerChain extends AutoAuthHandlerChain {
         .addLast(KeyAutoAuthHandler2.class);
    }
 }
-// When adding the annotation, use @IsAuthor(handlerChain = MyHandlerChain.class)
+// When adding the annotation, use @SimpleAuthor(handlerChain = MyHandlerChain.class)
 ```
 ### Use Case 2: Role-Based Permission Validation
 
 ```java
 @RestController
 // Add the annotation to the class
-@IsAuthor(authentication = AddPermissionKeyHandler.class)
+@SimpleAuthor(authentication = AddPermissionKeyHandler.class)
 public class MyController {
-   @IsAuthor("visitor")
+   @SimpleAuthor("visitor")
    @GetMapping("say")
    public String say(){
        return "Hello World";
    }
    
-   @IsAuthor("vip")
+   @SimpleAuthor("vip")
    @GetMapping("eat")
    public String eat(){
        return "eat";
@@ -80,7 +80,7 @@ public class MyController {
 
 public class AddPermissionKeyHandler extends AutoAuthHandler {
    @Override
-   public boolean isAuthor(HttpServletRequest request, String permission) {
+   public boolean SimpleAuthor(HttpServletRequest request, String permission) {
        ArrayList<String> permissions = new ArrayList<>();
        // Alternatively, you can query a database to add the role key for the current request.
        permissions.add("visitor");
@@ -90,7 +90,7 @@ public class AddPermissionKeyHandler extends AutoAuthHandler {
    }
 }
 ```
-When a request is made to /say, the AddPermissionKeyHandler class is executed first due to the @IsAuthor annotation added to the MyController class. In this method, the string "visitor" is added to the user's permissions, allowing the request to pass and access the endpoint.
+When a request is made to /say, the AddPermissionKeyHandler class is executed first due to the @SimpleAuthor annotation added to the MyController class. In this method, the string "visitor" is added to the user's permissions, allowing the request to pass and access the endpoint.
 
 When a request is made to /eat, the request fails because the permission list does not contain "vip," resulting in a PermissionsException exception. You can handle permission validation through global exception handling.
 ### Use Case 3: Passing Instance Objects
@@ -106,7 +106,7 @@ public class User {
 // Controller
 @RestController
 public class MyController {
-    @IsAuthor(handler = {MyFirstHandler.class, MySecondHandler.class})
+    @SimpleAuthor(handler = {MyFirstHandler.class, MySecondHandler.class})
     @GetMapping("/say")
     public String say(){
         return "Hello World";
@@ -116,7 +116,7 @@ public class MyController {
 // First Handler
 public class MyFirstHandler extends AutoAuthHandler {
     @Override
-    public boolean isAuthor(HttpServletRequest request, String permission) {
+    public boolean SimpleAuthor(HttpServletRequest request, String permission) {
         final String name = request.getParameter("name");
         final User user = new User(name);
         // Pass the instance object
@@ -129,7 +129,7 @@ public class MyFirstHandler extends AutoAuthHandler {
 // Second Handler
 public class MySecondHandler extends AutoAuthHandler {
     @Override
-    public boolean isAuthor(HttpServletRequest request, String permission) {
+    public boolean SimpleAuthor(HttpServletRequest request, String permission) {
         // Retrieve the instance object and verify if the name is "CodingCube"
         final User user = getPrincipal();
         return "CodingCube".equals(user.getName());

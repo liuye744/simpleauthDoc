@@ -11,7 +11,7 @@ date: 2023-09-10
 <dependency>
     <groupId>io.github.liuye744</groupId>
     <artifactId>simpleAuth-spring-boot-starter</artifactId>
-    <version>1.1.0.RELEASE</version>
+    <version>1.3.2.RELEASE</version>
 </dependency>
 ```
 
@@ -19,12 +19,12 @@ date: 2023-09-10
 
 ### 用例1：通过request验证参数
 
-创建一个类继承AutoAuthHandler，并重写IsAuthor方法
+创建一个类继承AutoAuthHandler，并重写SimpleAuthor方法
 
 ```java
 public class KeyAutoAuthHandler extends AutoAuthHandler {
    @Override
-   public boolean isAuthor(HttpServletRequest request, String permission) {
+   public boolean SimpleAuthor(HttpServletRequest request, String permission) {
         //验证请求参数中是否携带key为114514的参数. 
         //当然也可以进行更复杂的操作
        final String key = request.getParameter("key");
@@ -37,18 +37,18 @@ public class KeyAutoAuthHandler extends AutoAuthHandler {
 }
 ```
 
-然后将`@IsAuthor `注释添加到 Controller 或其中的方法。
+然后将`@SimpleAuthor `注释添加到 Controller 或其中的方法。
 
 ```java
 @Controller
-@IsAuthor(handler = KeyAutoAuthHandler.class)
+@SimpleAuthor(handler = KeyAutoAuthHandler.class)
 public class MyController {
 }
 ```
 
 注: 如果你有多个` AutoAuthHandler`，你可以像这样写注释:
 ```java
-@IsAuth (handler = { KeyAutoAuthHandler1.class，KeyAutoAuthHandler2.class })
+@SimpleAuth (handler = { KeyAutoAuthHandler1.class，KeyAutoAuthHandler2.class })
 ```
 handler参数也可以写 Handler 的Bean 名称。这些类将按顺序执行权限检查。或者创建 继承`AutoAuthHandlerChain` 的类，并将所有 Handler 添加到该类中。
 
@@ -60,7 +60,7 @@ public class MyHandlerChain extends AutoAuthHandlerChain {
         .addLast(KeyAutoAuthHandler2.class);
    }
 }
-//添加注解时使用 @isAuthor(handlerChain = MyHandlerChain.class)
+//添加注解时使用 @SimpleAuthor(handlerChain = MyHandlerChain.class)
 ```
 
 ### 用例2：基于角色的权限校验
@@ -68,15 +68,15 @@ public class MyHandlerChain extends AutoAuthHandlerChain {
 ```java
 @RestController
 //添加注解到类
-@IsAuthor(authentication = AddPermissionKeyHandler.class)
+@SimpleAuthor(authentication = AddPermissionKeyHandler.class)
 public class MyController {
-   @IsAuthor("visitor")
+   @SimpleAuthor("visitor")
    @GetMapping("say")
    public String say(){
        return "Hello World";
    }
    
-   @IsAuthor("vip")
+   @SimpleAuthor("vip")
    @GetMapping("eat")
    public String eat(){
        return "eat";
@@ -84,7 +84,7 @@ public class MyController {
 }
 public class AddPermissionKeyHandler extends AutoAuthHandler {
    @Override
-   public boolean isAuthor(HttpServletRequest request, String permission) {
+   public boolean SimpleAuthor(HttpServletRequest request, String permission) {
        ArrayList<String> permissions = new ArrayList<>();
        //或者查询数据库为当前请求添加角色key
        permissions.add("visitor");
@@ -94,7 +94,7 @@ public class AddPermissionKeyHandler extends AutoAuthHandler {
    }
 }
 ```
-当请求`/say`时，由于注释`@IsAutor` 被添加到 MyController类上，`AddPermisonKeyHandler` 中的 `IsAuthor` 方法将首先运行。在这个方法中，字符串`visitor`被添加到用户的权限中，因此它将会验证通过并正常访问。
+当请求`/say`时，由于注释`@IsAutor` 被添加到 MyController类上，`AddPermisonKeyHandler` 中的 `SimpleAuthor` 方法将首先运行。在这个方法中，字符串`visitor`被添加到用户的权限中，因此它将会验证通过并正常访问。
 当请求`/eat`时，由于权限列表中没有“vip”则会请求失败，抛出`PermissionsException`异常，可以通过全局异常处理完成权限校验
 
 ### 用例3：传递实例对象
@@ -108,7 +108,7 @@ public class User {
 //接口
 @RestController
 public class MyController {
-    @IsAuthor(handler = {MyFirstHandler.class, MySecondHandler.class})
+    @SimpleAuthor(handler = {MyFirstHandler.class, MySecondHandler.class})
     @GetMapping("/say")
     public String say(){
         return "Hello World";
@@ -118,7 +118,7 @@ public class MyController {
 //第一个Handler
 public class MyFirstHandler extends AutoAuthHandler {
     @Override
-    public boolean isAuthor(HttpServletRequest request, String permission) {
+    public boolean SimpleAuthor(HttpServletRequest request, String permission) {
         final String name = request.getParameter("name");
         final User user = new User(name);
         //传递实例对象
@@ -130,7 +130,7 @@ public class MyFirstHandler extends AutoAuthHandler {
 //第二个Handler
 public class MySecondHandler extends AutoAuthHandler {
     @Override
-    public boolean isAuthor(HttpServletRequest request, String permission) {
+    public boolean SimpleAuthor(HttpServletRequest request, String permission) {
         //获取实例对象,并验证name是否等于CodingCube
         final User user = getPrincipal();
         return "CodingCube".equals(user.getName());

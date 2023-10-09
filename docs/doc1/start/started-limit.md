@@ -13,7 +13,7 @@ date: 2023-09-10
 <dependency>
     <groupId>io.github.liuye744</groupId>
     <artifactId>simpleAuth-spring-boot-starter</artifactId>
-    <version>1.1.0.RELEASE</version>
+    <version>1.3.2.RELEASE</version>
 </dependency>
 ```
 
@@ -28,7 +28,7 @@ date: 2023-09-10
 public class MyController {
     @GetMapping("say")
     //10分钟内只允许访问5次，超过之后将会被禁止10分钟
-    @IsLimit(value = 5, seconds = 600, ban = 600)
+    @SimpleLimit(value = 5, seconds = 600, ban = 600)
     public String say(){
         return "Hello World";
     }
@@ -40,7 +40,7 @@ public class MyController {
 @RestController
 public class MyController {
     @GetMapping("say")
-    @IsLimit(effectiveStrategic = MyEffectiveStrategic.class)
+    @SimpleLimit(effectiveStrategic = MyEffectiveStrategic.class)
     public String say(String str){
         if (str.length()>3 && str.length()<12){
             return "success";
@@ -67,7 +67,7 @@ public class MyEffectiveStrategic extends EffectiveStrategic {
 @RestController
 public class MyController {
     @GetMapping("say")
-    @IsLimit(signStrategic = MySignStrategic.class)
+    @SimpleLimit(signStrategic = MySignStrategic.class)
     public String say(String str){
         return "Hello World";
     }
@@ -93,7 +93,7 @@ public class MySignStrategic extends SignStrategic {
 @RestController
 public class MyController {
     @GetMapping("say")
-    @IsLimit(signStrategic = DiffParameterSign.class)
+    @SimpleLimit(signStrategic = DiffParameterSign.class)
     public String say(String str){
         return "Hello World";
     }

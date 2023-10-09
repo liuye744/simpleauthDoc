@@ -7,7 +7,7 @@ date: 2023-09-10
 
 ## Annotation Parameters
 ```java
-public @interface IsAuthor {
+public @interface SimpleAuthor {
     // Interface permission name
     String value() default "";
     // Class of the authentication handler, default to scan if the value exists in permissions
@@ -27,7 +27,7 @@ public class MyAutoAuthHandler extends AutoAuthHandler {
      * @return Return true if it meets the condition (pass)
      */
     @Override
-    public boolean isAuthor(HttpServletRequest request, String permission){
+    public boolean SimpleAuthor(HttpServletRequest request, String permission){
         // Return true to pass if validation succeeds, otherwise return false
         return true;
     }

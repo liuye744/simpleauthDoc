@@ -42,7 +42,7 @@ public class MyAuthItemProvider implements RequestAuthItemProvider {
 @Component
 public class MyHandler extends AutoAuthHandler {
     @Override
-    public boolean isAuthor(HttpServletRequest request, String permission) {
+    public boolean SimpleAuthor(HttpServletRequest request, String permission) {
         // Check if the 'name' parameter is the same as the 'permission'. If they match, allow access.
         final String name = request.getParameter("name");
         return name.equals(permission);
@@ -62,7 +62,7 @@ public class MyHandlerChain extends AutoAuthHandlerChain {
 @Component
 public class MyHandler1 extends AutoAuthHandler {
     @Override
-    public boolean isAuthor(HttpServletRequest request, String permission) {
+    public boolean SimpleAuthor(HttpServletRequest request, String permission) {
         // Query the database to add user permissions. For demonstration purposes, we are manually adding "visitor."
         ArrayList<String> permissions = new ArrayList<>();
         permissions.add("visitor");
@@ -75,7 +75,7 @@ public class MyHandler1 extends AutoAuthHandler {
 @Component
 public class MyHandler2 extends AutoAuthHandler {
     @Override
-    public boolean isAuthor(HttpServletRequest request, String permission) {
+    public boolean SimpleAuthor(HttpServletRequest request, String permission) {
         final ArrayList<String> permissions = getPermissions();
         return !permissions.contains(permission);
     }

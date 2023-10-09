@@ -8,7 +8,7 @@ date: 2023-09-10
 
 ## 注解参数
 ```java
-public @interface IsAuthor {
+public @interface SimpleAuthor {
     //接口权限名
     String value() default "";
     //鉴权Handler的Class，默认扫描是否permissions中是否存在接口对应的value
@@ -29,7 +29,7 @@ public class MyAutoAuthHandler extends MyAutoAuthHandler {
      * @return 返回true则符合(放行)
      */
     @override
-    public boolean isAuthor(HttpServletRequest request, String permission){
+    public boolean SimpleAuthor(HttpServletRequest request, String permission){
         //验证通过返回true放行，失败则返回false
         return true;
     }
