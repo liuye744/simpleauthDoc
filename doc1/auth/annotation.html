@@ -107,6 +107,10 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
 <li class="not_active with_link"><a href="/simpleauthDoc/doc1/limit/dynamic.html"><span class="label">动态访问控制</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">日志与配置文件</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc1/logging/index.html"><span class="label">开启/自定义 日志</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/logging/properties.html"><span class="label">配置参数</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">配置文件</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/config/xml.html"><span class="label">XML配置</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/config/json.html"><span class="label">JSON配置</span><span class=""></span></a></li>
 </ul>
 
             </div>
@@ -156,7 +160,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                         
                             <h2 id="%E6%B3%A8%E8%A7%A3%E5%8F%82%E6%95%B0">注解参数</h2>
 
-<pre class="language-java"><code class="language-java">public @interface IsAuthor {
+<pre class="language-java"><code class="language-java">public @interface SimpleAuthor {
     //接口权限名
     String value() default &quot;&quot;;
     //鉴权Handler的Class，默认扫描是否permissions中是否存在接口对应的value
@@ -177,7 +181,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
      * @return 返回true则符合(放行)
      */
     @override
-    public boolean isAuthor(HttpServletRequest request, String permission){
+    public boolean SimpleAuthor(HttpServletRequest request, String permission){
         //验证通过返回true放行，失败则返回false
         return true;
     }

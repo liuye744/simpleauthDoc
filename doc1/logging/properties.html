@@ -44,7 +44,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
         
     
     
-    <title>日志 - SimpleAuth</title>
+    <title>常用配置参数 - SimpleAuth</title>
     
     <script type="text/javascript">js_vars = {}</script>
     <script type="text/javascript">metadata = {"tags": [], "date": "2023-09-10", "update": [], "ts": 1694304000, "author": "", "brief": "", "cover": ""}</script>
@@ -93,7 +93,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                 <div id="sidebar_title">
                     
                 </div>
-                <ul class="">
+                <ul class="show">
 <li class="not_active no_link sidebar_category"><span class="label">开始</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc1/index.html"><span class="label">简介</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc1/start/started.html"><span class="label">快速上手-权限校验</span><span class=""></span></a></li>
@@ -107,6 +107,10 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
 <li class="not_active with_link"><a href="/simpleauthDoc/doc1/limit/dynamic.html"><span class="label">动态访问控制</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">日志与配置文件</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc1/logging/index.html"><span class="label">开启/自定义 日志</span><span class=""></span></a></li>
+<li class="active with_link"><a href="/simpleauthDoc/doc1/logging/properties.html"><span class="label">配置参数</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">配置文件</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/config/xml.html"><span class="label">XML配置</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/config/json.html"><span class="label">JSON配置</span><span class=""></span></a></li>
 </ul>
 
             </div>
@@ -121,7 +125,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     <div id="article_head">
                         <div id="article_title">
                             
-                            <h1>日志</h1>
+                            <h1>常用配置参数</h1>
                             
                         </div>
                         <div id="article_tags">
@@ -154,13 +158,30 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     </div>
                     <div id="article_content">
                         
-                            <h2 id="%E5%BC%80%E5%90%AF%E9%89%B4%E6%9D%83%E6%A8%A1%E5%9D%97%E6%97%A5%E5%BF%97">开启鉴权模块日志</h2>
-<p>simple-auth.log.limit-log-impl=StdOut<br />
-simple-auth.log.log-impl=StdOut<br />
-simple-auth.log.show-opt-list=true<br />
-simple-auth.func.dynamic-auth=true<br />
-simple-auth.func.dynamic-limit=true<br />
-simple-auth.func.handler-cache=true</p>
+                            <h2 id="%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0">常用配置参数</h2>
+
+<pre class="language-properties"><code class="language-properties"># 限流日志，默认为NoLogging，即不打印日志。
+# StdOut：输出到控制台；jdk：java自带的日志系统
+simple-auth.log.limit-log-impl=StdOut
+
+# 权限校验日志，默认为NoLogging
+simple-auth.log.log-impl=StdOut
+
+# 权限校验日志中是否输出用户操作列表，默认为false
+simple-auth.log.show-opt-list=true
+
+# 是否开启动态权限校验，默认为false
+simple-auth.func.dynamic-auth=true
+
+# 是否开启动态限流控制，默认为false
+simple-auth.func.dynamic-limit=true
+
+# handler 是否缓存。默认为true
+simple-auth.func.handler-cache=true
+
+# 默认限流算法。默认为CompleteLimit,即所有操作全部准确记录
+simple-auth.func.limit-plan=tokenBucket
+</code></pre>
 
                         
                     </div>
@@ -168,8 +189,18 @@ simple-auth.func.handler-cache=true</p>
                 <div id="previous_next">
                     <div id="previous">
                         
+                        <a href="/simpleauthDoc/doc1/logging/index.html">
+                            <span class="icon"></span>
+                            <span class="label">开启/自定义 日志</span>
+                        </a>
+                        
                     </div>
                     <div id="next">
+                        
+                        <a href="/simpleauthDoc/doc1/config/xml.html">
+                            <span class="label">XML配置</span>
+                            <span class="icon"></span>
+                        </a>
                         
                     </div>
                 </div>

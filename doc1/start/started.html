@@ -107,6 +107,10 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
 <li class="not_active with_link"><a href="/simpleauthDoc/doc1/limit/dynamic.html"><span class="label">动态访问控制</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">日志与配置文件</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc1/logging/index.html"><span class="label">开启/自定义 日志</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/logging/properties.html"><span class="label">配置参数</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">配置文件</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/config/xml.html"><span class="label">XML配置</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/config/json.html"><span class="label">JSON配置</span><span class=""></span></a></li>
 </ul>
 
             </div>
@@ -160,16 +164,16 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
 <pre class="language-xml"><code class="language-xml">&lt;dependency&gt;
     &lt;groupId&gt;io.github.liuye744&lt;/groupId&gt;
     &lt;artifactId&gt;simpleAuth-spring-boot-starter&lt;/artifactId&gt;
-    &lt;version&gt;1.1.0.RELEASE&lt;/version&gt;
+    &lt;version&gt;1.3.2.RELEASE&lt;/version&gt;
 &lt;/dependency&gt;
 </code></pre>
 <h2 id="%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E6%B7%BB%E5%8A%A0%E6%B3%A8%E8%A7%A3">第二步：添加注解</h2>
 <h3 id="%E7%94%A8%E4%BE%8B1%EF%BC%9A%E9%80%9A%E8%BF%87request%E9%AA%8C%E8%AF%81%E5%8F%82%E6%95%B0">用例1：通过request验证参数</h3>
-<p>创建一个类继承AutoAuthHandler，并重写IsAuthor方法</p>
+<p>创建一个类继承AutoAuthHandler，并重写SimpleAuthor方法</p>
 
 <pre class="language-java"><code class="language-java">public class KeyAutoAuthHandler extends AutoAuthHandler {
    @Override
-   public boolean isAuthor(HttpServletRequest request, String permission) {
+   public boolean SimpleAuthor(HttpServletRequest request, String permission) {
         //验证请求参数中是否携带key为114514的参数. 
         //当然也可以进行更复杂的操作
        final String key = request.getParameter(&quot;key&quot;);
@@ -181,16 +185,16 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
    }
 }
 </code></pre>
-<p>然后将<code>@IsAuthor</code>注释添加到 Controller 或其中的方法。</p>
+<p>然后将<code>@SimpleAuthor</code>注释添加到 Controller 或其中的方法。</p>
 
 <pre class="language-java"><code class="language-java">@Controller
-@IsAuthor(handler = KeyAutoAuthHandler.class)
+@SimpleAuthor(handler = KeyAutoAuthHandler.class)
 public class MyController {
 }
 </code></pre>
 <p>注: 如果你有多个<code>AutoAuthHandler</code>，你可以像这样写注释:</p>
 
-<pre class="language-java"><code class="language-java">@IsAuth (handler = { KeyAutoAuthHandler1.class，KeyAutoAuthHandler2.class })
+<pre class="language-java"><code class="language-java">@SimpleAuth (handler = { KeyAutoAuthHandler1.class，KeyAutoAuthHandler2.class })
 </code></pre>
 <p>handler参数也可以写 Handler 的Bean 名称。这些类将按顺序执行权限检查。或者创建 继承<code>AutoAuthHandlerChain</code> 的类，并将所有 Handler 添加到该类中。</p>
 
@@ -201,21 +205,21 @@ public class MyController {
         .addLast(KeyAutoAuthHandler2.class);
    }
 }
-//添加注解时使用 @isAuthor(handlerChain = MyHandlerChain.class)
+//添加注解时使用 @SimpleAuthor(handlerChain = MyHandlerChain.class)
 </code></pre>
 <h3 id="%E7%94%A8%E4%BE%8B2%EF%BC%9A%E5%9F%BA%E4%BA%8E%E8%A7%92%E8%89%B2%E7%9A%84%E6%9D%83%E9%99%90%E6%A0%A1%E9%AA%8C">用例2：基于角色的权限校验</h3>
 
 <pre class="language-java"><code class="language-java">@RestController
 //添加注解到类
-@IsAuthor(authentication = AddPermissionKeyHandler.class)
+@SimpleAuthor(authentication = AddPermissionKeyHandler.class)
 public class MyController {
-   @IsAuthor(&quot;visitor&quot;)
+   @SimpleAuthor(&quot;visitor&quot;)
    @GetMapping(&quot;say&quot;)
    public String say(){
        return &quot;Hello World&quot;;
    }
 
-   @IsAuthor(&quot;vip&quot;)
+   @SimpleAuthor(&quot;vip&quot;)
    @GetMapping(&quot;eat&quot;)
    public String eat(){
        return &quot;eat&quot;;
@@ -223,7 +227,7 @@ public class MyController {
 }
 public class AddPermissionKeyHandler extends AutoAuthHandler {
    @Override
-   public boolean isAuthor(HttpServletRequest request, String permission) {
+   public boolean SimpleAuthor(HttpServletRequest request, String permission) {
        ArrayList&lt;String&gt; permissions = new ArrayList&lt;&gt;();
        //或者查询数据库为当前请求添加角色key
        permissions.add(&quot;visitor&quot;);
@@ -233,7 +237,7 @@ public class AddPermissionKeyHandler extends AutoAuthHandler {
    }
 }
 </code></pre>
-<p>当请求<code>/say</code>时，由于注释<code>@IsAutor</code> 被添加到 MyController类上，<code>AddPermisonKeyHandler</code> 中的 <code>IsAuthor</code> 方法将首先运行。在这个方法中，字符串<code>visitor</code>被添加到用户的权限中，因此它将会验证通过并正常访问。<br />
+<p>当请求<code>/say</code>时，由于注释<code>@IsAutor</code> 被添加到 MyController类上，<code>AddPermisonKeyHandler</code> 中的 <code>SimpleAuthor</code> 方法将首先运行。在这个方法中，字符串<code>visitor</code>被添加到用户的权限中，因此它将会验证通过并正常访问。<br />
 当请求<code>/eat</code>时，由于权限列表中没有“vip”则会请求失败，抛出<code>PermissionsException</code>异常，可以通过全局异常处理完成权限校验</p>
 <h3 id="%E7%94%A8%E4%BE%8B3%EF%BC%9A%E4%BC%A0%E9%80%92%E5%AE%9E%E4%BE%8B%E5%AF%B9%E8%B1%A1">用例3：传递实例对象</h3>
 
@@ -246,7 +250,7 @@ public class User {
 //接口
 @RestController
 public class MyController {
-    @IsAuthor(handler = {MyFirstHandler.class, MySecondHandler.class})
+    @SimpleAuthor(handler = {MyFirstHandler.class, MySecondHandler.class})
     @GetMapping(&quot;/say&quot;)
     public String say(){
         return &quot;Hello World&quot;;
@@ -256,7 +260,7 @@ public class MyController {
 //第一个Handler
 public class MyFirstHandler extends AutoAuthHandler {
     @Override
-    public boolean isAuthor(HttpServletRequest request, String permission) {
+    public boolean SimpleAuthor(HttpServletRequest request, String permission) {
         final String name = request.getParameter(&quot;name&quot;);
         final User user = new User(name);
         //传递实例对象
@@ -268,7 +272,7 @@ public class MyFirstHandler extends AutoAuthHandler {
 //第二个Handler
 public class MySecondHandler extends AutoAuthHandler {
     @Override
-    public boolean isAuthor(HttpServletRequest request, String permission) {
+    public boolean SimpleAuthor(HttpServletRequest request, String permission) {
         //获取实例对象,并验证name是否等于CodingCube
         final User user = getPrincipal();
         return &quot;CodingCube&quot;.equals(user.getName());

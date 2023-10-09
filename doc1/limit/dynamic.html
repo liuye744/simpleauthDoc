@@ -107,6 +107,10 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
 <li class="active with_link"><a href="/simpleauthDoc/doc1/limit/dynamic.html"><span class="label">动态访问控制</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">日志与配置文件</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc1/logging/index.html"><span class="label">开启/自定义 日志</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/logging/properties.html"><span class="label">配置参数</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">配置文件</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/config/xml.html"><span class="label">XML配置</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/config/json.html"><span class="label">JSON配置</span><span class=""></span></a></li>
 </ul>
 
             </div>
@@ -184,9 +188,10 @@ public class MyLimitItemProvider implements RequestLimitItemProvider {
 <code>Integer times</code>：最大请求次数<br />
 <code>Integer seconds</code>：记录时间<br />
 <code>Integer ban</code>：禁止时间<br />
-<code>Class&lt;? extends SignStrategic&gt; itemStrategic</code>：Item的生成策略<br />
-<code>Class&lt;? extends SignStrategic&gt; signStrategic</code>：用户标识的生成策略<br />
-<code>Class&lt;? extends EffectiveStrategic&gt; effectiveStrategic</code>：判断请求是否被记录的策略</p>
+<code>Class&lt;? extends SignStrategic&gt; itemStrategic</code>：Item的生成策略，默认为uri<br />
+<code>Class&lt;? extends SignStrategic&gt; signStrategic</code>：用户标识的生成策略，默认为用户IP<br />
+<code>Class&lt;? extends EffectiveStrategic&gt; effectiveStrategic</code>：判断请求是否被记录的策略，默认为true<br />
+<code>Class&lt;? extends TokenLimit&gt; tokenLimit</code>：限流算法，默认为CompleteLimit，即所有的请求都准确记录</p>
 
                         
                     </div>

@@ -107,6 +107,10 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
 <li class="not_active with_link"><a href="/simpleauthDoc/doc1/limit/dynamic.html"><span class="label">动态访问控制</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">日志与配置文件</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc1/logging/index.html"><span class="label">开启/自定义 日志</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/logging/properties.html"><span class="label">配置参数</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">配置文件</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/config/xml.html"><span class="label">XML配置</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/config/json.html"><span class="label">JSON配置</span><span class=""></span></a></li>
 </ul>
 
             </div>
@@ -156,7 +160,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                         
                             <h2 id="%E6%B3%A8%E8%A7%A3%E5%8F%82%E6%95%B0">注解参数</h2>
 
-<pre class="language-java"><code class="language-java">public @interface IsLimit {
+<pre class="language-java"><code class="language-java">public @interface SimpleLimit {
     //最大请求次数
     int value() default 100;
     //记录请求的时间
@@ -171,6 +175,8 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
     Class&lt;? extends EffectiveStrategic&gt; effectiveStrategic() default DefaultEffectiveStrategic.class;
     //是否在请求返回后判断请求是否被记录
     boolean judgeAfterReturn() default true;
+    //限流的算法
+    Class&lt;? extends TokenLimit&gt; tokenLimit() default CompleteLimit.class;
 }
 </code></pre>
 <h2 id="%E7%94%A8%E6%88%B7%E6%A0%87%E8%AF%86%E7%94%9F%E6%88%90%E7%AD%96%E7%95%A5">用户标识生成策略</h2>
@@ -199,6 +205,65 @@ public class MyEffectiveStrategic extends EffectiveStrategic {
 <h2 id="ban%E8%AF%A6%E8%A7%A3">ban详解</h2>
 <p>当ban等于0时，将会记录规定时间内的所有操作，下次操作发生时删除逾期记录。<br />
 当ban不为0时，请求超过最大次数后将会被记录到禁止列表，禁止时间满足取消禁止之后将删除所有请求的记录。</p>
+<h2 id="%E8%87%AA%E5%AE%9A%E4%B9%89tokenLimit%E7%AE%97%E6%B3%95">自定义tokenLimit算法</h2>
+<p>默认的算法是将所有的操作都精确的记录，类为<code>CompleteLimit</code>,当然也可以使用令牌桶算法<code>TokenBucket</code>。<br />
+指定全局的默认限流算法可以添加配置<code>simple-auth.func.limit-plan=tokenbucket</code><br />
+或者自己实现<code>TokenLimit</code>接口</p>
+
+<pre class="language-java"><code class="language-java">public interface TokenLimit {
+    /**
+     * 尝试获取，返回是否可以成功操作
+     */
+    boolean tryAcquire();
+
+    /**
+     * 初始化*
+     * @param limit 限流的次数
+     * @param seconds 限制的单位时间
+     */
+    void init(Integer limit, Integer seconds);
+
+    /**
+     * init *
+     * @param capacity 限流的容量(限流的次数)
+     * @param fillRate 添加的速率
+     */
+    void init(int capacity, double fillRate);
+
+    /**
+     * 移除最后一次操作记录
+     */
+    void removeFirst();
+
+    /**
+     * 还可以请求的数量
+     */
+    int size();
+
+    /**
+     * 已记录的已请求的数量
+     */
+    int optSize();
+
+    /**
+     * 最大的请求数量
+     */
+    int maxOptSize();
+
+    /**
+     * 更新同步信息
+     */
+    void sync();
+
+    /**
+     * 获取同步锁
+     */
+    Object getSyncMutex();
+}
+</code></pre>
+<p>实现之后可以通过配置全局指定<br />
+<code>simple-auth.func.limit-plan={类的全限定名}</code><br />
+或通过注解添加到具体的Controller</p>
 
                         
                     </div>
