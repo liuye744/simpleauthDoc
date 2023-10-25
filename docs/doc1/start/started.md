@@ -11,7 +11,7 @@ date: 2023-09-10
 <dependency>
     <groupId>io.github.liuye744</groupId>
     <artifactId>simpleAuth-spring-boot-starter</artifactId>
-    <version>1.3.2.RELEASE</version>
+    <version>1.3.3.RELEASE</version>
 </dependency>
 ```
 
