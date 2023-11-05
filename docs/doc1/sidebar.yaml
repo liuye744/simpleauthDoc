@@ -6,6 +6,8 @@ items:
     file: start/started.md
 -   label: 快速上手-访问控制
     file: start/started-limit.md
+-   label: 快速上手-参数校验
+    file: start/started-validate.md
 
 -   label: 权限校验模块
 -   label: 注解
@@ -20,6 +22,7 @@ items:
     file: limit/annotation.md
 -   label: 动态访问控制
     file: limit/dynamic.md
+
 
 -   label: 日志与配置文件
 -   label: 开启/自定义 日志
