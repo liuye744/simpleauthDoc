@@ -44,7 +44,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
         
     
     
-    <title>Auth - SimpleAuth</title>
+    <title>快速上手-权限校验 - SimpleAuth</title>
     
     <script type="text/javascript">js_vars = {}</script>
     <script type="text/javascript">metadata = {"tags": [], "date": "2023-09-10", "update": [], "ts": 1694304000, "author": "", "brief": "", "cover": ""}</script>
@@ -126,7 +126,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     <div id="article_head">
                         <div id="article_title">
                             
-                            <h1>Auth</h1>
+                            <h1>快速上手-权限校验</h1>
                             
                         </div>
                         <div id="article_tags">
@@ -159,37 +159,21 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     </div>
                     <div id="article_content">
                         
-                            <h2 id="Add-article--auth">Add article -auth</h2>
-<ul>
-<li>Create markdown file with file name end with <code>.md</code> in the directory of this file, e.g. <code>first.md</code></li>
-<li>Add link in <code>sidebar.yaml</code></li>
-</ul>
+                            <p>本节中将会介绍如何通过注解进行权限校验</p>
+<h2 id="%E6%B3%A8%E8%A7%A3">注解</h2>
 
-<pre class="language-markdown"><code class="language-markdown">items:
--   label: Brief
-    file: README.md
--   label: First
-    file: first.md
+<pre class="language-java"><code class="language-java">@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE, ElementType.METHOD})
+public @interface SimpleValidate {
+    //用于校验的类，类中用于校验的方法返回值必须为Boolean
+    Class&lt;?&gt; value() default Object.class;
+    //用于校验的方法名
+    String[] methods() default {&quot;validate&quot;};
+    //验证失败后的拒绝策略，默认策略抛出ValidateException
+    Class&lt;? extends ValidateRejectedStratagem&gt; rejected() default DefaultValidateRejectedStratagem.class;
+}
 </code></pre>
-<h2 id="More-example">More example</h2>
-<p>More visit: <a href="https://teedoc.neucrack.com/"  target="_blank">teedoc.neucrack.com</a> or <a href="https://teedoc.github.io/"  target="_blank">teedoc.github.io</a></p>
-<p>And more example see: <a href="https://github.com/teedoc/teedoc.github.io"  target="_blank">github.com/teedoc/teedoc.github.io</a> and <a href="https://github.com/teedoc/template"  target="_blank">https://github.com/teedoc/template</a> , and <a href="https://github.com/sipeed/sipeed_wiki"  target="_blank">sipeed wiki</a></p>
-<hr />
-<h2 id="%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0">添加文章</h2>
-<ul>
-<li>在本文件所在目录创建 markdown 以  <code>.md</code> 结尾的文件，比如 <code>first.md</code></li>
-<li>在 <code>sidebar.yaml</code> 中添加侧边栏链接</li>
-</ul>
-
-<pre class="language-markdown"><code class="language-markdown">items:
--   label: Brief
-    file: README.md
--   label: First
-    file: first.md
-</code></pre>
-<h2 id="%E6%9B%B4%E5%A4%9A%E4%BE%8B%E5%AD%90">更多例子</h2>
-<p>更多请访问: <a href="https://teedoc.neucrack.com/"  target="_blank">teedoc.neucrack.com</a> 或者 <a href="https://teedoc.github.io/"  target="_blank">teedoc.github.io</a></p>
-<p>更多例子访问: <a href="https://github.com/teedoc/teedoc.github.io"  target="_blank">github.com/teedoc/teedoc.github.io</a> 或者 <a href="https://github.com/teedoc/template"  target="_blank">https://github.com/teedoc/template</a> , 或 <a href="https://github.com/sipeed/sipeed_wiki"  target="_blank">sipeed wiki</a></p>
+<h2 id="%E6%B3%A8%E8%A7%A3%E7%94%A8%E6%B3%95">注解用法</h2>
 
                         
                     </div>

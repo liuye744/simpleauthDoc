@@ -44,7 +44,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
         
     
     
-    <title>Auth - SimpleAuth</title>
+    <title>快速上手-访问控制 - SimpleAuth</title>
     
     <script type="text/javascript">js_vars = {}</script>
     <script type="text/javascript">metadata = {"tags": [], "date": "2023-09-10", "update": [], "ts": 1694304000, "author": "", "brief": "", "cover": ""}</script>
@@ -93,12 +93,12 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                 <div id="sidebar_title">
                     
                 </div>
-                <ul class="">
+                <ul class="show">
 <li class="not_active no_link sidebar_category"><span class="label">开始</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc1/index.html"><span class="label">简介</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc1/start/started.html"><span class="label">快速上手-权限校验</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc1/start/started-limit.html"><span class="label">快速上手-访问控制</span><span class=""></span></a></li>
-<li class="not_active with_link"><a href="/simpleauthDoc/doc1/start/started-validate.html"><span class="label">快速上手-参数校验</span><span class=""></span></a></li>
+<li class="active with_link"><a href="/simpleauthDoc/doc1/start/started-validate.html"><span class="label">快速上手-参数校验</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">权限校验模块</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc1/auth/annotation.html"><span class="label">注解</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc1/auth/interseptor.html"><span class="label">SimpleAuth拦截器</span><span class=""></span></a></li>
@@ -126,7 +126,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     <div id="article_head">
                         <div id="article_title">
                             
-                            <h1>Auth</h1>
+                            <h1>快速上手-访问控制</h1>
                             
                         </div>
                         <div id="article_tags">
@@ -159,37 +159,149 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     </div>
                     <div id="article_content">
                         
-                            <h2 id="Add-article--auth">Add article -auth</h2>
-<ul>
-<li>Create markdown file with file name end with <code>.md</code> in the directory of this file, e.g. <code>first.md</code></li>
-<li>Add link in <code>sidebar.yaml</code></li>
-</ul>
+                            <p>本节中将会介绍如何通过注解校验参数</p>
+<h2 id="%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E6%B7%BB%E5%8A%A0Maven%E4%BE%9D%E8%B5%96">第一步：添加Maven依赖</h2>
 
-<pre class="language-markdown"><code class="language-markdown">items:
--   label: Brief
-    file: README.md
--   label: First
-    file: first.md
+<pre class="language-xml"><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;io.github.liuye744&lt;/groupId&gt;
+    &lt;artifactId&gt;simpleAuth-spring-boot-starter&lt;/artifactId&gt;
+    &lt;version&gt;1.4.0.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
 </code></pre>
-<h2 id="More-example">More example</h2>
-<p>More visit: <a href="https://teedoc.neucrack.com/"  target="_blank">teedoc.neucrack.com</a> or <a href="https://teedoc.github.io/"  target="_blank">teedoc.github.io</a></p>
-<p>And more example see: <a href="https://github.com/teedoc/teedoc.github.io"  target="_blank">github.com/teedoc/teedoc.github.io</a> and <a href="https://github.com/teedoc/template"  target="_blank">https://github.com/teedoc/template</a> , and <a href="https://github.com/sipeed/sipeed_wiki"  target="_blank">sipeed wiki</a></p>
-<hr />
-<h2 id="%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0">添加文章</h2>
-<ul>
-<li>在本文件所在目录创建 markdown 以  <code>.md</code> 结尾的文件，比如 <code>first.md</code></li>
-<li>在 <code>sidebar.yaml</code> 中添加侧边栏链接</li>
-</ul>
+<h2 id="%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E4%B8%BAController%E6%B7%BB%E5%8A%A0%E6%B3%A8%E8%A7%A3">第二步：为Controller添加注解</h2>
+<p>为Controller中单个方法添加。访问超过限制则会抛出<code>ValidateException</code></p>
+<h3 id="%E7%94%A8%E4%BE%8B1%EF%BC%9A%E7%AE%80%E5%8D%95%E9%AA%8C%E8%AF%81%E7%94%A8%E6%88%B7%E6%98%B5%E7%A7%B0%E4%B8%8E%E5%B9%B4%E9%BE%84">用例1：简单验证用户昵称与年龄</h3>
+<p>要求验证年龄(age)在1-99，昵称(name)的长度为5-16</p>
 
-<pre class="language-markdown"><code class="language-markdown">items:
--   label: Brief
-    file: README.md
--   label: First
-    file: first.md
+<pre class="language-java"><code class="language-java">//用到的实例对象
+public class User {
+    String name;
+    Integer age;
+    String phone;
+    //省略getter setter等
+}
+
+//Controller对象，其中methods为MyValidateObj中的方法名
+@RestController
+public class MyController {
+    @GetMapping(&quot;/say&quot;)
+    @SimpleValidate(value = MyValidateObj.class, methods = {&quot;fillUser&quot;})
+    public String say(User user){
+        System.out.println(&quot;Controller &quot;+user);
+        return user.getName();
+    }
+}
+//验证类(返回值为Boolean，有且只有一个需要校验的对象作为参数); 
+public class MyValidateObj {
+    public Boolean fillUser(User user){
+        final Integer age = user.getAge();
+        if (age &lt;= 1 || age &gt;= 99){
+            return false;
+        }
+        final int nameLength = user.getName().length();
+        if (nameLength &lt;= 5 || nameLength &gt;= 16){
+            return false;
+        }
+        return true;
+    }
+}
 </code></pre>
-<h2 id="%E6%9B%B4%E5%A4%9A%E4%BE%8B%E5%AD%90">更多例子</h2>
-<p>更多请访问: <a href="https://teedoc.neucrack.com/"  target="_blank">teedoc.neucrack.com</a> 或者 <a href="https://teedoc.github.io/"  target="_blank">teedoc.github.io</a></p>
-<p>更多例子访问: <a href="https://github.com/teedoc/teedoc.github.io"  target="_blank">github.com/teedoc/teedoc.github.io</a> 或者 <a href="https://github.com/teedoc/template"  target="_blank">https://github.com/teedoc/template</a> , 或 <a href="https://github.com/sipeed/sipeed_wiki"  target="_blank">sipeed wiki</a></p>
+<h3 id="%E7%94%A8%E4%BE%8B2%EF%BC%9A%E5%90%8C%E4%B8%80%E4%B8%AAController%E4%B8%AD%E5%A4%9A%E4%B8%AA%E5%87%BD%E6%95%B0%E8%BF%9B%E8%A1%8C%E7%9B%B8%E5%90%8C%E7%9A%84%E6%A0%A1%E9%AA%8C">用例2：同一个Controller中多个函数进行相同的校验</h3>
+<p><code>/say</code>需要验证name和age字段<br />
+<code>/eat</code>仅需要验证phone字段是否为合法手机号</p>
+
+<pre class="language-java"><code class="language-java">@RestController
+@SimpleValidate(value = MyValidateObj.class)
+public class MyController {
+
+    @GetMapping(&quot;/say&quot;)
+    @SimpleValidate(methods = {&quot;fillUser&quot;})
+    public String say(User user){
+        System.out.println(&quot;say&quot;);
+        return user.getName();
+    }
+
+    @GetMapping(&quot;/eat&quot;)
+    @SimpleValidate(methods = {&quot;partUser&quot;})
+    public String eat(User user){
+        System.out.println(&quot;eat&quot;);
+        return user.getName();
+    }
+}
+//验证类
+public class MyValidateObj {
+    public Boolean fillUser(User user){
+        final Integer age = user.getAge();
+        if (age &lt;= 1 || age &gt;=99){
+            return false;
+        }
+        final int nameLength = user.getName().length();
+        if (nameLength &lt;= 5 || nameLength &gt;= 16){
+            return false;
+        }
+        return true;
+    }
+
+    public Boolean partUser(User user){
+        final String phone = user.getPhone();
+        //判断是否为空，为空则验证失败返回false
+        if (phone == null){
+            return false;
+        }
+        //正则校验手机号码是否合法
+        Pattern pattern = Pattern.compile(&quot;^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\\d{8}$&quot;);
+        return pattern.matcher(phone).matches();
+    }
+}
+</code></pre>
+<h3 id="%E7%94%A8%E4%BE%8B3%EF%BC%9A%E8%BF%90%E7%94%A8%E5%B7%A5%E5%85%B7%E7%B1%BB%E7%AE%80%E5%8C%96%E6%A0%A1%E9%AA%8C%E8%BF%87%E7%A8%8B">用例3：运用工具类简化校验过程</h3>
+<p>此部分实现的功能与用例2相同</p>
+
+<pre class="language-java"><code class="language-java">public class MyValidateObj {
+    public Boolean fillUser(User user){
+        //notFalse函数中传入多个boolean值，只要存在false则返回false
+        //lengthRange函数是验证字符串长度，是否在5-16之间(包含5和16)
+        //range函数验证该数字是否在1-99之间(包含1和99)
+        return SVU.notFalse(
+            SVU.lengthRange( user.getName(), 5, 16),
+            SVU.range( user.getAge(), 1, 99)
+        );
+    }
+
+    public Boolean partUser(User user){
+        //正则校验phone符合正则表达式
+        //Regex类提供了大量的常用正则表达式字符串常量
+        return SVU.pattern(user.getPhone(), Regex.CHINESE_MOBIL_PHONE_NUMBER);
+    }
+}
+</code></pre>
+<h3 id="%E7%94%A8%E4%BE%8B4%EF%BC%9A%E6%A0%A1%E9%AA%8C%E5%A4%B1%E8%B4%A5%E6%97%B6%E6%8A%9B%E5%87%BA%E4%B8%8D%E5%90%8C%E7%9A%84%E5%BC%82%E5%B8%B8">用例4：校验失败时抛出不同的异常</h3>
+<p>此部分实现的功能与上一例相同</p>
+
+<pre class="language-java"><code class="language-java">//校验失败之后会抛出ValidateException,输入的提示信息会携带在异常对象的message中
+public class MyValidateObj {
+    public Boolean fillUser(User user){
+        return SVU.notFalse(
+            SVU.lengthRange(&quot;昵称长度需要在5-16之间&quot;, user.getName(), 5, 16),
+            SVU.range(&quot;年龄需要在1-99之间&quot;, user.getAge(), 1, 99)
+        );
+    }
+
+    public Boolean partUser(User user){
+        return SVU.pattern(&quot;手机号格式不合法&quot;, user.getPhone(), Regex.CHINESE_MOBIL_PHONE_NUMBER);
+    }
+}
+//建议在Advice中捕获ValidateException并处理
+@ControllerAdvice
+public class MyExceptionHandler {
+    @ExceptionHandler(value = ValidateException.class)
+    @ResponseBody
+    public String exceptionHandler(ValidateException e){
+        return e.getMessage();
+    }
+}
+</code></pre>
+<p>如上的代码当访问<code>http://localhost:8080/say?name=CodingCube</code>时会返回<code>年龄需要在1-99之间</code></p>
 
                         
                     </div>
@@ -197,8 +309,18 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                 <div id="previous_next">
                     <div id="previous">
                         
+                        <a href="/simpleauthDoc/doc1/start/started-limit.html">
+                            <span class="icon"></span>
+                            <span class="label">快速上手-访问控制</span>
+                        </a>
+                        
                     </div>
                     <div id="next">
+                        
+                        <a href="/simpleauthDoc/doc1/auth/annotation.html">
+                            <span class="label">注解</span>
+                            <span class="icon"></span>
+                        </a>
                         
                     </div>
                 </div>
