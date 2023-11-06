@@ -38,12 +38,12 @@ public class MyAutoAuthHandler extends MyAutoAuthHandler {
 若没有使用@Component，首次调用Handler则通过无参构造函数创建新实例后缓存，之后的调用则会查询缓存中对应的Handler对象，可以使用`simple-auth.func.handler-cache=true`配置关闭缓存。
 ```
 ## HandlerChain
-需要继承AutoAuthHandlerChain，在`addChain`方法中添加Handler将多个Handler组合在一起方便模块化调用。同样的也可以选择注册为Bean
+需要继承AutoAuthHandlerChain，在`addChain`函数中添加Handler将多个Handler组合在一起方便模块化调用。同样的也可以选择注册为Bean
 ```java
 public abstract class AutoAuthHandlerChain {
     public abstract void addChain();
 }
 ```
-常用的方法
+常用的函数
 `addLast(Class<? extends AutoAuthHandler> autoAuthHandler)`:添加Handler到尾部，参数也可以为Handler的Bean名称。
 `addFirst(Class<? extends AutoAuthHandler> auto)`:添加Handler到头部

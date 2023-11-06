@@ -19,7 +19,7 @@ date: 2023-09-10
 
 ## 第二步：为Controller添加注解
 
-为Controller中单个方法添加。访问超过限制则会抛出`ValidateException`
+为Controller中单个函数添加。访问超过限制则会抛出`ValidateException`
 
 ### 用例1：简单验证用户昵称与年龄
 要求验证年龄(age)在1-99，昵称(name)的长度为5-16
@@ -32,7 +32,7 @@ public class User {
     //省略getter setter等
 }
 
-//Controller对象，其中methods为MyValidateObj中的方法名
+//Controller对象，其中methods为MyValidateObj中的函数名
 @RestController
 public class MyController {
     @GetMapping("/say")

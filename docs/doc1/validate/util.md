@@ -6,7 +6,7 @@ date: 2023-09-10
 ---
 本节中将会介绍如何使用工具类简化参数的校验
 
-## 常用校验方法
+## 常用校验函数
 工具类的类名为SVU(SimpleValidateUtils)
 ```java
 //传入多个参数，若存在null值则返回false
@@ -52,10 +52,10 @@ public class MyExceptionHandler {
     }
 }
 ```
-## 使用延迟方法提高效率
+## 使用延迟函数提高效率
 ### 因由
 上述使用`notFalse`函数时会先计算每一个判断条件的真伪，后传入notFalse。
-当校验失败且没有抛出异常时若前一个已经判断为False将不会终止，如此会造成效率的降低，建议使用SVU中的Delay方法延迟条件的判断。
+当校验失败且没有抛出异常时若前一个已经判断为False将不会终止，如此会造成效率的降低，建议使用SVU中的Delay函数延迟条件的判断。
 ### 使用
 SVU中有一个重载的`notFalse`函数
 `public static boolean notFalse(BooleanCompute ...booleanComputes);`

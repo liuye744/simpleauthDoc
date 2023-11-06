@@ -11,9 +11,9 @@ date: 2023-09-10
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
 public @interface SimpleValidate {
-    //用于校验的类，类中用于校验的方法返回值必须为Boolean
+    //用于校验的类，类中用于校验的函数返回值必须为Boolean
     Class<?> value() default Object.class;
-    //用于校验的方法名
+    //用于校验的函数名
     String[] methods() default {"validate"};
     //验证失败后的拒绝策略，默认策略抛出ValidateException
     Class<? extends ValidateRejectedStratagem> rejected() default DefaultValidateRejectedStratagem.class;
@@ -47,7 +47,7 @@ public class MyController {
     }
 }
 ```
-若多个方法需要用到同一个校验类可将校验类写在类注解中。当类的注解上指定了验证类
+若多个函数需要用到同一个校验类可将校验类写在类注解中。当类的注解上指定了验证类
 ```java
 @RestController
 @SimpleValidate(value = MyValidateObj.class)
@@ -77,6 +77,6 @@ public class MyRejected implements ValidateRejectedStratagem {
     }
 }
 ```
-当验证类返回`false`时运行doRejected方法，
+当验证类返回`false`时运行doRejected函数，
 `validationObj`为验证的对象，如当验证User对象验证失败返回false后，doRejected中的validationObj为刚刚验证的User。
 

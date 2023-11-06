@@ -50,7 +50,7 @@ public class MyEffectiveStrategic extends EffectiveStrategic {
     }
 }
 ```
-当`judgeAfterReturn`参数为true时，将会在接口调用之后运行此方法，可以根据result判断此次请求是否被记录。
+当`judgeAfterReturn`参数为true时，将会在接口调用之后运行此函数，可以根据result判断此次请求是否被记录。
 若`judgeAfterReturn`为false，将在接口调用之前运行，此时`result`为null。
 
 ## ban详解

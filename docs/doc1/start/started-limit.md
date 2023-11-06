@@ -19,7 +19,7 @@ date: 2023-09-10
 
 ## 第二步：为Controller添加注解
 
-可以为整个Controller添加，也可以为Controller中单个方法添加。访问超过限制则会抛出`AccessIsRestrictedException`
+可以为整个Controller添加，也可以为Controller中单个函数添加。访问超过限制则会抛出`AccessIsRestrictedException`
 
 ### 用例1：规定时间内限制访问次数
 
@@ -109,7 +109,7 @@ public class MyInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         final String addr = request.getRemoteAddr();
         //以用户的地址作为标志，每5分钟(300s)只允许访问2次，超过之后被禁止10分钟
-        //addRecord方法调用后可以访问则返回true,禁止访问返回false
+        //addRecord函数调用后可以访问则返回true,禁止访问返回false
         return LimitInfoUtil.addRecord("GLOBAL_ACCESS_CONTROL", addr, 2, 300, 600);
     }
 }

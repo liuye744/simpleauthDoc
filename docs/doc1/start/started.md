@@ -19,7 +19,7 @@ date: 2023-09-10
 
 ### 用例1：通过request验证参数
 
-创建一个类继承AutoAuthHandler，并重写SimpleAuthor方法
+创建一个类继承AutoAuthHandler，并重写SimpleAuthor函数
 
 ```java
 public class KeyAutoAuthHandler extends AutoAuthHandler {
@@ -37,7 +37,7 @@ public class KeyAutoAuthHandler extends AutoAuthHandler {
 }
 ```
 
-然后将`@SimpleAuthor `注释添加到 Controller 或其中的方法。
+然后将`@SimpleAuthor `注释添加到 Controller 或其中的函数。
 
 ```java
 @Controller
@@ -94,7 +94,7 @@ public class AddPermissionKeyHandler extends AutoAuthHandler {
    }
 }
 ```
-当请求`/say`时，由于注释`@IsAutor` 被添加到 MyController类上，`AddPermisonKeyHandler` 中的 `SimpleAuthor` 方法将首先运行。在这个方法中，字符串`visitor`被添加到用户的权限中，因此它将会验证通过并正常访问。
+当请求`/say`时，由于注释`@IsAutor` 被添加到 MyController类上，`AddPermisonKeyHandler` 中的 `SimpleAuthor` 函数将首先运行。在这个函数中，字符串`visitor`被添加到用户的权限中，因此它将会验证通过并正常访问。
 当请求`/eat`时，由于权限列表中没有“vip”则会请求失败，抛出`PermissionsException`异常，可以通过全局异常处理完成权限校验
 
 ### 用例3：传递实例对象
