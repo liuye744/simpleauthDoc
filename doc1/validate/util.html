@@ -7,10 +7,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <meta name="keywords" content="">
+    <meta name="keywords" content="keyword1, keyword2">
     
     
-    <meta name="description" content="">
+    <meta name="description" content="这是一款基于SpringBoot的轻量化的权限校验和访问控制的框架。适用于轻量级以及渐进式的项目。">
     
     <meta name="generator" content="teedoc">
     <meta name="theme" content="teedoc-plugin-theme-default">
@@ -44,10 +44,10 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
         
     
     
-    <title>SimpleAuth</title>
+    <title>快速上手-权限校验 - SimpleAuth</title>
     
     <script type="text/javascript">js_vars = {}</script>
-    <script type="text/javascript">metadata = {"tags": [], "date": null, "update": [], "ts": 0, "author": "", "brief": "", "cover": ""}</script>
+    <script type="text/javascript">metadata = {"tags": [], "date": "2023-09-10", "update": [], "ts": 1694304000, "author": "", "brief": "", "cover": ""}</script>
 </head>
 
 
@@ -93,7 +93,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                 <div id="sidebar_title">
                     
                 </div>
-                <ul class="">
+                <ul class="show">
 <li class="not_active no_link sidebar_category"><span class="label">开始</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc1/index.html"><span class="label">简介</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc1/start/started.html"><span class="label">快速上手-权限校验</span><span class=""></span></a></li>
@@ -106,6 +106,9 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
 <li class="not_active no_link sidebar_category"><span class="label">访问控制模块</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc1/limit/annotation.html"><span class="label">注解</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc1/limit/dynamic.html"><span class="label">动态访问控制</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">参数校验</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc1/validate/annotation.html"><span class="label">注解</span><span class=""></span></a></li>
+<li class="active with_link"><a href="/simpleauthDoc/doc1/validate/util.html"><span class="label">工具类</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">日志与配置文件</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc1/logging/index.html"><span class="label">开启/自定义 日志</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc1/logging/properties.html"><span class="label">配置参数</span><span class=""></span></a></li>
@@ -126,7 +129,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     <div id="article_head">
                         <div id="article_title">
                             
-                            <h1></h1>
+                            <h1>快速上手-权限校验</h1>
                             
                         </div>
                         <div id="article_tags">
@@ -140,8 +143,8 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                                 
                             </span>
                             
-                                <span class="article_date" title="Last modify date: 2023-11-05">
-                                    2023-11-05
+                                <span class="article_date" title="Last modify date: 2023-09-10">
+                                    2023-09-10
                                 </span>
                             
                         </div>
@@ -159,15 +162,104 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     </div>
                     <div id="article_content">
                         
-                            
+                            <p>本节中将会介绍如何使用工具类简化参数的校验</p>
+<h2 id="%E5%B8%B8%E7%94%A8%E6%A0%A1%E9%AA%8C%E6%96%B9%E6%B3%95">常用校验方法</h2>
+<p>工具类的类名为SVU(SimpleValidateUtils)</p>
+
+<pre class="language-java"><code class="language-java">//传入多个参数，若存在null值则返回false
+public static boolean notNull(Object ...args);
+//判断base是否在start与end之间(包含等于start或end)，成立则返回true
+public static boolean range(Integer base, Integer start, Integer end);
+//判断字符串content的长度是否在start与end之间(包含等于start或end)，成立则返回true
+public static boolean lengthRange(String content, Integer start, Integer end);
+//判断content 是否符合regex的正则校验，符合返回true
+public static boolean pattern(String content, String regex);
+//当多个参数中存在false则返回false
+public static boolean notFalse(boolean ...args);
+</code></pre>
+<h2 id="%E5%A4%9A%E4%B8%AA%E5%8F%82%E6%95%B0%E6%A0%A1%E9%AA%8C">多个参数校验</h2>
+<p>可以使用notFalse函数将多个判断条件连接起来，当其中一个</p>
+
+<pre class="language-java"><code class="language-java">public Boolean fillUser(User user){
+    return SVU.notFalse(
+        SVU.lengthRange(user.getName(), 5, 16),
+        SVU.range(user.getAge(), 1, 99)
+    );
+}
+</code></pre>
+<h2 id="%E5%BF%AB%E6%8D%B7%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8">快捷抛出异常</h2>
+<p>SVU类的大多数函数都有一个功能相同的带有message的函数，带有message的函数在校验失败后不返回false而是抛出<code>ValidateException</code>，并将传入的message封装到异常中。</p>
+
+<pre class="language-java"><code class="language-java">public Boolean fillUser(User user){
+    return SVU.notFalse(
+        SVU.lengthRange(&quot;昵称长度不符合5-16&quot;,user.getName(), 5, 16),
+        SVU.range(&quot;年龄只能为1-99&quot;, user.getAge(), 1, 99)
+    );
+}
+</code></pre>
+<p>可以捕获异常处理验证信息</p>
+
+<pre class="language-java"><code class="language-java">//全局捕获异常并返回异常信息
+@ControllerAdvice
+public class MyExceptionHandler {
+    @ExceptionHandler(value = ValidateException.class)
+    @ResponseBody
+    public String exceptionHandler(ValidateException e){
+        return e.getMessage();
+    }
+}
+</code></pre>
+<h2 id="%E4%BD%BF%E7%94%A8%E5%BB%B6%E8%BF%9F%E6%96%B9%E6%B3%95%E6%8F%90%E9%AB%98%E6%95%88%E7%8E%87">使用延迟方法提高效率</h2>
+<h3 id="%E5%9B%A0%E7%94%B1">因由</h3>
+<p>上述使用<code>notFalse</code>函数时会先计算每一个判断条件的真伪，后传入notFalse。<br />
+当校验失败且没有抛出异常时若前一个已经判断为False将不会终止，如此会造成效率的降低，建议使用SVU中的Delay方法延迟条件的判断。</p>
+<h3 id="%E4%BD%BF%E7%94%A8">使用</h3>
+<p>SVU中有一个重载的<code>notFalse</code>函数<br />
+<code>public static boolean notFalse(BooleanCompute ...booleanComputes);</code><br />
+SVU中的Delay函数则会返回一个<code>BooleanCompute</code>对象将操作封装起来延迟判断。<br />
+例如：</p>
+
+<pre class="language-java"><code class="language-java">public Boolean fillUser(User user){
+    return SVU.notFalse(
+        SVU.lengthRangeDelay(user.getName(), 5, 16),
+        SVU.rangeDelay(user.getAge(), 1, 99)
+    );
+}
+</code></pre>
+<p>当第一个<code>lengthRangeDelay</code>函数校验返回false后第二个<code>rangeDelay</code>则不会运行直接返回false;</p>
+<h2 id="%E5%8F%AF%E4%B8%BA%E7%A9%BA%E7%9A%84%E5%8F%82%E6%95%B0%E6%A0%A1%E9%AA%8C">可为空的参数校验</h2>
+<p>若部分需要校验的参数可为空，若不为空则需要校验是否符合要求，则可以使用<code>SVOU</code>类(SimpleValidateOptionalUtil)。<br />
+SVOU类中的函数名和SVU中的相同，只是当传入的参数为null时返回true</p>
+<p>示例：电话为可选项，传入后不为null需要校验是否合法</p>
+
+<pre class="language-java"><code class="language-java">public Boolean fillUser(User user){
+    //Regex类提供了常用正则表达式
+    SVOU.pattern(user.getPhone(), Regex.CHINESE_MOBIL_PHONE_NUMBER);
+    return SVU.notFalse(
+        SVU.lengthRangeDelay(user.getName(), 5, 16),
+        SVU.rangeDelay(user.getAge(), 1, 99)
+    );
+}
+</code></pre>
+
                         
                     </div>
                 </div>
                 <div id="previous_next">
                     <div id="previous">
                         
+                        <a href="/simpleauthDoc/doc1/validate/annotation.html">
+                            <span class="icon"></span>
+                            <span class="label">注解</span>
+                        </a>
+                        
                     </div>
                     <div id="next">
+                        
+                        <a href="/simpleauthDoc/doc1/logging/index.html">
+                            <span class="label">开启/自定义 日志</span>
+                            <span class="icon"></span>
+                        </a>
                         
                     </div>
                 </div>

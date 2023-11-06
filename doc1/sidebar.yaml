@@ -23,6 +23,12 @@ items:
 -   label: 动态访问控制
     file: limit/dynamic.md
 
+-   label: 参数校验
+-   label: 注解
+    file: validate/annotation.md
+-   label: 工具类
+    file: validate/util.md
+
 
 -   label: 日志与配置文件
 -   label: 开启/自定义 日志
