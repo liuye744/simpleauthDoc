@@ -3,6 +3,7 @@ title: 注解
 keywords: keyword1, keyword2
 desc: 这是一款基于SpringBoot的轻量化的权限校验和访问控制的框架。适用于轻量级以及渐进式的项目。
 date: 2023-09-10
+class: heading_no_counter
 ---
 
 
