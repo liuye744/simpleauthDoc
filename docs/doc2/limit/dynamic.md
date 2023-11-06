@@ -1,16 +1,13 @@
 ---
 title: Dynamic Access Control
-
 keywords: keyword1, keyword2
-
-desc: This is a lightweight framework for permission validation and access control based on Spring Boot. Suitable for lightweight and progressive projects.
-
+desc: This is a lightweight framework for permission validation and access control based on SpringBoot. It is suitable for lightweight and progressive projects.
 date: 2023-09-10
-
+class: heading_no_counter
 ---
 
 ## Enabling Dynamic Access Control
-To enable dynamic access control, use the `@EnableDynamicLimit` annotation:
+Use the `@EnableDynamicLimit` annotation to enable dynamic access control.
 
 ```java
 @SpringBootApplication
@@ -21,37 +18,28 @@ public class SimpleAuthApplication {
     }
 }
 ```
-Alternatively, you can enable it using configuration:
-```java
-simple-auth.func.dynamic-limit=true
-```
+
+Alternatively, you can enable it with the `simple-auth.func.dynamic-limit=true` configuration.
 
 ## Creating a Provider
-
 ```java
 @Component
 public class MyLimitItemProvider implements RequestLimitItemProvider {
     @Override
     public List<RequestLimitItem> getRequestLimitItem() {
         List<RequestLimitItem> list = new ArrayList<>();
-        // Matching path '/say', allowed 2 requests within 60 seconds, and a ban for 10 seconds if exceeded.
+        // Match the path '/say', allow only 2 requests within 60 seconds, and ban for 10 seconds if exceeded.
         list.add(new RequestLimitItem("/say", 2, 60, 10));
         return list;
     }
 }
 ```
-The parameters for RequestLimitItem are as follows:
-
-`List<String> path`: The matching paths.
-
-`Integer times`: Maximum number of requests.
-
-`Integer seconds`: Recording time.
-
-`Integer ban`: Ban time.
-
-`Class<? extends SignStrategic> itemStrategic`: Item generation strategy.
-
-`Class<? extends SignStrategic> signStrategic`: User identifier generation strategy.
-
-`Class<? extends EffectiveStrategic> effectiveStrategic`: Strategy to determine whether the request is recorded.
+The parameters for `RequestLimitItem` are as follows:
+- `List<String> path`: The matched path.
+- `Integer times`: The maximum number of requests.
+- `Integer seconds`: The recording time.
+- `Integer ban`: The ban time.
+- `Class<? extends SignStrategic> itemStrategic`: The item generation strategy, default is uri.
+- `Class<? extends SignStrategic> signStrategic`: The user identification generation strategy, default is user IP.
+- `Class<? extends EffectiveStrategic> effectiveStrategic`: The strategy to determine if the request is recorded, default is true.
+- `Class<? extends TokenLimit> tokenLimit`: The rate limiting algorithm, default is CompleteLimit, which records all requests accurately.

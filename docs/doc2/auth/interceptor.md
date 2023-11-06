@@ -1,14 +1,15 @@
 ---
 title: SimpleAuth Interceptor
 keywords: keyword1, keyword2
-desc: This is a lightweight framework for permission validation and access control based on Spring Boot. Suitable for lightweight and progressive projects.
+desc: This is a lightweight framework for permission validation and access control based on SpringBoot. It is suitable for lightweight and progressive projects.
 date: 2023-09-10
+class: heading_no_counter
 ---
 
 ## Configuring the SimpleAuth Interceptor
 
 ```java
-// Extend SimpleAuthWebConfig and provide a Class or Bean name
+// Inherit SimpleAuthWebConfig and can pass a Class or Bean name
 @Component
 public class MySimpleAuthConfig extends SimpleAuthWebConfig {
     @Override
@@ -19,3 +20,4 @@ public class MySimpleAuthConfig extends SimpleAuthWebConfig {
                 .excludePathPatterns("/user/vip/*");
     }
 }
+```

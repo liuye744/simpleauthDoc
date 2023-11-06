@@ -1,11 +1,12 @@
 ---
 title: Quick Start - Permission Validation
 keywords: keyword1, keyword2
-desc: This is a lightweight framework for permission validation and access control based on Spring Boot. Suitable for lightweight and progressive projects.
+desc: This is a lightweight framework for permission validation and access control based on SpringBoot. It is suitable for lightweight and progressive projects.
 date: 2023-09-10
+class: heading_no_counter
 ---
 
-In this section, we will learn how to perform permission validation using annotations.
+In this section, we will explain how to perform permission validation using annotations.
 
 ## Step 1: Add Maven Dependency
 ```xml
@@ -15,20 +16,20 @@ In this section, we will learn how to perform permission validation using annota
     <version>1.4.0.RELEASE</version>
 </dependency>
 ```
+
 ## Step 2: Add Annotations
 
 ### Use Case 1: Validating Parameters through Request
 
-Create a class that extends `AutoAuthHandler` and override the `SimpleAuthor` method.
+Create a class that extends `AutoAuthHandler` and override the `SimpleAuthor` function.
 
 ```java
 public class KeyAutoAuthHandler extends AutoAuthHandler {
    @Override
    public boolean SimpleAuthor(HttpServletRequest request, String permission) {
-        // Verify if the request parameters contain a key parameter with the value "114514".
-        // You can perform more complex operations as needed.
+        // Validate whether the request parameters include a key with the value "114514".
        final String key = request.getParameter("key");
-       // Return true if the validation is successful, or false to throw a PermissionsException for validation failure.
+       // Return true if the validation succeeds, and false if it fails, which will throw a PermissionsException.
        if ("114514".equals(key)){
            return true;
        }
@@ -36,18 +37,24 @@ public class KeyAutoAuthHandler extends AutoAuthHandler {
    }
 }
 ```
-Then, add the @SimpleAuthor annotation to the Controller class or its methods.
+
+Then, add the `@SimpleAuthor` annotation to your Controller or its methods.
+
 ```java
 @Controller
 @SimpleAuthor(handler = KeyAutoAuthHandler.class)
 public class MyController {
 }
 ```
-Note: If you have multiple AutoAuthHandler instances, you can use the annotation as follows:
+
+Note: If you have multiple `AutoAuthHandler`s, you can use the annotation as follows:
+
+```java
+@SimpleAuthor(handler = {KeyAutoAuthHandler1.class, KeyAutoAuthHandler2.class})
 ```
-@SimpleAuth(handler = { KeyAutoAuthHandler1.class, KeyAutoAuthHandler2.class })
-```
-The handler parameter can also specify the bean names of the handlers. These classes will execute permission checks in the specified order. Alternatively, you can create a class that extends AutoAuthHandlerChain and add all handlers to that class.
+
+You can also create a class that extends `AutoAuthHandlerChain` and add all the handlers to it.
+
 ```java
 public class MyHandlerChain extends AutoAuthHandlerChain {
    @Override
@@ -56,8 +63,10 @@ public class MyHandlerChain extends AutoAuthHandlerChain {
         .addLast(KeyAutoAuthHandler2.class);
    }
 }
-// When adding the annotation, use @SimpleAuthor(handlerChain = MyHandlerChain.class)
 ```
+
+And then, add the annotation as `@SimpleAuthor(handlerChain = MyHandlerChain.class)`.
+
 ### Use Case 2: Role-Based Permission Validation
 
 ```java
@@ -77,32 +86,32 @@ public class MyController {
        return "eat";
    }
 }
-
 public class AddPermissionKeyHandler extends AutoAuthHandler {
    @Override
    public boolean SimpleAuthor(HttpServletRequest request, String permission) {
        ArrayList<String> permissions = new ArrayList<>();
-       // Alternatively, you can query a database to add the role key for the current request.
+       // Or query the database to add the role key for the current request
        permissions.add("visitor");
-       this.setPermissions(request, permissions);
-       // Verification successful, allow access.
+       this.setPermissions(request,permissions);
+       // Verification successful, allow access
        return true;
    }
 }
 ```
-When a request is made to /say, the AddPermissionKeyHandler class is executed first due to the @SimpleAuthor annotation added to the MyController class. In this method, the string "visitor" is added to the user's permissions, allowing the request to pass and access the endpoint.
 
-When a request is made to /eat, the request fails because the permission list does not contain "vip," resulting in a PermissionsException exception. You can handle permission validation through global exception handling.
+When a request is made to `/say`, the `SimpleAuthor` function in `AddPermissionKeyHandler` will run first because the `@IsAuthor` annotation is added to the `MyController` class. In this function, the string "visitor" is added to the user's permissions, allowing access.
+
+When a request is made to `/eat`, it will fail because "vip" is not in the list of permissions, and a `PermissionsException` will be thrown. You can handle permission validation using a global exception handler.
+
 ### Use Case 3: Passing Instance Objects
 
 ```java
-// Class for the instance used
+// User instance
 public class User {
     String name;
     public User(String name) {this.name = name;}
     public String getName() {return name;}
 }
-
 // Controller
 @RestController
 public class MyController {
@@ -130,10 +139,11 @@ public class MyFirstHandler extends AutoAuthHandler {
 public class MySecondHandler extends AutoAuthHandler {
     @Override
     public boolean SimpleAuthor(HttpServletRequest request, String permission) {
-        // Retrieve the instance object and verify if the name is "CodingCube"
+        // Get the instance object and verify if the name is "CodingCube"
         final User user = getPrincipal();
         return "CodingCube".equals(user.getName());
     }
 }
 ```
-When accessing http://localhost:8080/say?name=CodingCube, the request is allowed to pass. If the name parameter is set to something other than "CodingCube," a PermissionsException exception is thrown.
+
+When accessing `http://localhost:8080/say?name=CodingCube`, the request is allowed to pass. If the `name` parameter is different, a `PermissionsException` will be thrown.
