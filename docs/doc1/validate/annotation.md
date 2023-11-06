@@ -20,3 +20,63 @@ public @interface SimpleValidate {
 }
 ```
 ## 注解用法
+value参数传入用于校验的类。
+类中用于校验的函数返回值必须为`Boolean`，参数为需要校验的类。
+例：`public Boolean fillUser(User user);`
+
+```java
+public class MyValidateObj {
+    //验证用户年龄为1-99
+    public Boolean fillUser(User user){
+        final Integer age = user.getAge();
+        if (age <= 1 || age >= 99){
+            return false;
+        }
+        return true;
+    }
+}
+```
+在Controller中添加注解
+```java
+@RestController
+public class MyController {
+    @GetMapping("/say")
+    @SimpleValidate(value = MyValidateObj.class, methods = {"fillUser"})
+    public String say(User user){
+        return user.getName();
+    }
+}
+```
+若多个方法需要用到同一个校验类可将校验类写在类注解中。当类的注解上指定了验证类
+```java
+@RestController
+@SimpleValidate(value = MyValidateObj.class)
+public class MyController {
+
+    @GetMapping("/say")
+    @SimpleValidate(methods = {"fillUser"})
+    public String say(User user){
+        System.out.println("say");
+        return user.getName();
+    }
+
+    @GetMapping("/eat")
+    @SimpleValidate(methods = {"partUser"})
+    public String eat(User user){
+        System.out.println("eat");
+        return user.getName();
+    }
+}
+```
+### 拒绝策略
+默认的拒绝策略为抛出`ValidateException`
+```java
+public class MyRejected implements ValidateRejectedStratagem {
+    @Override
+    public void doRejected(HttpServletRequest request, HttpServletResponse response, Object validationObj) {
+    }
+}
+```
+当验证类返回`false`时运行doRejected方法，
+`validationObj`为验证的对象，如当验证User对象验证失败返回false后，doRejected中的validationObj为刚刚验证的User。
+
