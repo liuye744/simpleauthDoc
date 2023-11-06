@@ -163,7 +163,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     <div id="article_content">
                         
                             <p>本节中将会介绍如何使用工具类简化参数的校验</p>
-<h2 id="%E5%B8%B8%E7%94%A8%E6%A0%A1%E9%AA%8C%E6%96%B9%E6%B3%95">常用校验方法</h2>
+<h2 id="%E5%B8%B8%E7%94%A8%E6%A0%A1%E9%AA%8C%E5%87%BD%E6%95%B0">常用校验函数</h2>
 <p>工具类的类名为SVU(SimpleValidateUtils)</p>
 
 <pre class="language-java"><code class="language-java">//传入多个参数，若存在null值则返回false
@@ -209,10 +209,10 @@ public class MyExceptionHandler {
     }
 }
 </code></pre>
-<h2 id="%E4%BD%BF%E7%94%A8%E5%BB%B6%E8%BF%9F%E6%96%B9%E6%B3%95%E6%8F%90%E9%AB%98%E6%95%88%E7%8E%87">使用延迟方法提高效率</h2>
+<h2 id="%E4%BD%BF%E7%94%A8%E5%BB%B6%E8%BF%9F%E5%87%BD%E6%95%B0%E6%8F%90%E9%AB%98%E6%95%88%E7%8E%87">使用延迟函数提高效率</h2>
 <h3 id="%E5%9B%A0%E7%94%B1">因由</h3>
 <p>上述使用<code>notFalse</code>函数时会先计算每一个判断条件的真伪，后传入notFalse。<br />
-当校验失败且没有抛出异常时若前一个已经判断为False将不会终止，如此会造成效率的降低，建议使用SVU中的Delay方法延迟条件的判断。</p>
+当校验失败且没有抛出异常时若前一个已经判断为False将不会终止，如此会造成效率的降低，建议使用SVU中的Delay函数延迟条件的判断。</p>
 <h3 id="%E4%BD%BF%E7%94%A8">使用</h3>
 <p>SVU中有一个重载的<code>notFalse</code>函数<br />
 <code>public static boolean notFalse(BooleanCompute ...booleanComputes);</code><br />

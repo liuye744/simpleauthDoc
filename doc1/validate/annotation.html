@@ -168,9 +168,9 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
 <pre class="language-java"><code class="language-java">@Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
 public @interface SimpleValidate {
-    //用于校验的类，类中用于校验的方法返回值必须为Boolean
+    //用于校验的类，类中用于校验的函数返回值必须为Boolean
     Class&lt;?&gt; value() default Object.class;
-    //用于校验的方法名
+    //用于校验的函数名
     String[] methods() default {&quot;validate&quot;};
     //验证失败后的拒绝策略，默认策略抛出ValidateException
     Class&lt;? extends ValidateRejectedStratagem&gt; rejected() default DefaultValidateRejectedStratagem.class;
@@ -203,7 +203,7 @@ public class MyController {
     }
 }
 </code></pre>
-<p>若多个方法需要用到同一个校验类可将校验类写在类注解中。当类的注解上指定了验证类</p>
+<p>若多个函数需要用到同一个校验类可将校验类写在类注解中。当类的注解上指定了验证类</p>
 
 <pre class="language-java"><code class="language-java">@RestController
 @SimpleValidate(value = MyValidateObj.class)
@@ -233,7 +233,7 @@ public class MyController {
     }
 }
 </code></pre>
-<p>当验证类返回<code>false</code>时运行doRejected方法，<br />
+<p>当验证类返回<code>false</code>时运行doRejected函数，<br />
 <code>validationObj</code>为验证的对象，如当验证User对象验证失败返回false后，doRejected中的validationObj为刚刚验证的User。</p>
 
                         

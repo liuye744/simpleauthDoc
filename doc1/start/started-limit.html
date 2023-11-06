@@ -172,7 +172,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
 &lt;/dependency&gt;
 </code></pre>
 <h2 id="%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E4%B8%BAController%E6%B7%BB%E5%8A%A0%E6%B3%A8%E8%A7%A3">第二步：为Controller添加注解</h2>
-<p>可以为整个Controller添加，也可以为Controller中单个方法添加。访问超过限制则会抛出<code>AccessIsRestrictedException</code></p>
+<p>可以为整个Controller添加，也可以为Controller中单个函数添加。访问超过限制则会抛出<code>AccessIsRestrictedException</code></p>
 <h3 id="%E7%94%A8%E4%BE%8B1%EF%BC%9A%E8%A7%84%E5%AE%9A%E6%97%B6%E9%97%B4%E5%86%85%E9%99%90%E5%88%B6%E8%AE%BF%E9%97%AE%E6%AC%A1%E6%95%B0">用例1：规定时间内限制访问次数</h3>
 
 <pre class="language-java"><code class="language-java">@RestController
@@ -257,7 +257,7 @@ public class MyInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         final String addr = request.getRemoteAddr();
         //以用户的地址作为标志，每5分钟(300s)只允许访问2次，超过之后被禁止10分钟
-        //addRecord方法调用后可以访问则返回true,禁止访问返回false
+        //addRecord函数调用后可以访问则返回true,禁止访问返回false
         return LimitInfoUtil.addRecord(&quot;GLOBAL_ACCESS_CONTROL&quot;, addr, 2, 300, 600);
     }
 }

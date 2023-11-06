@@ -194,13 +194,13 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
 若没有使用@Component，首次调用Handler则通过无参构造函数创建新实例后缓存，之后的调用则会查询缓存中对应的Handler对象，可以使用`simple-auth.func.handler-cache=true`配置关闭缓存。
 </code></pre>
 <h2 id="HandlerChain">HandlerChain</h2>
-<p>需要继承AutoAuthHandlerChain，在<code>addChain</code>方法中添加Handler将多个Handler组合在一起方便模块化调用。同样的也可以选择注册为Bean</p>
+<p>需要继承AutoAuthHandlerChain，在<code>addChain</code>函数中添加Handler将多个Handler组合在一起方便模块化调用。同样的也可以选择注册为Bean</p>
 
 <pre class="language-java"><code class="language-java">public abstract class AutoAuthHandlerChain {
     public abstract void addChain();
 }
 </code></pre>
-<p>常用的方法<br />
+<p>常用的函数<br />
 <code>addLast(Class&lt;? extends AutoAuthHandler&gt; autoAuthHandler)</code>:添加Handler到尾部，参数也可以为Handler的Bean名称。<br />
 <code>addFirst(Class&lt;? extends AutoAuthHandler&gt; auto)</code>:添加Handler到头部</p>
 

@@ -204,7 +204,7 @@ public class MyEffectiveStrategic extends EffectiveStrategic {
     }
 }
 </code></pre>
-<p>当<code>judgeAfterReturn</code>参数为true时，将会在接口调用之后运行此方法，可以根据result判断此次请求是否被记录。<br />
+<p>当<code>judgeAfterReturn</code>参数为true时，将会在接口调用之后运行此函数，可以根据result判断此次请求是否被记录。<br />
 若<code>judgeAfterReturn</code>为false，将在接口调用之前运行，此时<code>result</code>为null。</p>
 <h2 id="ban%E8%AF%A6%E8%A7%A3">ban详解</h2>
 <p>当ban等于0时，将会记录规定时间内的所有操作，下次操作发生时删除逾期记录。<br />

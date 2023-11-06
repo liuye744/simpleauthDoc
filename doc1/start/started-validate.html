@@ -172,7 +172,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
 &lt;/dependency&gt;
 </code></pre>
 <h2 id="%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E4%B8%BAController%E6%B7%BB%E5%8A%A0%E6%B3%A8%E8%A7%A3">第二步：为Controller添加注解</h2>
-<p>为Controller中单个方法添加。访问超过限制则会抛出<code>ValidateException</code></p>
+<p>为Controller中单个函数添加。访问超过限制则会抛出<code>ValidateException</code></p>
 <h3 id="%E7%94%A8%E4%BE%8B1%EF%BC%9A%E7%AE%80%E5%8D%95%E9%AA%8C%E8%AF%81%E7%94%A8%E6%88%B7%E6%98%B5%E7%A7%B0%E4%B8%8E%E5%B9%B4%E9%BE%84">用例1：简单验证用户昵称与年龄</h3>
 <p>要求验证年龄(age)在1-99，昵称(name)的长度为5-16</p>
 
@@ -184,7 +184,7 @@ public class User {
     //省略getter setter等
 }
 
-//Controller对象，其中methods为MyValidateObj中的方法名
+//Controller对象，其中methods为MyValidateObj中的函数名
 @RestController
 public class MyController {
     @GetMapping(&quot;/say&quot;)
