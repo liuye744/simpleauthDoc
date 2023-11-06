@@ -5,7 +5,7 @@
         "title": "my_site",
         "logo": {
             "alt": "my_site logo",
-            "src": "/static/image/logo.png"
+            "src": "/static/image/SimpleAuth.png"
         },
         "home_url": "/",
         "items": [

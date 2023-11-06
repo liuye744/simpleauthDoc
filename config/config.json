@@ -4,12 +4,12 @@
         "title": "SimpleAuth",
         "logo": {
             "alt": "my_site logo",
-            "url": ""
+            "url": "/static/image/SimpleAuth.png"
         },
         "home_url": "/",
         "items": [
             {
-                "url": "/doc1",
+                "url": "/doc1/",
                 "label": "中文",
                 "position": "left"
             },
