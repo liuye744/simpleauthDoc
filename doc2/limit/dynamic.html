@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en"  class="">
+<html lang="en"  class=" heading_no_counter ">
 
 
 <head>
@@ -10,7 +10,7 @@
     <meta name="keywords" content="keyword1, keyword2">
     
     
-    <meta name="description" content="This is a lightweight framework for permission validation and access control based on Spring Boot. Suitable for lightweight and progressive projects.">
+    <meta name="description" content="This is a lightweight framework for permission validation and access control based on SpringBoot. It is suitable for lightweight and progressive projects.">
     
     <meta name="generator" content="teedoc">
     <meta name="theme" content="teedoc-plugin-theme-default">
@@ -47,7 +47,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
     <title>Dynamic Access Control - SimpleAuth</title>
     
     <script type="text/javascript">js_vars = {}</script>
-    <script type="text/javascript">metadata = {"tags": [], "date": "2023-09-10", "update": [], "ts": 1694304000, "author": "", "brief": "", "cover": ""}</script>
+    <script type="text/javascript">metadata = {"tags": [], "date": "2023-09-10", "update": [], "ts": 1694304000, "author": "", "brief": "", "cover": "", "class": "heading_no_counter"}</script>
 </head>
 
 
@@ -98,17 +98,25 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                 <ul class="show">
 <li class="not_active no_link sidebar_category"><span class="label">Getting Started</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/index.html"><span class="label">Introduction</span><span class=""></span></a></li>
-<li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started.html"><span class="label">Quick Start - Permission Validation</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started.html"><span class="label">Quick Start - Permission Verification</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started-limit.html"><span class="label">Quick Start - Access Control</span><span class=""></span></a></li>
-<li class="not_active no_link sidebar_category"><span class="label">Permission Validation Module</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started-validate.html"><span class="label">Quick Start - Parameter Validation</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">Permission Verification Module</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
-<li class="not_active with_link"><a href="/simpleauthDoc/doc2/no_translate.html?ref=auth/interceptor.html&from=/doc2/auth/interceptor.html"><span class="label">SimpleAuth Interceptor</span><span class=""></span></a></li>
-<li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/dynamic.html"><span class="label">Dynamic Permission Validation</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/interceptor.html"><span class="label">SimpleAuth Interceptor</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/dynamic.html"><span class="label">Dynamic Permission Verification</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Access Control Module</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/limit/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
 <li class="active with_link"><a href="/simpleauthDoc/doc2/limit/dynamic.html"><span class="label">Dynamic Access Control</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">Parameter Validation</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/validate/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/validate/util.html"><span class="label">Utility Functions</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Logging and Configuration Files</span></li>
-<li class="not_active with_link"><a href="/simpleauthDoc/doc2/logging/index.html"><span class="label">Enable/Customize Logging</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/logging/index.html"><span class="label">Enabling/Customizing Logging</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/logging/properties.html"><span class="label">Configuration Parameters</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">Configuration Files</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/config/xml.html"><span class="label">XML Configuration</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/config/json.html"><span class="label">JSON Configuration</span><span class=""></span></a></li>
 </ul>
 
             </div>
@@ -157,7 +165,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     <div id="article_content">
                         
                             <h2 id="Enabling-Dynamic-Access-Control">Enabling Dynamic Access Control</h2>
-<p>To enable dynamic access control, use the <code>@EnableDynamicLimit</code> annotation:</p>
+<p>Use the <code>@EnableDynamicLimit</code> annotation to enable dynamic access control.</p>
 
 <pre class="language-java"><code class="language-java">@SpringBootApplication
 @EnableDynamicLimit
@@ -167,10 +175,7 @@ public class SimpleAuthApplication {
     }
 }
 </code></pre>
-<p>Alternatively, you can enable it using configuration:</p>
-
-<pre class="language-java"><code class="language-java">simple-auth.func.dynamic-limit=true
-</code></pre>
+<p>Alternatively, you can enable it with the <code>simple-auth.func.dynamic-limit=true</code> configuration.</p>
 <h2 id="Creating-a-Provider">Creating a Provider</h2>
 
 <pre class="language-java"><code class="language-java">@Component
@@ -178,20 +183,23 @@ public class MyLimitItemProvider implements RequestLimitItemProvider {
     @Override
     public List&lt;RequestLimitItem&gt; getRequestLimitItem() {
         List&lt;RequestLimitItem&gt; list = new ArrayList&lt;&gt;();
-        // Matching path '/say', allowed 2 requests within 60 seconds, and a ban for 10 seconds if exceeded.
+        // Match the path '/say', allow only 2 requests within 60 seconds, and ban for 10 seconds if exceeded.
         list.add(new RequestLimitItem(&quot;/say&quot;, 2, 60, 10));
         return list;
     }
 }
 </code></pre>
-<p>The parameters for RequestLimitItem are as follows:</p>
-<p><code>List&lt;String&gt; path</code>: The matching paths.</p>
-<p><code>Integer times</code>: Maximum number of requests.</p>
-<p><code>Integer seconds</code>: Recording time.</p>
-<p><code>Integer ban</code>: Ban time.</p>
-<p><code>Class&lt;? extends SignStrategic&gt; itemStrategic</code>: Item generation strategy.</p>
-<p><code>Class&lt;? extends SignStrategic&gt; signStrategic</code>: User identifier generation strategy.</p>
-<p><code>Class&lt;? extends EffectiveStrategic&gt; effectiveStrategic</code>: Strategy to determine whether the request is recorded.</p>
+<p>The parameters for <code>RequestLimitItem</code> are as follows:</p>
+<ul>
+<li><code>List&lt;String&gt; path</code>: The matched path.</li>
+<li><code>Integer times</code>: The maximum number of requests.</li>
+<li><code>Integer seconds</code>: The recording time.</li>
+<li><code>Integer ban</code>: The ban time.</li>
+<li><code>Class&lt;? extends SignStrategic&gt; itemStrategic</code>: The item generation strategy, default is uri.</li>
+<li><code>Class&lt;? extends SignStrategic&gt; signStrategic</code>: The user identification generation strategy, default is user IP.</li>
+<li><code>Class&lt;? extends EffectiveStrategic&gt; effectiveStrategic</code>: The strategy to determine if the request is recorded, default is true.</li>
+<li><code>Class&lt;? extends TokenLimit&gt; tokenLimit</code>: The rate limiting algorithm, default is CompleteLimit, which records all requests accurately.</li>
+</ul>
 
                         
                     </div>
@@ -207,8 +215,8 @@ public class MyLimitItemProvider implements RequestLimitItemProvider {
                     </div>
                     <div id="next">
                         
-                        <a href="/simpleauthDoc/doc2/logging/index.html">
-                            <span class="label">Enable/Customize Logging</span>
+                        <a href="/simpleauthDoc/doc2/validate/annotation.html">
+                            <span class="label">Annotations</span>
                             <span class="icon"></span>
                         </a>
                         

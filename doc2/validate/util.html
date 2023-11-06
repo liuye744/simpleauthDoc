@@ -10,7 +10,7 @@
     <meta name="keywords" content="keyword1, keyword2">
     
     
-    <meta name="description" content="This is a lightweight framework for permission validation and access control based on SpringBoot. It is suitable for lightweight and progressive projects.">
+    <meta name="description" content="This is a lightweight framework for permission verification and access control based on SpringBoot. It is suitable for lightweight and progressive projects.">
     
     <meta name="generator" content="teedoc">
     <meta name="theme" content="teedoc-plugin-theme-default">
@@ -44,7 +44,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
         
     
     
-    <title>Annotations - SimpleAuth</title>
+    <title>Quick Start - Parameter Validation - SimpleAuth</title>
     
     <script type="text/javascript">js_vars = {}</script>
     <script type="text/javascript">metadata = {"tags": [], "date": "2023-09-10", "update": [], "ts": 1694304000, "author": "", "brief": "", "cover": "", "class": "heading_no_counter"}</script>
@@ -102,7 +102,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started-limit.html"><span class="label">Quick Start - Access Control</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started-validate.html"><span class="label">Quick Start - Parameter Validation</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Permission Verification Module</span></li>
-<li class="active with_link"><a href="/simpleauthDoc/doc2/auth/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/interceptor.html"><span class="label">SimpleAuth Interceptor</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/dynamic.html"><span class="label">Dynamic Permission Verification</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Access Control Module</span></li>
@@ -110,7 +110,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/limit/dynamic.html"><span class="label">Dynamic Access Control</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Parameter Validation</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/validate/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
-<li class="not_active with_link"><a href="/simpleauthDoc/doc2/validate/util.html"><span class="label">Utility Functions</span><span class=""></span></a></li>
+<li class="active with_link"><a href="/simpleauthDoc/doc2/validate/util.html"><span class="label">Utility Functions</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Logging and Configuration Files</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/logging/index.html"><span class="label">Enabling/Customizing Logging</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/logging/properties.html"><span class="label">Configuration Parameters</span><span class=""></span></a></li>
@@ -131,7 +131,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     <div id="article_head">
                         <div id="article_title">
                             
-                            <h1>Annotations</h1>
+                            <h1>Quick Start - Parameter Validation</h1>
                             
                         </div>
                         <div id="article_tags">
@@ -164,46 +164,85 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     </div>
                     <div id="article_content">
                         
-                            <h2 id="Annotation-Parameters">Annotation Parameters</h2>
+                            <p>In this section, we will explain how to simplify parameter validation using utility functions.</p>
+<h2 id="Common-Validation-Functions">Common Validation Functions</h2>
+<p>The utility class for validation is named <code>SVU</code> (SimpleValidateUtils). Here are some of the commonly used validation functions provided by <code>SVU</code>:</p>
 
-<pre class="language-java"><code class="language-java">public @interface SimpleAuthor {
-    // Interface permission name
-    String value() default &quot;&quot;;
-    // AuthHandler's Class, by default, scans whether there is an interface corresponding to 'value' in 'permissions'
-    Class&lt;? extends AutoAuthHandler&gt;[] handler() default DefaultAuthHandler.class;
-    // AuthHandlerChain's Class
-    Class&lt;? extends AutoAuthHandlerChain&gt;[] handlerChain() default DefaultAuthHandlerChain.class;
+<pre class="language-java"><code class="language-java">// Checks if any of the provided arguments are null. Returns false if any argument is null.
+public static boolean notNull(Object ...args);
+
+// Checks if 'base' is within the range defined by 'start' and 'end' (inclusive). Returns true if it's within the range.
+public static boolean range(Integer base, Integer start, Integer end);
+
+// Checks if the length of 'content' is within the range defined by 'start' and 'end' (inclusive). Returns true if it's within the range.
+public static boolean lengthRange(String content, Integer start, Integer end);
+
+// Checks if 'content' matches the regular expression 'regex'. Returns true if it matches the regex.
+public static boolean pattern(String content, String regex);
+
+// Returns false if any of the provided boolean values is false.
+public static boolean notFalse(boolean ...args);
+</code></pre>
+<h2 id="Multi-Parameter-Validation">Multi-Parameter Validation</h2>
+<p>You can use the <code>notFalse</code> function to chain multiple validation conditions. If any of the conditions return <code>false</code>, the entire validation will fail.</p>
+<p>For example:</p>
+
+<pre class="language-java"><code class="language-java">public Boolean fillUser(User user){
+    return SVU.notFalse(
+        SVU.lengthRange(user.getName(), 5, 16),
+        SVU.range(user.getAge(), 1, 99)
+    );
 }
 </code></pre>
-<h2 id="Handler">Handler</h2>
-<p>You need to extend AutoAuthHandler, and if you use other SpringBeans, you can register them as Beans (recommended to add the @Component annotation). If the validation fails, it will throw a <code>PermissionsException</code> exception.</p>
+<h2 id="Shortcut-for-Throwing-Exceptions">Shortcut for Throwing Exceptions</h2>
+<p>Most functions in the <code>SVU</code> class have an overloaded version that includes a message parameter. Instead of returning <code>false</code> when validation fails, these functions throw a <code>ValidateException</code> with the provided message. This allows you to handle validation failures with more informative error messages.</p>
+<p>For example:</p>
 
-<pre class="language-java"><code class="language-java">public class MyAutoAuthHandler extends MyAutoAuthHandler {
+<pre class="language-java"><code class="language-java">public Boolean fillUser(User user){
+    return SVU.notFalse(
+        SVU.lengthRange(&quot;Name length should be between 5 and 16&quot;, user.getName(), 5, 16),
+        SVU.range(&quot;Age must be between 1 and 99&quot;, user.getAge(), 1, 99)
+    );
+}
+</code></pre>
+<p>You can catch the <code>ValidateException</code> and handle the validation message in a global exception handler:</p>
 
-    /**
-     * Check if the conditions are met
-     * @param permission The required permission name
-     * @return Return true to allow (pass)
-     */
-    @Override
-    public boolean SimpleAuthor(HttpServletRequest request, String permission){
-        // Return true for validation pass, false for failure
-        return true;
+<pre class="language-java"><code class="language-java">@ControllerAdvice
+public class MyExceptionHandler {
+    @ExceptionHandler(value = ValidateException.class)
+    @ResponseBody
+    public String exceptionHandler(ValidateException e){
+        return e.getMessage();
     }
-
-}
-If you do not use @Component, the first call to the Handler will create a new instance with a parameterless constructor and cache it. Subsequent calls will query the corresponding Handler object in the cache. You can use the `simple-auth.func.handler-cache=true` configuration to disable the cache.
-</code></pre>
-<h2 id="HandlerChain">HandlerChain</h2>
-<p>You need to extend AutoAuthHandlerChain, and in the <code>addChain</code> function, add Handlers to combine multiple Handlers together for modularized calling. Similarly, you can choose to register them as Beans.</p>
-
-<pre class="language-java"><code class="language-java">public abstract class AutoAuthHandlerChain {
-    public abstract void addChain();
 }
 </code></pre>
-<p>Commonly used functions<br />
-<code>addLast(Class&lt;? extends AutoAuthHandler&gt; autoAuthHandler)</code>: Add the Handler to the end, the parameter can also be the Bean name of the Handler.<br />
-<code>addFirst(Class&lt;? extends AutoAuthHandler&gt; auto)</code>: Add the Handler to the beginning.</p>
+<h2 id="Use-Delay-Functions-for-Improved-Efficiency">Use Delay Functions for Improved Efficiency</h2>
+<p>Using the <code>notFalse</code> function as shown earlier computes all the validation conditions even if one of them returns <code>false</code>. To improve efficiency, you can use the <code>Delay</code> functions provided by <code>SVU</code>.</p>
+<p>The <code>notFalse</code> function has an overloaded version that accepts <code>BooleanCompute</code> objects. The <code>Delay</code> functions return a <code>BooleanCompute</code> object, encapsulating the validation condition, and delays its execution until necessary.</p>
+<p>Here's an example:</p>
+
+<pre class="language-java"><code class="language-java">public Boolean fillUser(User user){
+    return SVU.notFalse(
+        SVU.lengthRangeDelay(user.getName(), 5, 16),
+        SVU.rangeDelay(user.getAge(), 1, 99)
+    );
+}
+</code></pre>
+<p>In this example, if the first <code>lengthRangeDelay</code> function returns <code>false</code>, the second <code>rangeDelay</code> function won't be executed, resulting in improved efficiency.</p>
+<h2 id="Optional-Parameter-Validation">Optional Parameter Validation</h2>
+<p>If some parameters need to be validated only when they are not null, you can use the <code>SVOU</code> class (SimpleValidateOptionalUtil). The functions in <code>SVOU</code> have the same names as those in <code>SVU</code>, but they return true when the parameter is null.</p>
+<p>Here's an example where the phone number is an optional parameter, and validation is required only when it's not null:</p>
+
+<pre class="language-java"><code class="language-java">public Boolean fillUser(User user){
+    // The Regex class provides commonly used regular expressions.
+    SVOU.pattern(user.getPhone(), Regex.CHINESE_MOBIL_PHONE_NUMBER);
+    return SVU.notFalse(
+        SVU.lengthRangeDelay(user.getName(), 5, 16),
+        SVU.rangeDelay(user.getAge(), 1, 99)
+    );
+}
+</code></pre>
+<p>This code will only validate the phone number if it's not null.</p>
 
                         
                     </div>
@@ -211,16 +250,16 @@ If you do not use @Component, the first call to the Handler will create a new in
                 <div id="previous_next">
                     <div id="previous">
                         
-                        <a href="/simpleauthDoc/doc2/start/started-validate.html">
+                        <a href="/simpleauthDoc/doc2/validate/annotation.html">
                             <span class="icon"></span>
-                            <span class="label">Quick Start - Parameter Validation</span>
+                            <span class="label">Annotations</span>
                         </a>
                         
                     </div>
                     <div id="next">
                         
-                        <a href="/simpleauthDoc/doc2/auth/interceptor.html">
-                            <span class="label">SimpleAuth Interceptor</span>
+                        <a href="/simpleauthDoc/doc2/logging/index.html">
+                            <span class="label">Enabling/Customizing Logging</span>
                             <span class="icon"></span>
                         </a>
                         

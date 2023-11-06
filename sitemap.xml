@@ -127,13 +127,37 @@
             <priority>1.0</priority>
         </url>
         <url>
+            <loc>https://my_name.github.io/simpleauthDoc/doc2/config/json.html</loc>
+            <lastmod>2023-09-10</lastmod>
+            <changefreq>weekly</changefreq>
+            <priority>1.0</priority>
+        </url>
+        <url>
+            <loc>https://my_name.github.io/simpleauthDoc/doc2/config/xml.html</loc>
+            <lastmod>2023-09-10</lastmod>
+            <changefreq>weekly</changefreq>
+            <priority>1.0</priority>
+        </url>
+        <url>
             <loc>https://my_name.github.io/simpleauthDoc/doc2/index.html</loc>
             <lastmod>2023-09-10</lastmod>
             <changefreq>weekly</changefreq>
             <priority>1.0</priority>
         </url>
         <url>
-            <loc>https://my_name.github.io/simpleauthDoc/doc2/auth/interseptor.html</loc>
+            <loc>https://my_name.github.io/simpleauthDoc/doc2/validate/util.html</loc>
+            <lastmod>2023-09-10</lastmod>
+            <changefreq>weekly</changefreq>
+            <priority>1.0</priority>
+        </url>
+        <url>
+            <loc>https://my_name.github.io/simpleauthDoc/doc2/validate/annotation.html</loc>
+            <lastmod>2023-09-10</lastmod>
+            <changefreq>weekly</changefreq>
+            <priority>1.0</priority>
+        </url>
+        <url>
+            <loc>https://my_name.github.io/simpleauthDoc/doc2/auth/interceptor.html</loc>
             <lastmod>2023-09-10</lastmod>
             <changefreq>weekly</changefreq>
             <priority>1.0</priority>
@@ -146,6 +170,12 @@
         </url>
         <url>
             <loc>https://my_name.github.io/simpleauthDoc/doc2/auth/annotation.html</loc>
+            <lastmod>2023-09-10</lastmod>
+            <changefreq>weekly</changefreq>
+            <priority>1.0</priority>
+        </url>
+        <url>
+            <loc>https://my_name.github.io/simpleauthDoc/doc2/start/started-validate.html</loc>
             <lastmod>2023-09-10</lastmod>
             <changefreq>weekly</changefreq>
             <priority>1.0</priority>

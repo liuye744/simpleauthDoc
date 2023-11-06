@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en"  class="">
+<html lang="en"  class=" heading_no_counter ">
 
 
 <head>
@@ -10,7 +10,7 @@
     <meta name="keywords" content="keyword1, keyword2">
     
     
-    <meta name="description" content="This is a lightweight framework for permission validation and access control based on Spring Boot. Suitable for lightweight and progressive projects.">
+    <meta name="description" content="This is a lightweight framework for permission validation and access control based on SpringBoot. It is suitable for lightweight and progressive projects.">
     
     <meta name="generator" content="teedoc">
     <meta name="theme" content="teedoc-plugin-theme-default">
@@ -47,7 +47,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
     <title>Annotations - SimpleAuth</title>
     
     <script type="text/javascript">js_vars = {}</script>
-    <script type="text/javascript">metadata = {"tags": [], "date": "2023-09-10", "update": [], "ts": 1694304000, "author": "", "brief": "", "cover": ""}</script>
+    <script type="text/javascript">metadata = {"tags": [], "date": "2023-09-10", "update": [], "ts": 1694304000, "author": "", "brief": "", "cover": "", "class": "heading_no_counter"}</script>
 </head>
 
 
@@ -98,17 +98,25 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                 <ul class="show">
 <li class="not_active no_link sidebar_category"><span class="label">Getting Started</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/index.html"><span class="label">Introduction</span><span class=""></span></a></li>
-<li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started.html"><span class="label">Quick Start - Permission Validation</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started.html"><span class="label">Quick Start - Permission Verification</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started-limit.html"><span class="label">Quick Start - Access Control</span><span class=""></span></a></li>
-<li class="not_active no_link sidebar_category"><span class="label">Permission Validation Module</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started-validate.html"><span class="label">Quick Start - Parameter Validation</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">Permission Verification Module</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
-<li class="not_active with_link"><a href="/simpleauthDoc/doc2/no_translate.html?ref=auth/interceptor.html&from=/doc2/auth/interceptor.html"><span class="label">SimpleAuth Interceptor</span><span class=""></span></a></li>
-<li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/dynamic.html"><span class="label">Dynamic Permission Validation</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/interceptor.html"><span class="label">SimpleAuth Interceptor</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/dynamic.html"><span class="label">Dynamic Permission Verification</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Access Control Module</span></li>
 <li class="active with_link"><a href="/simpleauthDoc/doc2/limit/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/limit/dynamic.html"><span class="label">Dynamic Access Control</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">Parameter Validation</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/validate/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/validate/util.html"><span class="label">Utility Functions</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Logging and Configuration Files</span></li>
-<li class="not_active with_link"><a href="/simpleauthDoc/doc2/logging/index.html"><span class="label">Enable/Customize Logging</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/logging/index.html"><span class="label">Enabling/Customizing Logging</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/logging/properties.html"><span class="label">Configuration Parameters</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">Configuration Files</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/config/xml.html"><span class="label">XML Configuration</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/config/json.html"><span class="label">JSON Configuration</span><span class=""></span></a></li>
 </ul>
 
             </div>
@@ -161,22 +169,23 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
 <pre class="language-java"><code class="language-java">public @interface SimpleLimit {
     // Maximum number of requests
     int value() default 100;
-    // Record the time of the request
+    // Record the time of requests
     int seconds() default 300;
-    // Time period during which access is denied after exceeding the limit
+    // Time after which access is prohibited after exceeding the limit
     int ban() default 0;
-    // User identifier generation strategy
+    // User identification generation strategy
     Class&lt;? extends SignStrategic&gt; signStrategic() default DefaultSignStrategic.class;
     // Interface identifier, each interface corresponds to multiple user request records
     String item() default &quot;&quot;;
     // Strategy to verify whether this request is recorded
     Class&lt;? extends EffectiveStrategic&gt; effectiveStrategic() default DefaultEffectiveStrategic.class;
-    // Whether to check if the request is recorded after the request returns
+    // Whether to check if the request is recorded after the response
     boolean judgeAfterReturn() default true;
+    // Rate limiting algorithm
+    Class&lt;? extends TokenLimit&gt; tokenLimit() default CompleteLimit.class;
 }
-
 </code></pre>
-<h2 id="User-Identifier-Generation-Strategy">User Identifier Generation Strategy</h2>
+<h2 id="User-Identification-Generation-Strategy">User Identification Generation Strategy</h2>
 
 <pre class="language-java"><code class="language-java">@Component
 public class MySignStrategic extends SignStrategic {
@@ -185,9 +194,8 @@ public class MySignStrategic extends SignStrategic {
         return &quot;Sign&quot;; // Return the user identifier
     }
 }
-
 </code></pre>
-<p>Create your own class that extends SignStrategic and return the user identifier. If necessary, you can register this class as a Bean.</p>
+<p>Create your own class that extends SignStrategic and return the user identifier. You can register this class as a Bean if needed.</p>
 <h2 id="Request-Record-Verification-Strategy">Request Record Verification Strategy</h2>
 
 <pre class="language-java"><code class="language-java">@Component
@@ -198,11 +206,67 @@ public class MyEffectiveStrategic extends EffectiveStrategic {
     }
 }
 </code></pre>
-<p>When the judgeAfterReturn parameter is set to true, this method will run after the interface call. You can determine whether the request is recorded based on the result.</p>
-<p>If judgeAfterReturn is set to false, it will run before the interface call, and result will be null.</p>
+<p>When the <code>judgeAfterReturn</code> parameter is true, this function will run after the interface call, and you can determine whether the request is recorded based on the <code>result</code>.<br />
+If <code>judgeAfterReturn</code> is false, it will run before the interface call, and <code>result</code> will be null.</p>
 <h2 id="Explanation-of-%27ban%27">Explanation of 'ban'</h2>
-<p>When ban is equal to 0, it will record all operations within the specified time, and expired records will be deleted when the next operation occurs.</p>
-<p>When ban is not equal to 0, requests exceeding the maximum number will be recorded in the ban list. The ban will be lifted after a certain period, and all request records will be deleted.</p>
+<p>When 'ban' is set to 0, all actions within the specified time will be recorded, and expired records will be deleted when the next action occurs.<br />
+When 'ban' is not 0, requests exceeding the maximum limit will be recorded in the ban list, and all request records will be deleted after the ban period ends.</p>
+<h2 id="Custom-Token-Limit-Algorithm">Custom Token Limit Algorithm</h2>
+<p>The default algorithm records all operations precisely and is represented by <code>CompleteLimit</code>. You can also use the token bucket algorithm <code>TokenBucket</code>.<br />
+You can specify the default rate limiting algorithm globally by adding the configuration <code>simple-auth.func.limit-plan=tokenbucket</code>, or you can implement the <code>TokenLimit</code> interface yourself.</p>
+
+<pre class="language-java"><code class="language-java">public interface TokenLimit {
+    /**
+     * Try to acquire, return whether the operation can be successful.
+     */
+    boolean tryAcquire();
+
+    /**
+     * Initialize*
+     * @param limit The limit of the number of times to limit
+     * @param seconds The unit time of restriction
+     */
+    void init(Integer limit, Integer seconds);
+
+    /**
+     * init *
+     * @param capacity The capacity of the limit (the number of times to limit)
+     * @param fillRate The rate of addition
+     */
+    void init(int capacity, double fillRate);
+
+    /**
+     * Remove the last operation record
+     */
+    void removeFirst();
+
+    /**
+     * The number of requests that can still be made
+     */
+    int size();
+
+    /**
+     * The number of recorded requested operations
+     */
+    int optSize();
+
+    /**
+     * The maximum number of requests
+     */
+    int maxOptSize();
+
+    /**
+     * Update synchronization information
+     */
+    void sync();
+
+    /**
+     * Get synchronization lock
+     */
+    Object getSyncMutex();
+}
+</code></pre>
+<p>After implementing the interface, you can specify it globally through configuration: <code>simple-auth.func.limit-plan={full-qualified class name}</code>, or you can add it to specific Controllers using annotations.</p>
 
                         
                     </div>
@@ -212,7 +276,7 @@ public class MyEffectiveStrategic extends EffectiveStrategic {
                         
                         <a href="/simpleauthDoc/doc2/auth/dynamic.html">
                             <span class="icon"></span>
-                            <span class="label">Dynamic Permission Validation</span>
+                            <span class="label">Dynamic Permission Verification</span>
                         </a>
                         
                     </div>

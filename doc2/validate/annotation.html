@@ -10,7 +10,7 @@
     <meta name="keywords" content="keyword1, keyword2">
     
     
-    <meta name="description" content="This is a lightweight framework for permission validation and access control based on SpringBoot. It is suitable for lightweight and progressive projects.">
+    <meta name="description" content="This is a lightweight framework for permission verification and access control based on SpringBoot. It is suitable for lightweight and progressive projects.">
     
     <meta name="generator" content="teedoc">
     <meta name="theme" content="teedoc-plugin-theme-default">
@@ -44,7 +44,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
         
     
     
-    <title>Annotations - SimpleAuth</title>
+    <title>Quick Start - Permission Verification - SimpleAuth</title>
     
     <script type="text/javascript">js_vars = {}</script>
     <script type="text/javascript">metadata = {"tags": [], "date": "2023-09-10", "update": [], "ts": 1694304000, "author": "", "brief": "", "cover": "", "class": "heading_no_counter"}</script>
@@ -102,14 +102,14 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started-limit.html"><span class="label">Quick Start - Access Control</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started-validate.html"><span class="label">Quick Start - Parameter Validation</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Permission Verification Module</span></li>
-<li class="active with_link"><a href="/simpleauthDoc/doc2/auth/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/interceptor.html"><span class="label">SimpleAuth Interceptor</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/dynamic.html"><span class="label">Dynamic Permission Verification</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Access Control Module</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/limit/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/limit/dynamic.html"><span class="label">Dynamic Access Control</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Parameter Validation</span></li>
-<li class="not_active with_link"><a href="/simpleauthDoc/doc2/validate/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
+<li class="active with_link"><a href="/simpleauthDoc/doc2/validate/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/validate/util.html"><span class="label">Utility Functions</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Logging and Configuration Files</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/logging/index.html"><span class="label">Enabling/Customizing Logging</span><span class=""></span></a></li>
@@ -131,7 +131,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     <div id="article_head">
                         <div id="article_title">
                             
-                            <h1>Annotations</h1>
+                            <h1>Quick Start - Permission Verification</h1>
                             
                         </div>
                         <div id="article_tags">
@@ -164,46 +164,77 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     </div>
                     <div id="article_content">
                         
-                            <h2 id="Annotation-Parameters">Annotation Parameters</h2>
+                            <p>In this section, we will explain how to perform permission verification using annotations.</p>
+<h2 id="Annotations">Annotations</h2>
 
-<pre class="language-java"><code class="language-java">public @interface SimpleAuthor {
-    // Interface permission name
-    String value() default &quot;&quot;;
-    // AuthHandler's Class, by default, scans whether there is an interface corresponding to 'value' in 'permissions'
-    Class&lt;? extends AutoAuthHandler&gt;[] handler() default DefaultAuthHandler.class;
-    // AuthHandlerChain's Class
-    Class&lt;? extends AutoAuthHandlerChain&gt;[] handlerChain() default DefaultAuthHandlerChain.class;
+<pre class="language-java"><code class="language-java">@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE, ElementType.METHOD})
+public @interface SimpleValidate {
+    // The class to be used for validation. The validation functions within this class must return a Boolean.
+    Class&lt;?&gt; value() default Object.class;
+    // Names of the validation functions to be used.
+    String[] methods() default {&quot;validate&quot;};
+    // Strategy to handle validation rejection (default strategy throws ValidateException).
+    Class&lt;? extends ValidateRejectedStratagem&gt; rejected() default DefaultValidateRejectedStratagem.class;
 }
 </code></pre>
-<h2 id="Handler">Handler</h2>
-<p>You need to extend AutoAuthHandler, and if you use other SpringBeans, you can register them as Beans (recommended to add the @Component annotation). If the validation fails, it will throw a <code>PermissionsException</code> exception.</p>
+<h2 id="Annotation-Usage">Annotation Usage</h2>
+<p>The <code>SimpleValidate</code> annotation is used to specify the validation class and method for permission validation. The class provided in the <code>value</code> parameter contains validation methods that must return a <code>Boolean</code> and take the object to be validated as a parameter.</p>
+<p>For example, a validation method in the validation class might look like this:</p>
 
-<pre class="language-java"><code class="language-java">public class MyAutoAuthHandler extends MyAutoAuthHandler {
-
-    /**
-     * Check if the conditions are met
-     * @param permission The required permission name
-     * @return Return true to allow (pass)
-     */
-    @Override
-    public boolean SimpleAuthor(HttpServletRequest request, String permission){
-        // Return true for validation pass, false for failure
+<pre class="language-java"><code class="language-java">public class MyValidateObj {
+    // Validate that the user's age is between 1 and 99
+    public Boolean fillUser(User user){
+        final Integer age = user.getAge();
+        if (age &lt;= 1 || age &gt;= 99){
+            return false;
+        }
         return true;
     }
-
-}
-If you do not use @Component, the first call to the Handler will create a new instance with a parameterless constructor and cache it. Subsequent calls will query the corresponding Handler object in the cache. You can use the `simple-auth.func.handler-cache=true` configuration to disable the cache.
-</code></pre>
-<h2 id="HandlerChain">HandlerChain</h2>
-<p>You need to extend AutoAuthHandlerChain, and in the <code>addChain</code> function, add Handlers to combine multiple Handlers together for modularized calling. Similarly, you can choose to register them as Beans.</p>
-
-<pre class="language-java"><code class="language-java">public abstract class AutoAuthHandlerChain {
-    public abstract void addChain();
 }
 </code></pre>
-<p>Commonly used functions<br />
-<code>addLast(Class&lt;? extends AutoAuthHandler&gt; autoAuthHandler)</code>: Add the Handler to the end, the parameter can also be the Bean name of the Handler.<br />
-<code>addFirst(Class&lt;? extends AutoAuthHandler&gt; auto)</code>: Add the Handler to the beginning.</p>
+<p>To use the <code>SimpleValidate</code> annotation in a controller, add it to a method:</p>
+
+<pre class="language-java"><code class="language-java">@RestController
+public class MyController {
+    @GetMapping(&quot;/say&quot;)
+    @SimpleValidate(value = MyValidateObj.class, methods = {&quot;fillUser&quot;})
+    public String say(User user){
+        return user.getName();
+    }
+}
+</code></pre>
+<p>If multiple methods in a controller need to use the same validation class, you can specify the validation class at the class level and reference it in the method-level annotations. When the class-level annotation specifies a validation class, you can skip the <code>value</code> parameter in the method-level annotations:</p>
+
+<pre class="language-java"><code class="language-java">@RestController
+@SimpleValidate(value = MyValidateObj.class)
+public class MyController {
+
+    @GetMapping(&quot;/say&quot;)
+    @SimpleValidate(methods = {&quot;fillUser&quot;})
+    public String say(User user){
+        System.out.println(&quot;say&quot;);
+        return user.getName();
+    }
+
+    @GetMapping(&quot;/eat&quot;)
+    @SimpleValidate(methods = {&quot;partUser&quot;})
+    public String eat(User user){
+        System.out.println(&quot;eat&quot;);
+        return user.getName();
+    }
+}
+</code></pre>
+<h3 id="Rejection-Strategy">Rejection Strategy</h3>
+<p>The default rejection strategy is to throw a <code>ValidateException</code>. You can create a custom rejection strategy by implementing the <code>ValidateRejectedStratagem</code> interface:</p>
+
+<pre class="language-java"><code class="language-java">public class MyRejected implements ValidateRejectedStratagem {
+    @Override
+    public void doRejected(HttpServletRequest request, HttpServletResponse response, Object validationObj) {
+    }
+}
+</code></pre>
+<p>When a validation method returns <code>false</code>, the <code>doRejected</code> function of the rejection strategy will be invoked, and the <code>validationObj</code> parameter will contain the object that was just validated. For example, when the validation of a <code>User</code> object returns <code>false</code>, the <code>validationObj</code> parameter in <code>doRejected</code> will be the <code>User</code> object.</p>
 
                         
                     </div>
@@ -211,16 +242,16 @@ If you do not use @Component, the first call to the Handler will create a new in
                 <div id="previous_next">
                     <div id="previous">
                         
-                        <a href="/simpleauthDoc/doc2/start/started-validate.html">
+                        <a href="/simpleauthDoc/doc2/limit/dynamic.html">
                             <span class="icon"></span>
-                            <span class="label">Quick Start - Parameter Validation</span>
+                            <span class="label">Dynamic Access Control</span>
                         </a>
                         
                     </div>
                     <div id="next">
                         
-                        <a href="/simpleauthDoc/doc2/auth/interceptor.html">
-                            <span class="label">SimpleAuth Interceptor</span>
+                        <a href="/simpleauthDoc/doc2/validate/util.html">
+                            <span class="label">Utility Functions</span>
                             <span class="icon"></span>
                         </a>
                         

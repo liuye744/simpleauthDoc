@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en"  class=" heading_no_counter ">
+<html lang="en"  class="">
 
 
 <head>
@@ -44,10 +44,10 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
         
     
     
-    <title>Annotations - SimpleAuth</title>
+    <title>JSON Configuration - SimpleAuth</title>
     
     <script type="text/javascript">js_vars = {}</script>
-    <script type="text/javascript">metadata = {"tags": [], "date": "2023-09-10", "update": [], "ts": 1694304000, "author": "", "brief": "", "cover": "", "class": "heading_no_counter"}</script>
+    <script type="text/javascript">metadata = {"tags": [], "date": "2023-09-10", "update": [], "ts": 1694304000, "author": "", "brief": "", "cover": ""}</script>
 </head>
 
 
@@ -102,7 +102,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started-limit.html"><span class="label">Quick Start - Access Control</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started-validate.html"><span class="label">Quick Start - Parameter Validation</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Permission Verification Module</span></li>
-<li class="active with_link"><a href="/simpleauthDoc/doc2/auth/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/interceptor.html"><span class="label">SimpleAuth Interceptor</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/dynamic.html"><span class="label">Dynamic Permission Verification</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Access Control Module</span></li>
@@ -116,7 +116,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/logging/properties.html"><span class="label">Configuration Parameters</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Configuration Files</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/config/xml.html"><span class="label">XML Configuration</span><span class=""></span></a></li>
-<li class="not_active with_link"><a href="/simpleauthDoc/doc2/config/json.html"><span class="label">JSON Configuration</span><span class=""></span></a></li>
+<li class="active with_link"><a href="/simpleauthDoc/doc2/config/json.html"><span class="label">JSON Configuration</span><span class=""></span></a></li>
 </ul>
 
             </div>
@@ -131,7 +131,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     <div id="article_head">
                         <div id="article_title">
                             
-                            <h1>Annotations</h1>
+                            <h1>JSON Configuration</h1>
                             
                         </div>
                         <div id="article_tags">
@@ -164,46 +164,115 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     </div>
                     <div id="article_content">
                         
-                            <h2 id="Annotation-Parameters">Annotation Parameters</h2>
+                            <p>Recommended: Use XML Configuration</p>
+<h2 id="Configure-Related-Configuration-Files">Configure Related Configuration Files</h2>
 
-<pre class="language-java"><code class="language-java">public @interface SimpleAuthor {
-    // Interface permission name
-    String value() default &quot;&quot;;
-    // AuthHandler's Class, by default, scans whether there is an interface corresponding to 'value' in 'permissions'
-    Class&lt;? extends AutoAuthHandler&gt;[] handler() default DefaultAuthHandler.class;
-    // AuthHandlerChain's Class
-    Class&lt;? extends AutoAuthHandlerChain&gt;[] handlerChain() default DefaultAuthHandlerChain.class;
+<pre class="language-json"><code class="language-json">{  
+    &quot;configs&quot;: [
+        &quot;handler.json&quot;,
+        &quot;limit.json&quot;,
+        &quot;handlerChain.json&quot;,
+        &quot;paths.json&quot;
+    ]
 }
 </code></pre>
-<h2 id="Handler">Handler</h2>
-<p>You need to extend AutoAuthHandler, and if you use other SpringBeans, you can register them as Beans (recommended to add the @Component annotation). If the validation fails, it will throw a <code>PermissionsException</code> exception.</p>
+<h2 id="Configure-Handlers">Configure Handlers</h2>
 
-<pre class="language-java"><code class="language-java">public class MyAutoAuthHandler extends MyAutoAuthHandler {
-
-    /**
-     * Check if the conditions are met
-     * @param permission The required permission name
-     * @return Return true to allow (pass)
-     */
-    @Override
-    public boolean SimpleAuthor(HttpServletRequest request, String permission){
-        // Return true for validation pass, false for failure
-        return true;
-    }
-
+<pre class="language-json"><code class="language-json">{
+    &quot;handler&quot;: [
+        {
+        &quot;id&quot;: &quot;test&quot;,
+        &quot;class&quot;: &quot;com.example.simpleauthtest.handler.MyHandler&quot;,
+        &quot;scope&quot;: &quot;singleton&quot;,
+        &quot;pathsId&quot;:&quot;test&quot;
+        },
+        {
+        &quot;id&quot;: &quot;myHandlerId2&quot;,
+        &quot;class&quot;: &quot;com.example.simpleauthtest.handler.MyHandler&quot;,
+        &quot;scope&quot;: &quot;singleton&quot;,
+        &quot;paths&quot;: {
+            &quot;id&quot;: &quot;myHandlerPath2&quot;,
+            &quot;path&quot;: [
+            &quot;/say&quot;,
+            &quot;/eat&quot;
+            ]
+        }
+        }
+    ]
 }
-If you do not use @Component, the first call to the Handler will create a new instance with a parameterless constructor and cache it. Subsequent calls will query the corresponding Handler object in the cache. You can use the `simple-auth.func.handler-cache=true` configuration to disable the cache.
 </code></pre>
-<h2 id="HandlerChain">HandlerChain</h2>
-<p>You need to extend AutoAuthHandlerChain, and in the <code>addChain</code> function, add Handlers to combine multiple Handlers together for modularized calling. Similarly, you can choose to register them as Beans.</p>
+<h2 id="Configure-Limits">Configure Limits</h2>
 
-<pre class="language-java"><code class="language-java">public abstract class AutoAuthHandlerChain {
-    public abstract void addChain();
+<pre class="language-json"><code class="language-json">{
+    &quot;limit&quot;: [
+        {
+        &quot;id&quot;: &quot;limitId&quot;,
+        &quot;times&quot;: 1,
+        &quot;seconds&quot;: 2,
+        &quot;ban&quot;: 3,
+        &quot;pathsId&quot;: &quot;myLimitPath&quot;
+        }
+    ]
 }
 </code></pre>
-<p>Commonly used functions<br />
-<code>addLast(Class&lt;? extends AutoAuthHandler&gt; autoAuthHandler)</code>: Add the Handler to the end, the parameter can also be the Bean name of the Handler.<br />
-<code>addFirst(Class&lt;? extends AutoAuthHandler&gt; auto)</code>: Add the Handler to the beginning.</p>
+<h2 id="Configure-HandlerChain">Configure HandlerChain</h2>
+
+<pre class="language-json"><code class="language-json">{
+    &quot;handlerChain&quot;: [
+        {
+        &quot;id&quot;: &quot;myHandlerChain&quot;,
+        &quot;list&quot;: [
+            {
+            &quot;id&quot;: &quot;test&quot;
+            },
+            {
+            &quot;class&quot;: &quot;com.example.simpleauthtest.handler.MyHandler&quot;
+            }
+        ],
+        &quot;paths&quot;: {
+            &quot;id&quot;: &quot;myPath&quot;
+        }
+        },
+        {
+        &quot;id&quot;: &quot;myHandlerChain2&quot;,
+        &quot;list&quot;: [
+            {
+            &quot;id&quot;: &quot;test&quot;
+            },
+            {
+            &quot;class&quot;: &quot;com.example.simpleauthtest.handler.MyHandler&quot;
+            }
+        ],
+        &quot;paths&quot;: {
+            &quot;id&quot;: &quot;myPath&quot;
+        }
+        }
+    ]
+}
+</code></pre>
+<h2 id="Configure-Paths">Configure Paths</h2>
+
+<pre class="language-json"><code class="language-json">{
+    &quot;paths&quot;: [
+        {
+        &quot;id&quot;: &quot;myLimitPath&quot;,
+        &quot;path&quot;: [
+            &quot;/say&quot;,
+            &quot;/eat&quot;,
+            &quot;/sleep&quot;
+        ]
+        },
+        {
+        &quot;id&quot;: &quot;myPath&quot;,
+        &quot;path&quot;: [
+            &quot;/say&quot;,
+            &quot;/eat&quot;,
+            &quot;/sleep&quot;
+        ]
+        }
+    ]
+}
+</code></pre>
 
                         
                     </div>
@@ -211,18 +280,13 @@ If you do not use @Component, the first call to the Handler will create a new in
                 <div id="previous_next">
                     <div id="previous">
                         
-                        <a href="/simpleauthDoc/doc2/start/started-validate.html">
+                        <a href="/simpleauthDoc/doc2/config/xml.html">
                             <span class="icon"></span>
-                            <span class="label">Quick Start - Parameter Validation</span>
+                            <span class="label">XML Configuration</span>
                         </a>
                         
                     </div>
                     <div id="next">
-                        
-                        <a href="/simpleauthDoc/doc2/auth/interceptor.html">
-                            <span class="label">SimpleAuth Interceptor</span>
-                            <span class="icon"></span>
-                        </a>
                         
                     </div>
                 </div>

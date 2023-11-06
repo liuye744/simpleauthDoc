@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en"  class="">
+<html lang="en"  class=" heading_no_counter ">
 
 
 <head>
@@ -47,7 +47,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
     <title>Introduction - SimpleAuth</title>
     
     <script type="text/javascript">js_vars = {}</script>
-    <script type="text/javascript">metadata = {"tags": [], "date": "2023-09-10", "update": [], "ts": 1694304000, "author": "", "brief": "", "cover": ""}</script>
+    <script type="text/javascript">metadata = {"tags": [], "date": "2023-09-10", "update": [], "ts": 1694304000, "author": "", "brief": "", "cover": "", "class": "heading_no_counter"}</script>
 </head>
 
 
@@ -98,17 +98,25 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                 <ul class="show">
 <li class="not_active no_link sidebar_category"><span class="label">Getting Started</span></li>
 <li class="active with_link"><a href="/simpleauthDoc/doc2/index.html"><span class="label">Introduction</span><span class=""></span></a></li>
-<li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started.html"><span class="label">Quick Start - Permission Validation</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started.html"><span class="label">Quick Start - Permission Verification</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started-limit.html"><span class="label">Quick Start - Access Control</span><span class=""></span></a></li>
-<li class="not_active no_link sidebar_category"><span class="label">Permission Validation Module</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started-validate.html"><span class="label">Quick Start - Parameter Validation</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">Permission Verification Module</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
-<li class="not_active with_link"><a href="/simpleauthDoc/doc2/no_translate.html?ref=auth/interceptor.html&from=/doc2/auth/interceptor.html"><span class="label">SimpleAuth Interceptor</span><span class=""></span></a></li>
-<li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/dynamic.html"><span class="label">Dynamic Permission Validation</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/interceptor.html"><span class="label">SimpleAuth Interceptor</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/dynamic.html"><span class="label">Dynamic Permission Verification</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Access Control Module</span></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/limit/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/limit/dynamic.html"><span class="label">Dynamic Access Control</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">Parameter Validation</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/validate/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/validate/util.html"><span class="label">Utility Functions</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Logging and Configuration Files</span></li>
-<li class="not_active with_link"><a href="/simpleauthDoc/doc2/logging/index.html"><span class="label">Enable/Customize Logging</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/logging/index.html"><span class="label">Enabling/Customizing Logging</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/logging/properties.html"><span class="label">Configuration Parameters</span><span class=""></span></a></li>
+<li class="not_active no_link sidebar_category"><span class="label">Configuration Files</span></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/config/xml.html"><span class="label">XML Configuration</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/config/json.html"><span class="label">JSON Configuration</span><span class=""></span></a></li>
 </ul>
 
             </div>
@@ -157,22 +165,17 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     <div id="article_content">
                         
                             <h2 id="Features">Features</h2>
-<p>This is a lightweight and progressive framework for permission validation and access control based on SpringBoot. It is suitable for quickly building small to medium-sized projects. It's easy to get started with.</p>
+<p>This is a lightweight and progressive framework for permission validation and access control based on SpringBoot. It is suitable for quickly building small to medium-sized projects. It's easy to get started.</p>
 <p><a href="https://github.com/liuye744/SimpleAuth"  target="_blank">GitHub Repository</a></p>
 <h2 id="Use-Cases">Use Cases</h2>
 <ul>
-<li><p>Low project complexity with simple permission validation</p>
-</li>
-<li><p>Flexible authentication requirements subject to change</p>
-</li>
-<li><p>Quick setup for RBAC (Role-Based Access Control)</p>
-</li>
-<li><p>Limiting user access counts</p>
-</li>
-<li><p>Fine-grained access control</p>
-</li>
-<li><p>Simple security measures</p>
-</li>
+<li>Low project complexity with simple permission validation</li>
+<li>Flexible authentication solutions that may change at any time</li>
+<li>Quick setup of RBAC (Role-Based Access Control)</li>
+<li>Complex, non-intrusive parameter validation</li>
+<li>User access rate limiting</li>
+<li>Fine-grained access control</li>
+<li>Simple security protection</li>
 </ul>
 
                         
@@ -185,7 +188,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     <div id="next">
                         
                         <a href="/simpleauthDoc/doc2/start/started.html">
-                            <span class="label">Quick Start - Permission Validation</span>
+                            <span class="label">Quick Start - Permission Verification</span>
                             <span class="icon"></span>
                         </a>
                         

@@ -44,7 +44,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
         
     
     
-    <title>Annotations - SimpleAuth</title>
+    <title>Quick Start - Parameter Validation - SimpleAuth</title>
     
     <script type="text/javascript">js_vars = {}</script>
     <script type="text/javascript">metadata = {"tags": [], "date": "2023-09-10", "update": [], "ts": 1694304000, "author": "", "brief": "", "cover": "", "class": "heading_no_counter"}</script>
@@ -100,9 +100,9 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/index.html"><span class="label">Introduction</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started.html"><span class="label">Quick Start - Permission Verification</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started-limit.html"><span class="label">Quick Start - Access Control</span><span class=""></span></a></li>
-<li class="not_active with_link"><a href="/simpleauthDoc/doc2/start/started-validate.html"><span class="label">Quick Start - Parameter Validation</span><span class=""></span></a></li>
+<li class="active with_link"><a href="/simpleauthDoc/doc2/start/started-validate.html"><span class="label">Quick Start - Parameter Validation</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Permission Verification Module</span></li>
-<li class="active with_link"><a href="/simpleauthDoc/doc2/auth/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
+<li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/annotation.html"><span class="label">Annotations</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/interceptor.html"><span class="label">SimpleAuth Interceptor</span><span class=""></span></a></li>
 <li class="not_active with_link"><a href="/simpleauthDoc/doc2/auth/dynamic.html"><span class="label">Dynamic Permission Verification</span><span class=""></span></a></li>
 <li class="not_active no_link sidebar_category"><span class="label">Access Control Module</span></li>
@@ -131,7 +131,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     <div id="article_head">
                         <div id="article_title">
                             
-                            <h1>Annotations</h1>
+                            <h1>Quick Start - Parameter Validation</h1>
                             
                         </div>
                         <div id="article_tags">
@@ -164,46 +164,141 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     </div>
                     <div id="article_content">
                         
-                            <h2 id="Annotation-Parameters">Annotation Parameters</h2>
+                            <p>In this section, we will explain how to validate parameters using annotations.</p>
+<h2 id="Step-1%3A-Add-Maven-Dependency">Step 1: Add Maven Dependency</h2>
 
-<pre class="language-java"><code class="language-java">public @interface SimpleAuthor {
-    // Interface permission name
-    String value() default &quot;&quot;;
-    // AuthHandler's Class, by default, scans whether there is an interface corresponding to 'value' in 'permissions'
-    Class&lt;? extends AutoAuthHandler&gt;[] handler() default DefaultAuthHandler.class;
-    // AuthHandlerChain's Class
-    Class&lt;? extends AutoAuthHandlerChain&gt;[] handlerChain() default DefaultAuthHandlerChain.class;
+<pre class="language-xml"><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;io.github.liuye744&lt;/groupId&gt;
+    &lt;artifactId&gt;simpleAuth-spring-boot-starter&lt;/artifactId&gt;
+    &lt;version&gt;1.4.0.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h2 id="Step-2%3A-Add-Annotations">Step 2: Add Annotations</h2>
+<p>You can add annotations to individual functions within a Controller. If the validation limit is exceeded, a <code>ValidateException</code> will be thrown.</p>
+<h3 id="Use-Case-1%3A-Simple-Validation-of-User-Name-and-Age">Use Case 1: Simple Validation of User Name and Age</h3>
+<p>Validate that the age (age) is between 1 and 99 and that the length of the nickname (name) is between 5 and 16.</p>
+
+<pre class="language-java"><code class="language-java">// User class
+public class User {
+    String name;
+    Integer age;
+    String phone;
+    // Getters and setters omitted
+}
+
+// Controller where methods refer to functions in MyValidateObj
+@RestController
+public class MyController {
+    @GetMapping(&quot;/say&quot;)
+    @SimpleValidate(value = MyValidateObj.class, methods = {&quot;fillUser&quot;})
+    public String say(User user){
+        System.out.println(&quot;Controller &quot; + user);
+        return user.getName();
+    }
+}
+// Validation class (returns a Boolean and has exactly one object to validate as a parameter)
+public class MyValidateObj {
+    public Boolean fillUser(User user){
+        final Integer age = user.getAge();
+        if (age &lt;= 1 || age &gt;= 99){
+            return false;
+        }
+        final int nameLength = user.getName().length();
+        if (nameLength &lt;= 5 || nameLength &gt;= 16){
+            return false;
+        }
+        return true;
+    }
 }
 </code></pre>
-<h2 id="Handler">Handler</h2>
-<p>You need to extend AutoAuthHandler, and if you use other SpringBeans, you can register them as Beans (recommended to add the @Component annotation). If the validation fails, it will throw a <code>PermissionsException</code> exception.</p>
+<h3 id="Use-Case-2%3A-Reusing-the-Same-Validation-for-Multiple-Functions-in-the-Same-Controller">Use Case 2: Reusing the Same Validation for Multiple Functions in the Same Controller</h3>
+<p>The <code>/say</code> endpoint requires validation of the <code>name</code> and <code>age</code> fields, while the <code>/eat</code> endpoint only requires validation of the <code>phone</code> field for a valid mobile phone number.</p>
 
-<pre class="language-java"><code class="language-java">public class MyAutoAuthHandler extends MyAutoAuthHandler {
+<pre class="language-java"><code class="language-java">@RestController
+@SimpleValidate(value = MyValidateObj.class)
+public class MyController {
 
-    /**
-     * Check if the conditions are met
-     * @param permission The required permission name
-     * @return Return true to allow (pass)
-     */
-    @Override
-    public boolean SimpleAuthor(HttpServletRequest request, String permission){
-        // Return true for validation pass, false for failure
+    @GetMapping(&quot;/say&quot;)
+    @SimpleValidate(methods = {&quot;fillUser&quot;})
+    public String say(User user){
+        System.out.println(&quot;say&quot;);
+        return user.getName();
+    }
+
+    @GetMapping(&quot;/eat&quot;)
+    @SimpleValidate(methods = {&quot;partUser&quot;})
+    public String eat(User user){
+        System.out.println(&quot;eat&quot;);
+        return user.getName();
+    }
+}
+// Validation class
+public class MyValidateObj {
+    public Boolean fillUser(User user){
+        final Integer age = user.getAge();
+        if (age &lt;= 1 || age &gt;=99){
+            return false;
+        }
+        final int nameLength = user.getName().length();
+        if (nameLength &lt;= 5 || nameLength &gt;= 16){
+            return false;
+        }
         return true;
     }
 
+    public Boolean partUser(User user){
+        final String phone = user.getPhone();
+        if (phone == null){
+            return false;
+        }
+        Pattern pattern = Pattern.compile(&quot;^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\\d{8}$&quot;);
+        return pattern.matcher(phone).matches();
+    }
 }
-If you do not use @Component, the first call to the Handler will create a new instance with a parameterless constructor and cache it. Subsequent calls will query the corresponding Handler object in the cache. You can use the `simple-auth.func.handler-cache=true` configuration to disable the cache.
 </code></pre>
-<h2 id="HandlerChain">HandlerChain</h2>
-<p>You need to extend AutoAuthHandlerChain, and in the <code>addChain</code> function, add Handlers to combine multiple Handlers together for modularized calling. Similarly, you can choose to register them as Beans.</p>
+<h3 id="Use-Case-3%3A-Simplifying-Validation-Using-a-Utility-Class">Use Case 3: Simplifying Validation Using a Utility Class</h3>
+<p>This section demonstrates the same functionality as Use Case 2.</p>
 
-<pre class="language-java"><code class="language-java">public abstract class AutoAuthHandlerChain {
-    public abstract void addChain();
+<pre class="language-java"><code class="language-java">public class MyValidateObj {
+    public Boolean fillUser(User user){
+        return SVU.notFalse(
+            SVU.lengthRange( user.getName(), 5, 16),
+            SVU.range( user.getAge(), 1, 99)
+        );
+    }
+
+    public Boolean partUser(User user){
+        return SVU.pattern(user.getPhone(), Regex.CHINESE_MOBIL_PHONE_NUMBER);
+    }
 }
 </code></pre>
-<p>Commonly used functions<br />
-<code>addLast(Class&lt;? extends AutoAuthHandler&gt; autoAuthHandler)</code>: Add the Handler to the end, the parameter can also be the Bean name of the Handler.<br />
-<code>addFirst(Class&lt;? extends AutoAuthHandler&gt; auto)</code>: Add the Handler to the beginning.</p>
+<h3 id="Use-Case-4%3A-Throwing-Different-Exceptions-on-Validation-Failure">Use Case 4: Throwing Different Exceptions on Validation Failure</h3>
+<p>This section demonstrates the same functionality as the previous example. In this case, a <code>ValidateException</code> will be thrown when validation fails, and the input message will be carried in the exception's message.</p>
+
+<pre class="language-java"><code class="language-java">// The ValidateException will be thrown on validation failure, and the provided message will be carried in the exception's message.
+public class MyValidateObj {
+    public Boolean fillUser(User user){
+        return SVU.notFalse(
+            SVU.lengthRange(&quot;昵称长度需要在5-16之间&quot;, user.getName(), 5, 16),
+            SVU.range(&quot;年龄需要在1-99之间&quot;, user.getAge(), 1, 99)
+        );
+    }
+
+    public Boolean partUser(User user){
+        return SVU.pattern(&quot;手机号格式不合法&quot;, user.getPhone(), Regex.CHINESE_MOBIL_PHONE_NUMBER);
+    }
+}
+// It's recommended to catch ValidateException in an advice class and handle it there.
+@ControllerAdvice
+public class MyExceptionHandler {
+    @ExceptionHandler(value = ValidateException.class)
+    @ResponseBody
+    public String exceptionHandler(ValidateException e){
+        return e.getMessage();
+    }
+}
+</code></pre>
+<p>With the provided code, accessing <code>http://localhost:8080/say?name=CodingCube</code> will return the message <code>&quot;年龄需要在1-99之间&quot;</code> if validation fails.</p>
 
                         
                     </div>
@@ -211,16 +306,16 @@ If you do not use @Component, the first call to the Handler will create a new in
                 <div id="previous_next">
                     <div id="previous">
                         
-                        <a href="/simpleauthDoc/doc2/start/started-validate.html">
+                        <a href="/simpleauthDoc/doc2/start/started-limit.html">
                             <span class="icon"></span>
-                            <span class="label">Quick Start - Parameter Validation</span>
+                            <span class="label">Quick Start - Access Control</span>
                         </a>
                         
                     </div>
                     <div id="next">
                         
-                        <a href="/simpleauthDoc/doc2/auth/interceptor.html">
-                            <span class="label">SimpleAuth Interceptor</span>
+                        <a href="/simpleauthDoc/doc2/auth/annotation.html">
+                            <span class="label">Annotations</span>
                             <span class="icon"></span>
                         </a>
                         
