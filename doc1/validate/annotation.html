@@ -226,7 +226,20 @@ public class MyController {
     }
 }
 </code></pre>
-<h3 id="%E6%8B%92%E7%BB%9D%E7%AD%96%E7%95%A5">拒绝策略</h3>
+<h2 id="%E6%B3%A8%E8%A7%A3%E7%94%A8%E6%B3%952">注解用法2</h2>
+<p>在Controller中添加注解(指定的校验类可在函数或类上添加)</p>
+
+<pre class="language-java"><code class="language-java">@RestController
+@SimpleValidate(MyValidateObj.class)
+public class MyController {
+    @GetMapping(&quot;/say&quot;)
+    public String say(@SimpleValidate User user){
+        return user.getName();
+    }
+}
+</code></pre>
+<p>当访问<code>/say</code>时，会执行MyValidateObj类的所有带有User参数的校验函数</p>
+<h2 id="%E6%8B%92%E7%BB%9D%E7%AD%96%E7%95%A5">拒绝策略</h2>
 <p>默认的拒绝策略为抛出<code>ValidateException</code></p>
 
 <pre class="language-java"><code class="language-java">public class MyRejected implements ValidateRejectedStratagem {

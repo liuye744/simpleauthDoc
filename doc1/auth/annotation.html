@@ -167,7 +167,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                             <h2 id="%E6%B3%A8%E8%A7%A3%E5%8F%82%E6%95%B0">注解参数</h2>
 
 <pre class="language-java"><code class="language-java">public @interface SimpleAuthor {
-    //接口权限名
+    //接口权限名，支持SpEL表达式
     String value() default &quot;&quot;;
     //鉴权Handler的Class，默认扫描是否permissions中是否存在接口对应的value
     Class&lt;? extends AutoAuthHandler&gt;[] handler() default DefaultAuthHandler.class;
