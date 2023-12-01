@@ -69,7 +69,21 @@ public class MyController {
     }
 }
 ```
-### 拒绝策略
+## 注解用法2
+在Controller中添加注解(指定的校验类可在函数或类上添加)
+```java
+@RestController
+@SimpleValidate(MyValidateObj.class)
+public class MyController {
+    @GetMapping("/say")
+    public String say(@SimpleValidate User user){
+        return user.getName();
+    }
+}
+```
+当访问`/say`时，会执行MyValidateObj类的所有带有User参数的校验函数
+
+## 拒绝策略
 默认的拒绝策略为抛出`ValidateException`
 ```java
 public class MyRejected implements ValidateRejectedStratagem {

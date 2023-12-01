@@ -18,7 +18,7 @@ public @interface SimpleLimit {
     int ban() default 0;
     //用户标识的生成策略
     Class<? extends SignStrategic> signStrategic() default DefaultSignStrategic.class;
-    //接口的标识，每个接口对应多个用户请求记录表
+    //接口的标识，每个接口对应多个用户请求记录表，支持SpEL表达式
     String item() default "";
     //验证本次请求是否被记录的策略
     Class<? extends EffectiveStrategic> effectiveStrategic() default DefaultEffectiveStrategic.class;

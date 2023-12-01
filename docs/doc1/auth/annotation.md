@@ -10,7 +10,7 @@ class: heading_no_counter
 ## 注解参数
 ```java
 public @interface SimpleAuthor {
-    //接口权限名
+    //接口权限名，支持SpEL表达式
     String value() default "";
     //鉴权Handler的Class，默认扫描是否permissions中是否存在接口对应的value
     Class<? extends AutoAuthHandler>[] handler() default DefaultAuthHandler.class;
