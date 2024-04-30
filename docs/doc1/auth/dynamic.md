@@ -43,7 +43,7 @@ public class MyAuthItemProvider implements RequestAuthItemProvider {
 @Component
 public class MyHandler extends AutoAuthHandler {
     @Override
-    public boolean SimpleAuthor(HttpServletRequest request, String permission) {
+    public boolean isAuthor(HttpServletRequest request, String permission) {
         //参数name是否与permission相同。相同则放行
         final String name = request.getParameter("name");
         return name.equals(permission);
@@ -61,7 +61,7 @@ public class MyHandlerChain extends AutoAuthHandlerChain {
 @Component
 public class MyHandler1 extends AutoAuthHandler {
     @Override
-    public boolean SimpleAuthor(HttpServletRequest request, String permission) {
+    public boolean isAuthor(HttpServletRequest request, String permission) {
         //查询数据库添加用户permissions，为方便演示直接手动添加一个"visitor"
         ArrayList<String> permissions = new ArrayList<>();
         permissions.add("visitor");
@@ -73,7 +73,7 @@ public class MyHandler1 extends AutoAuthHandler {
 @Component
 public class MyHandler2 extends AutoAuthHandler {
     @Override
-    public boolean SimpleAuthor(HttpServletRequest request, String permission) {
+    public boolean isAuthor(HttpServletRequest request, String permission) {
         final ArrayList<String> permissions = getPermissions();
         return !permissions.contains(permission);
     }

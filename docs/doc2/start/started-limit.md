@@ -13,7 +13,7 @@ In this section, we will explain how to restrict access to interfaces using anno
 <dependency>
     <groupId>io.github.liuye744</groupId>
     <artifactId>simpleAuth-spring-boot-starter</artifactId>
-    <version>1.4.3.RELEASE</version>
+    <version>1.4.7.RELEASE</version>
 </dependency>
 ```
 

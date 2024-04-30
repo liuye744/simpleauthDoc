@@ -8,7 +8,7 @@ class: heading_no_counter
 
 ## Annotation Parameters
 ```java
-public @interface SimpleAuthor {
+public @interface SimpleAuth {
     // Interface permission name
     String value() default "";
     // AuthHandler's Class, by default, scans whether there is an interface corresponding to 'value' in 'permissions'
@@ -29,7 +29,7 @@ public class MyAutoAuthHandler extends MyAutoAuthHandler {
      * @return Return true to allow (pass)
      */
     @Override
-    public boolean SimpleAuthor(HttpServletRequest request, String permission){
+    public boolean isAuthor(HttpServletRequest request, String permission){
         // Return true for validation pass, false for failure
         return true;
     }

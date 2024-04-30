@@ -5,7 +5,7 @@ desc: 这是一款基于SpringBoot的轻量化的权限校验和访问控制的�
 date: 2023-09-10
 class: heading_no_counter
 ---
-本节中将会介绍如何通过注解限制接口访问
+本节中将会介绍如何通过注解限制接口访问，学习相关参数以方便更细致控制
 
 
 ## 第一步：添加Maven依赖
@@ -14,7 +14,7 @@ class: heading_no_counter
 <dependency>
     <groupId>io.github.liuye744</groupId>
     <artifactId>simpleAuth-spring-boot-starter</artifactId>
-    <version>1.4.3.RELEASE</version>
+    <version>1.4.7.RELEASE</version>
 </dependency>
 ```
 
