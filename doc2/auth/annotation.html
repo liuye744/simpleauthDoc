@@ -166,7 +166,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                         
                             <h2 id="Annotation-Parameters">Annotation Parameters</h2>
 
-<pre class="language-java"><code class="language-java">public @interface SimpleAuthor {
+<pre class="language-java"><code class="language-java">public @interface SimpleAuth {
     // Interface permission name
     String value() default &quot;&quot;;
     // AuthHandler's Class, by default, scans whether there is an interface corresponding to 'value' in 'permissions'
@@ -186,7 +186,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
      * @return Return true to allow (pass)
      */
     @Override
-    public boolean SimpleAuthor(HttpServletRequest request, String permission){
+    public boolean isAuthor(HttpServletRequest request, String permission){
         // Return true for validation pass, false for failure
         return true;
     }

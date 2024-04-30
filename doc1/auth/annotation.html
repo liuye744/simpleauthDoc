@@ -166,16 +166,18 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                         
                             <h2 id="%E6%B3%A8%E8%A7%A3%E5%8F%82%E6%95%B0">注解参数</h2>
 
-<pre class="language-java"><code class="language-java">public @interface SimpleAuthor {
+<pre class="language-java"><code class="language-java">public @interface SimpleAuth {
     //接口权限名，支持SpEL表达式
     String value() default &quot;&quot;;
     //鉴权Handler的Class，默认扫描是否permissions中是否存在接口对应的value
     Class&lt;? extends AutoAuthHandler&gt;[] handler() default DefaultAuthHandler.class;
     //鉴权Handler链的Class
     Class&lt;? extends AutoAuthHandlerChain&gt;[] handlerChain() default DefaultAuthHandlerChain.class;
+    //拒绝策略，默认为DefaultAuthRejectedStratagem，抛出PermissionsException(&quot;lack of permissions&quot;)异常
+    Class&lt;? extends AuthRejectedStratagem&gt; rejected() default NullTarget.class;
 }
 </code></pre>
-<h2 id="Handler">Handler</h2>
+<h2 id="Handler%EF%BC%88%E9%89%B4%E6%9D%83%E5%A4%84%E7%90%86%E5%99%A8%EF%BC%89">Handler（鉴权处理器）</h2>
 <p>需要继承AutoAuthHandler，如果用到Spring中的其他Bean可以使用@Component注册为Bean(推荐添加@Component注解)。<br />
 验证失败则会抛出<code>PermissionsException</code>异常</p>
 
@@ -187,7 +189,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
      * @return 返回true则符合(放行)
      */
     @override
-    public boolean SimpleAuthor(HttpServletRequest request, String permission){
+    public boolean isAuthor(HttpServletRequest request, String permission){
         //验证通过返回true放行，失败则返回false
         return true;
     }
@@ -195,7 +197,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
 }
 若没有使用@Component，首次调用Handler则通过无参构造函数创建新实例后缓存，之后的调用则会查询缓存中对应的Handler对象，可以使用`simple-auth.func.handler-cache=true`配置关闭缓存。
 </code></pre>
-<h2 id="HandlerChain">HandlerChain</h2>
+<h2 id="HandlerChain%EF%BC%88%E6%9D%83%E9%99%90%E5%A4%84%E7%90%86%E5%99%A8%E9%93%BE%EF%BC%89">HandlerChain（权限处理器链）</h2>
 <p>需要继承AutoAuthHandlerChain，在<code>addChain</code>函数中添加Handler将多个Handler组合在一起方便模块化调用。同样的也可以选择注册为Bean</p>
 
 <pre class="language-java"><code class="language-java">public abstract class AutoAuthHandlerChain {
@@ -205,6 +207,34 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
 <p>常用的函数<br />
 <code>addLast(Class&lt;? extends AutoAuthHandler&gt; autoAuthHandler)</code>:添加Handler到尾部，参数也可以为Handler的Bean名称。<br />
 <code>addFirst(Class&lt;? extends AutoAuthHandler&gt; auto)</code>:添加Handler到头部</p>
+<h2 id="AuthRejectedStratagem%EF%BC%88%E9%89%B4%E6%9D%83%E6%8B%92%E7%BB%9D%E7%AD%96%E7%95%A5%EF%BC%89">AuthRejectedStratagem（鉴权拒绝策略）</h2>
+<p>默认会抛出PermissionsException(&quot;lack of permissions&quot;)异常，一般不建议修改<br />
+默认拒绝策略如下</p>
+
+<pre class="language-java"><code class="language-java">public class DefaultAuthRejectedStratagem implements AuthRejectedStratagem {
+    @Override
+    public void doRejected(HttpServletRequest request, HttpServletResponse response, LogAuthFormat authFormat) {
+        throw new PermissionsException(&quot;lack of permissions&quot;);
+    }
+}
+</code></pre>
+<p>可以自己创建类继承AuthRejectedStratagem接口并重写doRejected方法。<br />
+需要使用时可通过注解配置</p>
+
+<pre class="language-java"><code class="language-java">//新建的拒绝策略
+public class MyAuthRejectedStratagem implements AuthRejectedStratagem {
+    @Override
+    public void doRejected(HttpServletRequest request, HttpServletResponse response, LogAuthFormat authFormat) {
+        throw new PermissionsException(&quot;this is my AuthRejectedStratagem&quot;);
+    }
+}
+//Controller
+@GetMapping(&quot;/checkNameWhetherCodingCube2&quot;)
+@SimpleAuth(handler = MyHandler.class, rejected = MyAuthRejectedStratagem.class)
+public String checkNameWhetherCodingCube(String name){
+    return &quot;Hello World&quot;;
+}
+</code></pre>
 
                         
                     </div>
