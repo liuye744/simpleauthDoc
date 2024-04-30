@@ -178,7 +178,7 @@ public @interface SimpleValidate {
     Class&lt;? extends ValidateRejectedStratagem&gt; rejected() default DefaultValidateRejectedStratagem.class;
 }
 </code></pre>
-<h2 id="%E6%B3%A8%E8%A7%A3%E7%94%A8%E6%B3%95">注解用法</h2>
+<h2 id="%E5%8D%95%E6%96%B9%E6%B3%95%E6%B3%A8%E8%A7%A3%E7%94%A8%E6%B3%95">单方法注解用法</h2>
 <p>value参数传入用于校验的类。<br />
 类中用于校验的函数返回值必须为<code>Boolean</code>，参数为需要校验的类。<br />
 例：<code>public Boolean fillUser(User user);</code></p>
@@ -226,7 +226,7 @@ public class MyController {
     }
 }
 </code></pre>
-<h2 id="%E6%B3%A8%E8%A7%A3%E7%94%A8%E6%B3%952">注解用法2</h2>
+<h2 id="%E5%A4%9A%E6%96%B9%E6%B3%95%E6%B3%A8%E8%A7%A3%E7%94%A8%E6%B3%95">多方法注解用法</h2>
 <p>在Controller中添加注解(指定的校验类可在函数或类上添加)</p>
 
 <pre class="language-java"><code class="language-java">@RestController

@@ -239,8 +239,24 @@ simple-auth.log.show-opt-list=true
 <li><code>effectiveStrategic</code>：判断本次请求是否被记录的类</li>
 <li><code>effective</code>：是否被记录了</li>
 <li><code>optionList</code>：被记录的请求列表，需要在SpringBoot的配置文件中配置<code>simple-auth.log.show-opt-list=true</code>才会显示</li>
-<li><code>Pass or not</code>：本次请求是否通过了</li>
+<li><code>Pass or not</code>：本次请求是否通过</li>
 </ul>
+<h2 id="%E5%BC%80%E5%90%AF%E5%8F%82%E6%95%B0%E6%A0%A1%E9%AA%8C%E6%A8%A1%E5%9D%97%E6%97%A5%E5%BF%97">开启参数校验模块日志</h2>
+
+<pre class="language-properties"><code class="language-properties">#StdOut：输出到控制台
+#jdk：java自带的注解
+simple-auth.log.validated-log-impl=StdOut
+</code></pre>
+<h2 id="%E5%8F%82%E6%95%B0%E6%A0%A1%E9%AA%8C%E6%A8%A1%E5%9D%97%E6%97%A5%E5%BF%97%E8%AF%A6%E8%A7%A3">参数校验模块日志详解</h2>
+
+<pre class="language-properties"><code class="language-properties">SimpleAuth validate =&gt; 
+    validateObj: class com.codingcube.simpleauthtest.cache.MyValidate
+    validateTarget: class java.lang.String
+    pass or not: false
+</code></pre>
+<p><code>validateObj</code>：校验类<br />
+<code>validateTarget</code>：校验目标类型<br />
+<code>pass or not</code>：本次请求是否通过</p>
 <h2 id="%E8%87%AA%E5%AE%9A%E4%B9%89%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97">自定义日志模块</h2>
 <p>实现Log接口，并添加带有一个String参数的构造函数</p>
 

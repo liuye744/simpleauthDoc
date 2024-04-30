@@ -164,7 +164,7 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     </div>
                     <div id="article_content">
                         
-                            <p>本节中将会介绍如何通过注解进行权限校验。首个案例为验证请求参数中是否携带key为114514的参数.</p>
+                            <p>本节中将会介绍如何通过注解进行权限校验。首个案例为验证请求参数中是否携带key为114514的参数。</p>
 <h2 id="%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E6%B7%BB%E5%8A%A0maven%E4%BE%9D%E8%B5%96">第一步：添加maven依赖</h2>
 
 <pre class="language-xml"><code class="language-xml">&lt;dependency&gt;
@@ -207,11 +207,10 @@ public class MyController {
         return &quot;Hello World&quot;;
     }
 }
+</code></pre>
+<p>注: 如果你有多个<code>AutoAuthHandler</code>，你可以像这样写注释:</p>
 
-
-注: 如果你有多个` AutoAuthHandler`，你可以像这样写注释:
-```java
-@SimpleAuth (handler = { KeyAutoAuthHandler1.class，KeyAutoAuthHandler2.class })
+<pre class="language-java"><code class="language-java">@SimpleAuth (handler = { KeyAutoAuthHandler1.class，KeyAutoAuthHandler2.class })
 </code></pre>
 <p>handler参数也可以写 Handler 的Bean 名称。这些类将按顺序执行权限检查。或者创建 继承<code>AutoAuthHandlerChain</code> 的类，并将所有 Handler 添加到该类中。</p>
 

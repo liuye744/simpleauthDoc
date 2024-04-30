@@ -183,6 +183,8 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
     boolean judgeAfterReturn() default true;
     //限流的算法
     Class&lt;? extends TokenLimit&gt; tokenLimit() default CompleteLimit.class;
+    //拒绝策略默认抛出异常
+    Class&lt;? extends RejectedStratagem&gt; rejected() default NullTarget.class;
 }
 </code></pre>
 <h2 id="%E7%94%A8%E6%88%B7%E6%A0%87%E8%AF%86%E7%94%9F%E6%88%90%E7%AD%96%E7%95%A5">用户标识生成策略</h2>
@@ -211,6 +213,17 @@ public class MyEffectiveStrategic extends EffectiveStrategic {
 <h2 id="ban%E8%AF%A6%E8%A7%A3">ban详解</h2>
 <p>当ban等于0时，将会记录规定时间内的所有操作，下次操作发生时删除逾期记录。<br />
 当ban不为0时，请求超过最大次数后将会被记录到禁止列表，禁止时间满足取消禁止之后将删除所有请求的记录。</p>
+<h2 id="%E6%8B%92%E7%BB%9D%E7%AD%96%E7%95%A5">拒绝策略</h2>
+<p>默认拒绝策略为<code>DefaultLimitRejectedStratagem</code>，功能为抛出<code>AccessIsRestrictedException</code>异常。</p>
+
+<pre class="language-java"><code class="language-java">public class DefaultLimitRejectedStratagem implements RejectedStratagem{
+    @Override
+    public void doRejected(HttpServletRequest request, HttpServletResponse response, LogLimitFormat limitFormat) {
+        throw new AccessIsRestrictedException();
+    }
+}
+</code></pre>
+<p>也可以自行定义，使用时添加到注解即可。</p>
 <h2 id="%E8%87%AA%E5%AE%9A%E4%B9%89tokenLimit%E7%AE%97%E6%B3%95">自定义tokenLimit算法</h2>
 <p>默认的算法是将所有的操作都精确的记录，类为<code>CompleteLimit</code>,当然也可以使用令牌桶算法<code>TokenBucket</code>。<br />
 指定全局的默认限流算法可以添加配置<code>simple-auth.func.limit-plan=tokenbucket</code><br />
