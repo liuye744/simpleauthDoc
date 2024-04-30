@@ -80,7 +80,24 @@ SimpleAuth limit =>
 * `effectiveStrategic`：判断本次请求是否被记录的类
 * `effective`：是否被记录了
 * `optionList`：被记录的请求列表，需要在SpringBoot的配置文件中配置`simple-auth.log.show-opt-list=true`才会显示
-* `Pass or not`：本次请求是否通过了
+* `Pass or not`：本次请求是否通过
+## 开启参数校验模块日志
+```properties
+#StdOut：输出到控制台
+#jdk：java自带的注解
+simple-auth.log.validated-log-impl=StdOut
+```
+
+## 参数校验模块日志详解
+```properties
+SimpleAuth validate => 
+	validateObj: class com.codingcube.simpleauthtest.cache.MyValidate
+	validateTarget: class java.lang.String
+	pass or not: false
+```
+`validateObj`：校验类
+`validateTarget`：校验目标类型
+`pass or not`：本次请求是否通过
 
 ## 自定义日志模块
 实现Log接口，并添加带有一个String参数的构造函数

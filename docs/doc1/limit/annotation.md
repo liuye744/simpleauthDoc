@@ -26,6 +26,8 @@ public @interface SimpleLimit {
     boolean judgeAfterReturn() default true;
     //限流的算法
     Class<? extends TokenLimit> tokenLimit() default CompleteLimit.class;
+    //拒绝策略默认抛出异常
+    Class<? extends RejectedStratagem> rejected() default NullTarget.class;
 }
 ```
 
@@ -57,6 +59,18 @@ public class MyEffectiveStrategic extends EffectiveStrategic {
 ## ban详解
 当ban等于0时，将会记录规定时间内的所有操作，下次操作发生时删除逾期记录。
 当ban不为0时，请求超过最大次数后将会被记录到禁止列表，禁止时间满足取消禁止之后将删除所有请求的记录。
+
+## 拒绝策略
+默认拒绝策略为`DefaultLimitRejectedStratagem`，功能为抛出`AccessIsRestrictedException`异常。
+```java
+public class DefaultLimitRejectedStratagem implements RejectedStratagem{
+    @Override
+    public void doRejected(HttpServletRequest request, HttpServletResponse response, LogLimitFormat limitFormat) {
+        throw new AccessIsRestrictedException();
+    }
+}
+```
+也可以自行定义，使用时添加到注解即可。
 
 ## 自定义tokenLimit算法
 默认的算法是将所有的操作都精确的记录，类为`CompleteLimit`,当然也可以使用令牌桶算法`TokenBucket`。

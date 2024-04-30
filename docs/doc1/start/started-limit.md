@@ -22,8 +22,6 @@ class: heading_no_counter
 
 可以为整个Controller添加，也可以为Controller中单个函数添加。访问超过限制则会抛出`AccessIsRestrictedException`
 
-### 用例1：规定时间内限制访问次数
-
 ```java
 @RestController
 public class MyController {
@@ -35,7 +33,9 @@ public class MyController {
     }
 }
 ```
-### 用例2：根据返回值确实是否记录此次操作
+## 其他案例
+
+### 用例1：根据返回值确实是否记录此次操作
 当返回“success”时才记录操作，返回其他内容时不记录操作，不限制访问
 ```java
 @RestController
@@ -61,7 +61,7 @@ public class MyEffectiveStrategic extends EffectiveStrategic {
 }
 ```
 
-### 用例3：同一个接口不同的参数操作记录分别计算
+### 用例2：同一个接口不同的参数操作记录分别计算
 传递的参数不同访问限制不同(例如想要规定时间内每个资源只能点赞N次)
 
 ```java
@@ -100,7 +100,7 @@ public class MyController {
     }
 }
 ```
-### 用例4：自定义访问控制
+### 用例3：自定义访问控制
 
 ```java
 //全局访问控制

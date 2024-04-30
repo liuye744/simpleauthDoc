@@ -5,7 +5,7 @@ desc: 这是一款基于SpringBoot的轻量化的权限校验和访问控制的�
 date: 2023-09-10
 class: heading_no_counter
 ---
-本节中将会介绍如何通过注解校验参数
+本节中将会介绍如何通过注解校验参数，首个案例为验证用户昵称与年龄。
 
 
 ## 第一步：添加Maven依赖
@@ -18,12 +18,8 @@ class: heading_no_counter
 </dependency>
 ```
 
-## 第二步：为Controller添加注解
-
-为Controller中单个函数添加。访问超过限制则会抛出`ValidateException`
-
-### 用例1：简单验证用户昵称与年龄
-要求验证年龄(age)在1-99，昵称(name)的长度为5-16
+## 第二步：创建验证类与验证方法
+方法返回值必须为Boolean，有且只有一个需要校验的对象作为参数。
 ```java
 //用到的实例对象
 public class User {
@@ -33,17 +29,7 @@ public class User {
     //省略getter setter等
 }
 
-//Controller对象，其中methods为MyValidateObj中的函数名
-@RestController
-public class MyController {
-    @GetMapping("/say")
-    @SimpleValidate(value = MyValidateObj.class, methods = {"fillUser"})
-    public String say(User user){
-        System.out.println("Controller "+user);
-        return user.getName();
-    }
-}
-//验证类(返回值为Boolean，有且只有一个需要校验的对象作为参数); 
+//要求验证年龄(age)在1-99，昵称(name)的长度为5-16
 public class MyValidateObj {
     public Boolean fillUser(User user){
         final Integer age = user.getAge();
@@ -59,7 +45,24 @@ public class MyValidateObj {
 }
 ```
 
-### 用例2：同一个Controller中多个函数进行相同的校验
+## 第三步：为Controller添加注解
+在Controller中的单个函数上添加。验证失败则会抛出`ValidateException`。
+
+```java
+//Controller对象，其中methods为MyValidateObj中的函数名
+@RestController
+public class MyController {
+    @GetMapping("/say")
+    @SimpleValidate(value = MyValidateObj.class, methods = {"fillUser"})
+    public String say(User user){
+        System.out.println("Controller "+user);
+        return user.getName();
+    }
+}
+```
+
+## 其他案例
+### 用例1：同一个Controller中多个函数进行相同的校验
 `/say`需要验证name和age字段
 `/eat`仅需要验证phone字段是否为合法手机号
 
@@ -108,8 +111,8 @@ public class MyValidateObj {
     }
 }
 ```
-### 用例3：运用工具类简化校验过程
-此部分实现的功能与用例2相同
+### 用例2：运用工具类简化校验过程
+此部分实现的功能与用例1相同
 ```java
 public class MyValidateObj {
     public Boolean fillUser(User user){
@@ -130,7 +133,7 @@ public class MyValidateObj {
 }
 ```
 
-### 用例4：校验失败时抛出不同的异常
+### 用例3：校验失败时抛出不同的异常
 此部分实现的功能与上一例相同
 ```java
 //校验失败之后会抛出ValidateException,输入的提示信息会携带在异常对象的message中

@@ -20,7 +20,7 @@ public @interface SimpleValidate {
     Class<? extends ValidateRejectedStratagem> rejected() default DefaultValidateRejectedStratagem.class;
 }
 ```
-## 注解用法
+## 单方法注解用法
 value参数传入用于校验的类。
 类中用于校验的函数返回值必须为`Boolean`，参数为需要校验的类。
 例：`public Boolean fillUser(User user);`
@@ -69,7 +69,7 @@ public class MyController {
     }
 }
 ```
-## 注解用法2
+## 多方法注解用法
 在Controller中添加注解(指定的校验类可在函数或类上添加)
 ```java
 @RestController

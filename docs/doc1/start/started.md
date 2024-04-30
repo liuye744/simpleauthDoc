@@ -5,7 +5,7 @@ desc: 这是一款基于SpringBoot的轻量化的权限校验和访问控制的�
 date: 2023-09-10
 class: heading_no_counter
 ---
-本节中将会介绍如何通过注解进行权限校验。首个案例为验证请求参数中是否携带key为114514的参数.
+本节中将会介绍如何通过注解进行权限校验。首个案例为验证请求参数中是否携带key为114514的参数。
 
 ## 第一步：添加maven依赖
 ```xml
@@ -52,8 +52,7 @@ public class MyController {
         return "Hello World";
     }
 }
-
-
+```
 注: 如果你有多个` AutoAuthHandler`，你可以像这样写注释:
 ```java
 @SimpleAuth (handler = { KeyAutoAuthHandler1.class，KeyAutoAuthHandler2.class })
