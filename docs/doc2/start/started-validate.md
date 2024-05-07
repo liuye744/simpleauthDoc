@@ -17,33 +17,19 @@ In this section, we will explain how to validate parameters using annotations.
 </dependency>
 ```
 
-## Step 2: Add Annotations
-
-You can add annotations to individual functions within a Controller. If the validation limit is exceeded, a `ValidateException` will be thrown.
-
-### Use Case 1: Simple Validation of User Name and Age
-Validate that the age (age) is between 1 and 99 and that the length of the nickname (name) is between 5 and 16.
+## Step 2: Create Validation Class and Method
+The method return value must be Boolean, and there must be exactly one object to be validated as a parameter.
 
 ```java
-// User class
+// Example object used
 public class User {
     String name;
     Integer age;
     String phone;
-    // Getters and setters omitted
+    // Omitting getter, setter, etc.
 }
 
-// Controller where methods refer to functions in MyValidateObj
-@RestController
-public class MyController {
-    @GetMapping("/say")
-    @SimpleValidate(value = MyValidateObj.class, methods = {"fillUser"})
-    public String say(User user){
-        System.out.println("Controller " + user);
-        return user.getName();
-    }
-}
-// Validation class (returns a Boolean and has exactly one object to validate as a parameter)
+// Requirement: Validate that the age (age) is between 1-99 and the length of the nickname (name) is 5-16
 public class MyValidateObj {
     public Boolean fillUser(User user){
         final Integer age = user.getAge();
@@ -59,8 +45,27 @@ public class MyValidateObj {
 }
 ```
 
-### Use Case 2: Reusing the Same Validation for Multiple Functions in the Same Controller
-The `/say` endpoint requires validation of the `name` and `age` fields, while the `/eat` endpoint only requires validation of the `phone` field for a valid mobile phone number.
+## Step 3: Add Annotations to Controller
+Add to an individual function in the Controller. If the validation fails, a `ValidateException` will be thrown.
+
+```java
+// Controller object, where methods is the function name in MyValidateObj
+@RestController
+public class MyController {
+    @GetMapping("/say")
+    @SimpleValidate(value = MyValidateObj.class, methods = {"fillUser"})
+    public String say(User user){
+        System.out.println("Controller "+user);
+        return user.getName();
+    }
+}
+```
+
+## Other Examples
+
+### Use Case 1: Multiple Functions in the Same Controller Performing the Same Validation
+`/say` needs to validate the name and age fields.
+`/eat` only needs to validate whether the phone field is a valid mobile number.
 
 ```java
 @RestController
@@ -97,21 +102,25 @@ public class MyValidateObj {
 
     public Boolean partUser(User user){
         final String phone = user.getPhone();
+        // Check if it is empty, if empty return false for validation failure
         if (phone == null){
             return false;
         }
+        // Regular expression to validate if the phone number is legal
         Pattern pattern = Pattern.compile("^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\\d{8}$");
         return pattern.matcher(phone).matches();
     }
 }
 ```
-
-### Use Case 3: Simplifying Validation Using a Utility Class
-This section demonstrates the same functionality as Use Case 2.
+### Use Case 2: Simplifying the Validation Process with Utility Classes
+This part achieves the same functionality as Use Case 1.
 
 ```java
 public class MyValidateObj {
     public Boolean fillUser(User user){
+        // The notFalse function takes multiple boolean values, and returns false if any of them are false.
+        // The lengthRange function validates whether the string length is between 5-16 (inclusive).
+        // The range function validates whether the number is between 1-99 (inclusive).
         return SVU.notFalse(
             SVU.lengthRange( user.getName(), 5, 16),
             SVU.range( user.getAge(), 1, 99)
@@ -119,29 +128,31 @@ public class MyValidateObj {
     }
 
     public Boolean partUser(User user){
+        // Regular expression validation for phone matching the regular expression.
+        // The Regex class provides a large number of commonly used regular expression string constants.
         return SVU.pattern(user.getPhone(), Regex.CHINESE_MOBIL_PHONE_NUMBER);
     }
 }
 ```
 
-### Use Case 4: Throwing Different Exceptions on Validation Failure
-This section demonstrates the same functionality as the previous example. In this case, a `ValidateException` will be thrown when validation fails, and the input message will be carried in the exception's message.
+### Use Case 3: Throwing Different Exceptions on Validation Failure
+This part achieves the same functionality as the previous example.
 
 ```java
-// The ValidateException will be thrown on validation failure, and the provided message will be carried in the exception's message.
+// After validation fails, a ValidateException will be thrown, and the input prompt message will be carried in the exception object's message.
 public class MyValidateObj {
     public Boolean fillUser(User user){
         return SVU.notFalse(
-            SVU.lengthRange("昵称长度需要在5-16之间", user.getName(), 5, 16),
-            SVU.range("年龄需要在1-99之间", user.getAge(), 1, 99)
+            SVU.lengthRange("The nickname length needs to be between 5-16", user.getName(), 5, 16),
+            SVU.range("The age needs to be between 1-99", user.getAge(), 1, 99)
         );
     }
 
     public Boolean partUser(User user){
-        return SVU.pattern("手机号格式不合法", user.getPhone(), Regex.CHINESE_MOBIL_PHONE_NUMBER);
+        return SVU.pattern("Invalid mobile phone number format", user.getPhone(), Regex.CHINESE_MOBIL_PHONE_NUMBER);
     }
 }
-// It's recommended to catch ValidateException in an advice class and handle it there.
+// It is recommended to catch ValidateException in Advice and handle it.
 @ControllerAdvice
 public class MyExceptionHandler {
     @ExceptionHandler(value = ValidateException.class)
@@ -151,5 +162,4 @@ public class MyExceptionHandler {
     }
 }
 ```
-
-With the provided code, accessing `http://localhost:8080/say?name=CodingCube` will return the message `"年龄需要在1-99之间"` if validation fails.
+With the above code, when accessing `http://localhost:8080/say?name=CodingCube`, it will return `The age needs to be between 1-99`.

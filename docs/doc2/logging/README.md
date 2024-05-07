@@ -1,23 +1,22 @@
 ---
 title: Logging
 keywords: keyword1, keyword2
-desc: This is a lightweight framework for permission validation and access control based on SpringBoot. It is suitable for lightweight and progressive projects.
+desc: This is a lightweight permission verification and access control framework based on SpringBoot. It is suitable for lightweight and progressive projects.
 date: 2023-09-10
 class: heading_no_counter
 ---
 
-## Enabling Authentication Module Logging
+## Permission Verification Module Logging
+### Enable Authentication Module Logging
 ```properties
-# StdOut: Log to the console
-# jdk: Java's built-in logging system
+# StdOut: Output to the console
+# jdk: Annotations provided by Java itself
 simple-auth.log.log-impl=StdOut
 ```
+After the configuration is complete and the project is started, the console will output: `Auth Logging initialized using class com.codingcube.simpleauth.logging.stdout.StdOutImpl adapter.`
 
-After configuring, the console will output the following message when the project starts:
-`Auth Logging initialized using class com.codingcube.simpleauth.logging.stdout.StdOutImpl adapter.`
-
-## Explanation of Authentication Module Logging
-```
+### Authentication Module Logging Explanation
+```java
 SimpleAuth auth => 
 	uri: /say
 	handlerName: com.example.simpleauthtest.handler.MyHandler
@@ -35,28 +34,26 @@ SimpleAuth auth =>
 	Principal to carry: null
 	Pass or not: true
 ```
-- `uri`: The request's URI.
-- `handlerName`: The full class name of the handler being used.
-- `source`: The configuration source of the handler. In this example, it's "Dynamic Permission Configuration" (configured dynamically through a Provider), and the handler is part of the "MyHandlerChain."
-- `Required permission`: The required permission name.
-- `Permissions to carry`: The carried permission names.
-- `Principal to carry`: The carried instance object.
-- `Pass or not`: Whether it passed.
+* `uri`: The requested URI
+* `handlerName`: The fully qualified name of the handler processing the request
+* `source`: The configuration method of the handler, in this case, it is Dynamic Permission Configuration (configured dynamically through a Provider) and the handler is in MyHandlerChain
+* `Required permission`: The name of the required permission
+* `Permissions to carry`: The name of the permissions being carried
+* `Principal to carry`: The instance object being carried
+* `Pass or not`: Whether the request passed the authentication
 
-## Enabling Access Control Module Logging
+## Access Control Module Logging
+### Enable Access Control Module Logging
 ```properties
-# StdOut: Log to the console
-# jdk: Java's built-in logging system
+# StdOut: Output to the console
+# jdk: Annotations provided by Java itself
 simple-auth.log.limit-log-impl=StdOut
-# Whether to include the user's operation list in the log. Default is false.
+# Whether to include the user's operation list in the log output. Default is false
 simple-auth.log.show-opt-list=true
 ```
-
-After configuring, the console will output the following message when the project starts:
-`Limit Logging initialized using class com.codingcube.simpleauth.logging.stdout.StdOutImpl adapter.`
-
-## Explanation of Access Control Module Logging
-```properties
+After the configuration is complete and the project is started, the console will output: `Limit Logging initialized using class com.codingcube.simpleauth.logging.stdout.StdOutImpl adapter.`
+### Access Control Module Logging Explanation
+```java
 SimpleAuth limit => 
 	max-times: 2
 	time: 1
@@ -72,48 +69,65 @@ SimpleAuth limit =>
 	optionList: [Mon Sep 11 01:13:12 CST 2023]
 	Pass or not: true
 ```
-- `max-times`: Maximum number of requests.
-- `time`: Recorded requests (including the current one).
-- `seconds`: Recording time.
-- `ban`: Time the request is banned after exceeding the maximum number of requests.
-- `item`: The name of the item for access control. By default, it's the interface name if configured using annotations.
-- `sign`: User identifier. By default, it's the user's IP. In this example, it shows as "0:0:0:0:0:0:0:1" because it's local access.
-- `source`: The source of the limit's configuration (configured dynamically through a Provider).
-- `judgeAfterReturn`: Whether to determine if the current request is recorded after returning. When set to true, you can determine if the request is recorded based on the return value.
-- `effectiveStrategic`: The class used to determine if the request is recorded.
-- `effective`: Whether it's recorded.
-- `optionList`: The list of recorded requests. It's shown when configured in the SpringBoot properties file with `simple-auth.log.show-opt-list=true`.
-- `Pass or not`: Whether the current request passed.
+* `max-times`: The maximum number of requests allowed
+* `time`: The number of recorded requests (including the current one)
+* `seconds`: The duration for which the requests are recorded
+* `ban`: The time period during which access is forbidden after exceeding the maximum number of requests
+* `item`: The name of the item subject to access control; if configured via annotation, it defaults to the interface name
+* `sign`: The user identifier. By default, it is the user’s IP address; in this case, it shows `0:0:0:0:0:0:0:1` because it’s a local access
+* `source`: The source of the Limit configuration (configured dynamically via a Provider in this case)
+* `judgeAfterReturn`: Whether the decision to record the request is made after the response is returned. If set to `true`, the decision to record the request can be based on the return value
+* `effectiveStrategic`: The class that determines whether the current request should be recorded
+* * `effective`: Whether the request was recorded
+* `optionList`: The list of recorded requests. This is displayed only when `simple-auth.log.show-opt-list=true` is set in the SpringBoot configuration file
+* `Pass or not`: Whether the current request passed the access control check
+
+## Parameter Validation Module Logging
+### Enable Parameter Validation Module Logging
+```properties
+# StdOut: Output to the console
+# jdk: Annotations provided by Java itself
+simple-auth.log.validated-log-impl=StdOut
+```
+### Parameter Validation Module Logging Explanation
+```java
+SimpleAuth validate => 
+	validateObj: class com.codingcube.simpleauthtest.cache.MyValidate
+	validateTarget: class java.lang.String
+	pass or not: false
+```
+* `validateObj`: The validation class
+* `validateTarget`: The type of the target being validated
+* `pass or not`: Whether the current request passed the validation
 
 ## Custom Logging Module
-Implement the `Log` interface and add a constructor with a `String` parameter.
+Implement the Log interface, and add a constructor with a single String parameter.
 ```java
 import com.codingcube.simpleauth.logging.Log;
 public class MyLog implements Log {
     public MyLog(String clazz) {
-        //TODO
+        // TODO
     }
 
     @Override
     public void debug(String s) {
-        //TODO
+        // TODO
     }
     
     @Override
     public void error(String s, Throwable e) {
-        //TODO
+        // TODO
     }
 
     @Override
     public void warn(String s) {
-        //TODO
+        // TODO
     }
-    // ... and so on
+    // ... other methods
 }
 ```
-
-Configure your custom logging module in the properties file.
-```properties
-# Parameter is the full-qualified name of your custom Log class
+Configure your custom logging module.
+```java
+# The parameter is the fully qualified name of the custom Log
 simple-auth.log.log-impl=com.example.simpleauthtest.domain.MyLog
 ```

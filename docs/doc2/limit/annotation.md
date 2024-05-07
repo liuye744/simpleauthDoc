@@ -25,6 +25,8 @@ public @interface SimpleLimit {
     boolean judgeAfterReturn() default true;
     // Rate limiting algorithm
     Class<? extends TokenLimit> tokenLimit() default CompleteLimit.class;
+    // The default rejection strategy throws an exception 
+    Class<? extends RejectedStratagem> rejected() default NullTarget.class;
 }
 ```
 

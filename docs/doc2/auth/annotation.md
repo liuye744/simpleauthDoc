@@ -15,6 +15,8 @@ public @interface SimpleAuth {
     Class<? extends AutoAuthHandler>[] handler() default DefaultAuthHandler.class;
     // AuthHandlerChain's Class
     Class<? extends AutoAuthHandlerChain>[] handlerChain() default DefaultAuthHandlerChain.class;
+    // Rejection strategy, the default is DefaultAuthRejectedStratagem, which throws a PermissionsException(“lack of permissions”) exception 
+    Class<? extends AuthRejectedStratagem> rejected() default NullTarget.class;
 }
 ```
 
@@ -49,3 +51,31 @@ public abstract class AutoAuthHandlerChain {
 Commonly used functions
 `addLast(Class<? extends AutoAuthHandler> autoAuthHandler)`: Add the Handler to the end, the parameter can also be the Bean name of the Handler.
 `addFirst(Class<? extends AutoAuthHandler> auto)`: Add the Handler to the beginning.
+
+## AuthRejectedStratagem
+By default, it throws a `PermissionsException("lack of permissions")` exception. It is generally not recommended to modify this.
+The default rejection strategy is as follows:
+```java
+public class DefaultAuthRejectedStratagem implements AuthRejectedStratagem {
+    @Override
+    public void doRejected(HttpServletRequest request, HttpServletResponse response, LogAuthFormat authFormat) {
+        throw new PermissionsException("lack of permissions");
+    }
+}
+```
+You can create your own class that extends the `AuthRejectedStratagem` interface and override the `doRejected` method. To use it, you can configure it through annotations:
+```java
+// Newly created rejection strategy
+public class MyAuthRejectedStratagem implements AuthRejectedStratagem {
+    @Override
+    public void doRejected(HttpServletRequest request, HttpServletResponse response, LogAuthFormat authFormat) {
+        throw new PermissionsException("this is my AuthRejectedStratagem");
+    }
+}
+// Controller
+@GetMapping("/checkNameWhetherCodingCube2")
+@SimpleAuth(handler = MyHandler.class, rejected = MyAuthRejectedStratagem.class)
+public String checkNameWhetherCodingCube(String name){
+    return "Hello World";
+}
+```
