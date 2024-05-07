@@ -23,7 +23,7 @@ public class SimpleAuthTestApplication {
 ```properties
 simple-auth.func.dynamic-auth=true
 ```
-## 创建Provider
+## 创建AuthItemProvider
 ```java
 @Component
 public class MyAuthItemProvider implements RequestAuthItemProvider {

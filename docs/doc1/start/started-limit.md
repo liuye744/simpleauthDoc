@@ -35,7 +35,7 @@ public class MyController {
 ```
 ## 其他案例
 
-### 用例1：根据返回值确实是否记录此次操作
+### 用例1：根据返回值确定是否记录此次操作
 当返回“success”时才记录操作，返回其他内容时不记录操作，不限制访问
 ```java
 @RestController

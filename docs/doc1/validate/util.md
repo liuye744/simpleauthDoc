@@ -31,6 +31,7 @@ public Boolean fillUser(User user){
     );
 }
 ```
+
 ## 快捷抛出异常
 SVU类的大多数函数都有一个功能相同的带有message的函数，带有message的函数在校验失败后不返回false而是抛出`ValidateException`，并将传入的message封装到异常中。
 ```java
@@ -54,13 +55,7 @@ public class MyExceptionHandler {
 }
 ```
 ## 使用延迟函数提高效率
-### 因由
-上述使用`notFalse`函数时会先计算每一个判断条件的真伪，后传入notFalse。
-当校验失败且没有抛出异常时若前一个已经判断为False将不会终止，如此会造成效率的降低，建议使用SVU中的Delay函数延迟条件的判断。
-### 使用
-SVU中有一个重载的`notFalse`函数
-`public static boolean notFalse(BooleanCompute ...booleanComputes);`
-SVU中的Delay函数则会返回一个`BooleanCompute`对象将操作封装起来延迟判断。
+为实现notFalse函数的短路判断，建议在notFalse中使用延迟函数。
 例如：
 ```java
 public Boolean fillUser(User user){
@@ -70,13 +65,25 @@ public Boolean fillUser(User user){
     );
 }
 ```
+或
+```java
+//判断用户名是否在5-16之间，且不等于“CodingCube”
+public Boolean fillUser(User user){
+    return SVU.notFalse(
+        SVU.lengthRangeDelay(user.getName(), 5, 16),
+        ()->{
+            return "CodingCube".equals(user.getName());
+        }
+    );
+}
+```
 当第一个`lengthRangeDelay`函数校验返回false后第二个`rangeDelay`则不会运行直接返回false;
-## 可为空的参数校验
 
-若部分需要校验的参数可为空，若不为空则需要校验是否符合要求，则可以使用`SVOU`类(SimpleValidateOptionalUtil)。
+## 可为空的参数校验
+若部分需要校验的参数可为空，若不为空需要校验是否符合要求，则可以使用`SVOU`类(SimpleValidateOptionalUtil)。
 SVOU类中的函数名和SVU中的相同，只是当传入的参数为null时返回true
 
-示例：电话为可选项，传入后不为null需要校验是否合法
+示例：电话为可选项，传入后不为null则需要校验是否合法
 ```java
 public Boolean fillUser(User user){
     //Regex类提供了常用正则表达式

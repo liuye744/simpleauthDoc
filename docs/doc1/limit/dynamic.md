@@ -18,9 +18,12 @@ public class SimpleAuthApplication {
     }
 }
 ```
-或使用`simple-auth.func.dynamic-limit=true`配置开启
+或者在配置文件中配置
+```properties
+simple-auth.func.dynamic-limit=true
+```
 
-## 创建Provider
+## 创建LimitItemProvider
 
 ```java
 @Component

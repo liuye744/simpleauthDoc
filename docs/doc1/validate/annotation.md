@@ -7,12 +7,12 @@ class: heading_no_counter
 ---
 本节中将会介绍如何通过注解进行权限校验
 
-## 注解
+## 注解详解
 ```java
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
 public @interface SimpleValidate {
-    //用于校验的类，类中用于校验的函数返回值必须为Boolean
+    //用于校验的类（validateObj），类中用于校验的函数返回值必须为Boolean
     Class<?> value() default Object.class;
     //用于校验的函数名
     String[] methods() default {"validate"};
@@ -20,7 +20,7 @@ public @interface SimpleValidate {
     Class<? extends ValidateRejectedStratagem> rejected() default DefaultValidateRejectedStratagem.class;
 }
 ```
-## 单方法注解用法
+## 注解用法
 value参数传入用于校验的类。
 类中用于校验的函数返回值必须为`Boolean`，参数为需要校验的类。
 例：`public Boolean fillUser(User user);`
@@ -69,19 +69,6 @@ public class MyController {
     }
 }
 ```
-## 多方法注解用法
-在Controller中添加注解(指定的校验类可在函数或类上添加)
-```java
-@RestController
-@SimpleValidate(MyValidateObj.class)
-public class MyController {
-    @GetMapping("/say")
-    public String say(@SimpleValidate User user){
-        return user.getName();
-    }
-}
-```
-当访问`/say`时，会执行MyValidateObj类的所有带有User参数的校验函数
 
 ## 拒绝策略
 默认的拒绝策略为抛出`ValidateException`

@@ -6,7 +6,8 @@ date: 2023-09-10
 class: heading_no_counter
 ---
 
-## 开启鉴权模块日志
+## 权限校验模块日志
+### 开启鉴权模块日志
 ```properties
 #StdOut：输出到控制台
 #jdk：java自带的注解
@@ -15,7 +16,7 @@ simple-auth.log.log-impl=StdOut
 
 配置完成项目启动后控制台将会输出：
 `Auth Logging initialized using class com.codingcube.simpleauth.logging.stdout.StdOutImpl adapter.`
-## 鉴权模块日志详解
+### 鉴权模块日志详解
 ```
 SimpleAuth auth => 
 	uri: /say
@@ -41,7 +42,9 @@ SimpleAuth auth =>
 * `Permissions to carry`：携带的权限名
 * `Principal to carry`：携带的实例对象
 * `Pass or not`：是否通过了
-## 开启访问控制模块日志
+
+## 访问控制模块日志
+### 开启访问控制模块日志
 ```properties
 #StdOut：输出到控制台
 #jdk：java自带的注解
@@ -52,7 +55,7 @@ simple-auth.log.show-opt-list=true
 配置完成项目启动后控制台将会输出：
 `Limit Logging initialized using class com.codingcube.simpleauth.logging.stdout.StdOutImpl adapter.`
 
-## 访问控制模块日志详解
+### 访问控制模块日志详解
 ```properties
 SimpleAuth limit => 
 	max-times: 2
@@ -81,14 +84,16 @@ SimpleAuth limit =>
 * `effective`：是否被记录了
 * `optionList`：被记录的请求列表，需要在SpringBoot的配置文件中配置`simple-auth.log.show-opt-list=true`才会显示
 * `Pass or not`：本次请求是否通过
-## 开启参数校验模块日志
+
+## 参数校验模块日志
+### 开启参数校验模块日志
 ```properties
 #StdOut：输出到控制台
 #jdk：java自带的注解
 simple-auth.log.validated-log-impl=StdOut
 ```
 
-## 参数校验模块日志详解
+### 参数校验模块日志详解
 ```properties
 SimpleAuth validate => 
 	validateObj: class com.codingcube.simpleauthtest.cache.MyValidate
