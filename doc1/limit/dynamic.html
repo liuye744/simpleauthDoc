@@ -175,8 +175,11 @@ public class SimpleAuthApplication {
     }
 }
 </code></pre>
-<p>或使用<code>simple-auth.func.dynamic-limit=true</code>配置开启</p>
-<h2 id="%E5%88%9B%E5%BB%BAProvider">创建Provider</h2>
+<p>或者在配置文件中配置</p>
+
+<pre class="language-properties"><code class="language-properties">simple-auth.func.dynamic-limit=true
+</code></pre>
+<h2 id="%E5%88%9B%E5%BB%BALimitItemProvider">创建LimitItemProvider</h2>
 
 <pre class="language-java"><code class="language-java">@Component
 public class MyLimitItemProvider implements RequestLimitItemProvider {

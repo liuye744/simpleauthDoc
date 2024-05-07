@@ -165,12 +165,12 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
                     <div id="article_content">
                         
                             <p>本节中将会介绍如何通过注解进行权限校验</p>
-<h2 id="%E6%B3%A8%E8%A7%A3">注解</h2>
+<h2 id="%E6%B3%A8%E8%A7%A3%E8%AF%A6%E8%A7%A3">注解详解</h2>
 
 <pre class="language-java"><code class="language-java">@Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
 public @interface SimpleValidate {
-    //用于校验的类，类中用于校验的函数返回值必须为Boolean
+    //用于校验的类（validateObj），类中用于校验的函数返回值必须为Boolean
     Class&lt;?&gt; value() default Object.class;
     //用于校验的函数名
     String[] methods() default {&quot;validate&quot;};
@@ -178,7 +178,7 @@ public @interface SimpleValidate {
     Class&lt;? extends ValidateRejectedStratagem&gt; rejected() default DefaultValidateRejectedStratagem.class;
 }
 </code></pre>
-<h2 id="%E5%8D%95%E6%96%B9%E6%B3%95%E6%B3%A8%E8%A7%A3%E7%94%A8%E6%B3%95">单方法注解用法</h2>
+<h2 id="%E6%B3%A8%E8%A7%A3%E7%94%A8%E6%B3%95">注解用法</h2>
 <p>value参数传入用于校验的类。<br />
 类中用于校验的函数返回值必须为<code>Boolean</code>，参数为需要校验的类。<br />
 例：<code>public Boolean fillUser(User user);</code></p>
@@ -226,19 +226,6 @@ public class MyController {
     }
 }
 </code></pre>
-<h2 id="%E5%A4%9A%E6%96%B9%E6%B3%95%E6%B3%A8%E8%A7%A3%E7%94%A8%E6%B3%95">多方法注解用法</h2>
-<p>在Controller中添加注解(指定的校验类可在函数或类上添加)</p>
-
-<pre class="language-java"><code class="language-java">@RestController
-@SimpleValidate(MyValidateObj.class)
-public class MyController {
-    @GetMapping(&quot;/say&quot;)
-    public String say(@SimpleValidate User user){
-        return user.getName();
-    }
-}
-</code></pre>
-<p>当访问<code>/say</code>时，会执行MyValidateObj类的所有带有User参数的校验函数</p>
 <h2 id="%E6%8B%92%E7%BB%9D%E7%AD%96%E7%95%A5">拒绝策略</h2>
 <p>默认的拒绝策略为抛出<code>ValidateException</code></p>
 

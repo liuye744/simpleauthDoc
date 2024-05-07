@@ -212,13 +212,7 @@ public class MyExceptionHandler {
 }
 </code></pre>
 <h2 id="%E4%BD%BF%E7%94%A8%E5%BB%B6%E8%BF%9F%E5%87%BD%E6%95%B0%E6%8F%90%E9%AB%98%E6%95%88%E7%8E%87">使用延迟函数提高效率</h2>
-<h3 id="%E5%9B%A0%E7%94%B1">因由</h3>
-<p>上述使用<code>notFalse</code>函数时会先计算每一个判断条件的真伪，后传入notFalse。<br />
-当校验失败且没有抛出异常时若前一个已经判断为False将不会终止，如此会造成效率的降低，建议使用SVU中的Delay函数延迟条件的判断。</p>
-<h3 id="%E4%BD%BF%E7%94%A8">使用</h3>
-<p>SVU中有一个重载的<code>notFalse</code>函数<br />
-<code>public static boolean notFalse(BooleanCompute ...booleanComputes);</code><br />
-SVU中的Delay函数则会返回一个<code>BooleanCompute</code>对象将操作封装起来延迟判断。<br />
+<p>为实现notFalse函数的短路判断，建议在notFalse中使用延迟函数。<br />
 例如：</p>
 
 <pre class="language-java"><code class="language-java">public Boolean fillUser(User user){
@@ -228,11 +222,23 @@ SVU中的Delay函数则会返回一个<code>BooleanCompute</code>对象将操作
     );
 }
 </code></pre>
+<p>或</p>
+
+<pre class="language-java"><code class="language-java">//判断用户名是否在5-16之间，且不等于“CodingCube”
+public Boolean fillUser(User user){
+    return SVU.notFalse(
+        SVU.lengthRangeDelay(user.getName(), 5, 16),
+        ()-&gt;{
+            return &quot;CodingCube&quot;.equals(user.getName());
+        }
+    );
+}
+</code></pre>
 <p>当第一个<code>lengthRangeDelay</code>函数校验返回false后第二个<code>rangeDelay</code>则不会运行直接返回false;</p>
 <h2 id="%E5%8F%AF%E4%B8%BA%E7%A9%BA%E7%9A%84%E5%8F%82%E6%95%B0%E6%A0%A1%E9%AA%8C">可为空的参数校验</h2>
-<p>若部分需要校验的参数可为空，若不为空则需要校验是否符合要求，则可以使用<code>SVOU</code>类(SimpleValidateOptionalUtil)。<br />
+<p>若部分需要校验的参数可为空，若不为空需要校验是否符合要求，则可以使用<code>SVOU</code>类(SimpleValidateOptionalUtil)。<br />
 SVOU类中的函数名和SVU中的相同，只是当传入的参数为null时返回true</p>
-<p>示例：电话为可选项，传入后不为null需要校验是否合法</p>
+<p>示例：电话为可选项，传入后不为null则需要校验是否合法</p>
 
 <pre class="language-java"><code class="language-java">public Boolean fillUser(User user){
     //Regex类提供了常用正则表达式
