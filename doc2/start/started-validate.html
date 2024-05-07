@@ -173,30 +173,18 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
     &lt;version&gt;1.4.7.RELEASE&lt;/version&gt;
 &lt;/dependency&gt;
 </code></pre>
-<h2 id="Step-2%3A-Add-Annotations">Step 2: Add Annotations</h2>
-<p>You can add annotations to individual functions within a Controller. If the validation limit is exceeded, a <code>ValidateException</code> will be thrown.</p>
-<h3 id="Use-Case-1%3A-Simple-Validation-of-User-Name-and-Age">Use Case 1: Simple Validation of User Name and Age</h3>
-<p>Validate that the age (age) is between 1 and 99 and that the length of the nickname (name) is between 5 and 16.</p>
+<h2 id="Step-2%3A-Create-Validation-Class-and-Method">Step 2: Create Validation Class and Method</h2>
+<p>The method return value must be Boolean, and there must be exactly one object to be validated as a parameter.</p>
 
-<pre class="language-java"><code class="language-java">// User class
+<pre class="language-java"><code class="language-java">// Example object used
 public class User {
     String name;
     Integer age;
     String phone;
-    // Getters and setters omitted
+    // Omitting getter, setter, etc.
 }
 
-// Controller where methods refer to functions in MyValidateObj
-@RestController
-public class MyController {
-    @GetMapping(&quot;/say&quot;)
-    @SimpleValidate(value = MyValidateObj.class, methods = {&quot;fillUser&quot;})
-    public String say(User user){
-        System.out.println(&quot;Controller &quot; + user);
-        return user.getName();
-    }
-}
-// Validation class (returns a Boolean and has exactly one object to validate as a parameter)
+// Requirement: Validate that the age (age) is between 1-99 and the length of the nickname (name) is 5-16
 public class MyValidateObj {
     public Boolean fillUser(User user){
         final Integer age = user.getAge();
@@ -211,8 +199,24 @@ public class MyValidateObj {
     }
 }
 </code></pre>
-<h3 id="Use-Case-2%3A-Reusing-the-Same-Validation-for-Multiple-Functions-in-the-Same-Controller">Use Case 2: Reusing the Same Validation for Multiple Functions in the Same Controller</h3>
-<p>The <code>/say</code> endpoint requires validation of the <code>name</code> and <code>age</code> fields, while the <code>/eat</code> endpoint only requires validation of the <code>phone</code> field for a valid mobile phone number.</p>
+<h2 id="Step-3%3A-Add-Annotations-to-Controller">Step 3: Add Annotations to Controller</h2>
+<p>Add to an individual function in the Controller. If the validation fails, a <code>ValidateException</code> will be thrown.</p>
+
+<pre class="language-java"><code class="language-java">// Controller object, where methods is the function name in MyValidateObj
+@RestController
+public class MyController {
+    @GetMapping(&quot;/say&quot;)
+    @SimpleValidate(value = MyValidateObj.class, methods = {&quot;fillUser&quot;})
+    public String say(User user){
+        System.out.println(&quot;Controller &quot;+user);
+        return user.getName();
+    }
+}
+</code></pre>
+<h2 id="Other-Examples">Other Examples</h2>
+<h3 id="Use-Case-1%3A-Multiple-Functions-in-the-Same-Controller-Performing-the-Same-Validation">Use Case 1: Multiple Functions in the Same Controller Performing the Same Validation</h3>
+<p><code>/say</code> needs to validate the name and age fields.<br />
+<code>/eat</code> only needs to validate whether the phone field is a valid mobile number.</p>
 
 <pre class="language-java"><code class="language-java">@RestController
 @SimpleValidate(value = MyValidateObj.class)
@@ -248,19 +252,24 @@ public class MyValidateObj {
 
     public Boolean partUser(User user){
         final String phone = user.getPhone();
+        // Check if it is empty, if empty return false for validation failure
         if (phone == null){
             return false;
         }
+        // Regular expression to validate if the phone number is legal
         Pattern pattern = Pattern.compile(&quot;^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\\d{8}$&quot;);
         return pattern.matcher(phone).matches();
     }
 }
 </code></pre>
-<h3 id="Use-Case-3%3A-Simplifying-Validation-Using-a-Utility-Class">Use Case 3: Simplifying Validation Using a Utility Class</h3>
-<p>This section demonstrates the same functionality as Use Case 2.</p>
+<h3 id="Use-Case-2%3A-Simplifying-the-Validation-Process-with-Utility-Classes">Use Case 2: Simplifying the Validation Process with Utility Classes</h3>
+<p>This part achieves the same functionality as Use Case 1.</p>
 
 <pre class="language-java"><code class="language-java">public class MyValidateObj {
     public Boolean fillUser(User user){
+        // The notFalse function takes multiple boolean values, and returns false if any of them are false.
+        // The lengthRange function validates whether the string length is between 5-16 (inclusive).
+        // The range function validates whether the number is between 1-99 (inclusive).
         return SVU.notFalse(
             SVU.lengthRange( user.getName(), 5, 16),
             SVU.range( user.getAge(), 1, 99)
@@ -268,27 +277,29 @@ public class MyValidateObj {
     }
 
     public Boolean partUser(User user){
+        // Regular expression validation for phone matching the regular expression.
+        // The Regex class provides a large number of commonly used regular expression string constants.
         return SVU.pattern(user.getPhone(), Regex.CHINESE_MOBIL_PHONE_NUMBER);
     }
 }
 </code></pre>
-<h3 id="Use-Case-4%3A-Throwing-Different-Exceptions-on-Validation-Failure">Use Case 4: Throwing Different Exceptions on Validation Failure</h3>
-<p>This section demonstrates the same functionality as the previous example. In this case, a <code>ValidateException</code> will be thrown when validation fails, and the input message will be carried in the exception's message.</p>
+<h3 id="Use-Case-3%3A-Throwing-Different-Exceptions-on-Validation-Failure">Use Case 3: Throwing Different Exceptions on Validation Failure</h3>
+<p>This part achieves the same functionality as the previous example.</p>
 
-<pre class="language-java"><code class="language-java">// The ValidateException will be thrown on validation failure, and the provided message will be carried in the exception's message.
+<pre class="language-java"><code class="language-java">// After validation fails, a ValidateException will be thrown, and the input prompt message will be carried in the exception object's message.
 public class MyValidateObj {
     public Boolean fillUser(User user){
         return SVU.notFalse(
-            SVU.lengthRange(&quot;昵称长度需要在5-16之间&quot;, user.getName(), 5, 16),
-            SVU.range(&quot;年龄需要在1-99之间&quot;, user.getAge(), 1, 99)
+            SVU.lengthRange(&quot;The nickname length needs to be between 5-16&quot;, user.getName(), 5, 16),
+            SVU.range(&quot;The age needs to be between 1-99&quot;, user.getAge(), 1, 99)
         );
     }
 
     public Boolean partUser(User user){
-        return SVU.pattern(&quot;手机号格式不合法&quot;, user.getPhone(), Regex.CHINESE_MOBIL_PHONE_NUMBER);
+        return SVU.pattern(&quot;Invalid mobile phone number format&quot;, user.getPhone(), Regex.CHINESE_MOBIL_PHONE_NUMBER);
     }
 }
-// It's recommended to catch ValidateException in an advice class and handle it there.
+// It is recommended to catch ValidateException in Advice and handle it.
 @ControllerAdvice
 public class MyExceptionHandler {
     @ExceptionHandler(value = ValidateException.class)
@@ -298,7 +309,7 @@ public class MyExceptionHandler {
     }
 }
 </code></pre>
-<p>With the provided code, accessing <code>http://localhost:8080/say?name=CodingCube</code> will return the message <code>&quot;年龄需要在1-99之间&quot;</code> if validation fails.</p>
+<p>With the above code, when accessing <code>http://localhost:8080/say?name=CodingCube</code>, it will return <code>The age needs to be between 1-99</code>.</p>
 
                         
                     </div>

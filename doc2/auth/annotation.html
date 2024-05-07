@@ -173,6 +173,8 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
     Class&lt;? extends AutoAuthHandler&gt;[] handler() default DefaultAuthHandler.class;
     // AuthHandlerChain's Class
     Class&lt;? extends AutoAuthHandlerChain&gt;[] handlerChain() default DefaultAuthHandlerChain.class;
+    // Rejection strategy, the default is DefaultAuthRejectedStratagem, which throws a PermissionsException(“lack of permissions”) exception 
+    Class&lt;? extends AuthRejectedStratagem&gt; rejected() default NullTarget.class;
 }
 </code></pre>
 <h2 id="Handler">Handler</h2>
@@ -204,6 +206,33 @@ If you do not use @Component, the first call to the Handler will create a new in
 <p>Commonly used functions<br />
 <code>addLast(Class&lt;? extends AutoAuthHandler&gt; autoAuthHandler)</code>: Add the Handler to the end, the parameter can also be the Bean name of the Handler.<br />
 <code>addFirst(Class&lt;? extends AutoAuthHandler&gt; auto)</code>: Add the Handler to the beginning.</p>
+<h2 id="AuthRejectedStratagem">AuthRejectedStratagem</h2>
+<p>By default, it throws a <code>PermissionsException(&quot;lack of permissions&quot;)</code> exception. It is generally not recommended to modify this.<br />
+The default rejection strategy is as follows:</p>
+
+<pre class="language-java"><code class="language-java">public class DefaultAuthRejectedStratagem implements AuthRejectedStratagem {
+    @Override
+    public void doRejected(HttpServletRequest request, HttpServletResponse response, LogAuthFormat authFormat) {
+        throw new PermissionsException(&quot;lack of permissions&quot;);
+    }
+}
+</code></pre>
+<p>You can create your own class that extends the <code>AuthRejectedStratagem</code> interface and override the <code>doRejected</code> method. To use it, you can configure it through annotations:</p>
+
+<pre class="language-java"><code class="language-java">// Newly created rejection strategy
+public class MyAuthRejectedStratagem implements AuthRejectedStratagem {
+    @Override
+    public void doRejected(HttpServletRequest request, HttpServletResponse response, LogAuthFormat authFormat) {
+        throw new PermissionsException(&quot;this is my AuthRejectedStratagem&quot;);
+    }
+}
+// Controller
+@GetMapping(&quot;/checkNameWhetherCodingCube2&quot;)
+@SimpleAuth(handler = MyHandler.class, rejected = MyAuthRejectedStratagem.class)
+public String checkNameWhetherCodingCube(String name){
+    return &quot;Hello World&quot;;
+}
+</code></pre>
 
                         
                     </div>

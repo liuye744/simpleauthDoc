@@ -183,6 +183,8 @@ MathJax = {"loader": {"load": ["output/svg"]}, "tex": {"inlineMath": [["$", "$"]
     boolean judgeAfterReturn() default true;
     // Rate limiting algorithm
     Class&lt;? extends TokenLimit&gt; tokenLimit() default CompleteLimit.class;
+    // The default rejection strategy throws an exception 
+    Class&lt;? extends RejectedStratagem&gt; rejected() default NullTarget.class;
 }
 </code></pre>
 <h2 id="User-Identification-Generation-Strategy">User Identification Generation Strategy</h2>
